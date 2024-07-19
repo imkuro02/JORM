@@ -1,0 +1,110 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnv7mt8ly3jds"]
+
+[ext_resource type="Script" path="res://Scripts/Chat.gd" id="1_0wr01"]
+[ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_eit6p"]
+
+[node name="Chat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0wr01")
+
+[node name="Logout" type="Button" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 70.0
+offset_bottom = 39.0
+text = "Logout"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="NinePatchRect" parent="CanvasLayer"]
+visible = false
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.021
+anchor_top = 0.099
+anchor_right = 0.979
+anchor_bottom = 0.963
+offset_left = -16.192
+offset_top = -16.152
+offset_right = 16.192
+offset_bottom = 15.976
+texture = ExtResource("2_eit6p")
+region_rect = Rect2(0, 0, 128, 128)
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+
+[node name="Chatbox" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.333
+anchor_top = 0.123
+anchor_right = 0.611
+anchor_bottom = 0.963
+offset_left = 0.384003
+offset_top = 0.295998
+offset_right = 0.127991
+offset_bottom = -0.0240479
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Chatbox" type="RichTextLabel" parent="CanvasLayer/Chatbox"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "
+"
+meta_underlined = false
+hint_underlined = false
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Chatbox"]
+texture_filter = 1
+layout_mode = 2
+
+[node name="CharacterSheet" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 40.0
+offset_top = 80.0
+offset_right = 210.0
+offset_bottom = 624.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Upgrade costs:
+[table=2]
+[cell][color=yellow]500 food [/color][/cell]
+[cell][color=yellow]5000 gold[/color][/cell]
+[cell]10 f[/cell]
+[cell]20 ore[/cell]
+[/table]"
+meta_underlined = false
+hint_underlined = false
+
+[node name="Inventory" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 40.0
+offset_top = 80.0
+offset_right = 384.0
+offset_bottom = 624.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Upgrade costs:
+[table=2]
+[cell][color=yellow]500 food [/color][/cell]
+[cell][color=yellow]5000 gold[/color][/cell]
+[cell]10 f[/cell]
+[cell]20 ore[/cell]
+[/table]"
+meta_underlined = false
+hint_underlined = false
+
+[connection signal="meta_clicked" from="CanvasLayer/Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
+[connection signal="meta_clicked" from="CanvasLayer/CharacterSheet" to="." method="_on_character_sheet_meta_clicked"]
+[connection signal="meta_clicked" from="CanvasLayer/Inventory" to="." method="_on_inventory_meta_clicked"]

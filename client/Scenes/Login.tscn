@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://i78iqms242n0"]
+
+[ext_resource type="Script" path="res://Scripts/Login.gd" id="1_t7q8n"]
+
+[node name="Login" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t7q8n")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Container" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 320.0
+offset_top = 280.0
+offset_right = -320.0
+offset_bottom = -264.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Username" type="HBoxContainer" parent="CanvasLayer/Container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Container/Username"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Username"
+
+[node name="TextEdit" type="LineEdit" parent="CanvasLayer/Container/Username"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "username"
+
+[node name="Password" type="HBoxContainer" parent="CanvasLayer/Container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Container/Password"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Password
+"
+
+[node name="TextEdit" type="LineEdit" parent="CanvasLayer/Container/Password"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "password"
+
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/Container"]
+layout_mode = 2
+
+[node name="Login" type="Button" parent="CanvasLayer/Container/Buttons"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Login"
+
+[node name="Register" type="Button" parent="CanvasLayer/Container/Buttons"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Register"
