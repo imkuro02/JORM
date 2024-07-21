@@ -88,7 +88,10 @@ class Actor:
         if self.ticks_passed == 0:
             #print(self.character_sheet())
             # send player a updated version of the room
-            p = packet.RoomPacket(self.room.name, self.room.description, [room_name for room_name in self.room.exits], [player_name for player_name in self.room.players])
+            p = packet.RoomPacket(  self.room.name, 
+                                    self.room.description, 
+                                    [room_name for room_name in self.room.exits], 
+                                    [self.room.players[player_name].character_sheet() for player_name in self.room.players])
             self.protocol.onPacket(self.protocol, p)
 
             p = packet.CharacterSheetPacket(self.character_sheet())
