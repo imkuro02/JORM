@@ -2,15 +2,27 @@ extends Control
 
 @onready var panel = $Panel
 @onready var item = $Panel/Item
+@onready var resize_button = $Panel/Item/Resize
+@onready var item_container = $Panel/Item/PanelContainer
 
 var min_size = Vector2()
 
 var pressed = false
 var resize_pressed = false
 
+var can_resize = true
+
 func _ready():
 	min_size = Vector2(panel.size.x, item.size.y)
 	
+func set_item(item: Node, can_resize = true):
+	resize_button.visible = can_resize
+	min_size = item.size
+	item.reparent(item_container)
+
+
+	
+		
 func _process(_delta):
 	var size = get_window().size
 	if panel.position.x < 0:
@@ -28,11 +40,19 @@ func _process(_delta):
 	else:
 		if panel.position.y + panel.size.y > size.y:
 			panel.position.y = size.y - panel.size.y
+			
+
+	if panel.size.x <= min_size.x:
+		panel.size.x = min_size.x
+
+	if item.size.y  <= min_size.y:
+		item.size.y =  min_size.y
 		
 func _on_panel_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == 1:
 			pressed = event.pressed
+			get_parent().move_child(self,-1)
 			
 	if event is InputEventMouseMotion and pressed:
 		var pos = panel.position + event.relative
@@ -40,11 +60,14 @@ func _on_panel_gui_input(event):
 		#print(size)
 
 		panel.position = pos
+		
+		
 
 func _on_resize_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == 1:
 			resize_pressed = event.pressed
+			get_parent().move_child(self,-1)
 			
 	if event is InputEventMouseMotion and resize_pressed:
 		var new_size_x = panel.size.x + event.relative.x

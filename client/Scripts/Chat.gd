@@ -9,26 +9,29 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var inv = $CanvasLayer/Inventory
 
 @onready var logout = $Logout
+
+#@onready var tooltip = $CanvasLayer/Tooltip
+
+var sheet
+
 var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
 
 var MAIN 
+var ITEMS
 var ROOM = {}
 
 func _ready():
-	var w
-	w = draggable_ui_chat.instantiate()
-	add_child(w)
-	$CanvasLayer/Chatbox.reparent(w.get_node('Panel/Item/PanelContainer'))
-	
-	w = draggable_ui_chat.instantiate()
-	add_child(w)
-	ch.reparent(w.get_node('Panel/Item/PanelContainer'))
-	
-	w = draggable_ui_chat.instantiate()
-	inv.reparent(w.get_node('Panel/Item/PanelContainer'))
-	add_child(w)
+	create_draggable_ui($CanvasLayer/Chatbox)
+	create_draggable_ui(ch,false)
+	create_draggable_ui(inv)
 	
 	MAIN = get_tree().root.get_node('Main')
+	
+
+func create_draggable_ui(window_to_drag,resizeable = true):
+	var w = draggable_ui_chat.instantiate()
+	add_child(w)
+	w.set_item(window_to_drag,resizeable)
 	
 func interaction(data):
 	var interactions
@@ -38,7 +41,7 @@ func interaction(data):
 	#	print(json.data)
 
 	if 'player' in data:
-		interactions = ['inspect','trade','party invite']
+		interactions = ['target','trade','party invite']
 		
 	if 'exit' in data:
 		interactions = ['inspect','go']
@@ -47,9 +50,9 @@ func interaction(data):
 		
 	if 'inventory' in data:
 		for d in data:
-			if 'slot' in MAIN.PREMADE[data[d]]:
+			if 'slot' in ITEMS[data[d]]:
 				interactions = ['equip','inspect','drop']
-			elif 'use_script' in MAIN.PREMADE[data[d]]:
+			elif 'use_script' in ITEMS[data[d]]:
 				interactions = ['use','inspect','drop']
 			else:
 				interactions = ['inspect','drop']
@@ -92,64 +95,41 @@ func receive_room(room):
 		
 	return
 		
-func receive_character_sheet(sheet):
-	
-	
-	ch.text = ''
-	ch.text += '[center] %s\'s Character Sheet[/center]\n\n' % [sheet['name']]
-	ch.text += '''
-	[table=4]
-	[cell]HP [/cell][cell]%s/%s[/cell]
-	[cell]MP [/cell][cell]%s/%s[/cell]
-	
-	[cell]EXP[/cell][cell]%s[/cell]
-	[cell]SP[/cell][cell]%s[/cell]
+func receive_character_sheet(_sheet):
+	ITEMS = MAIN.PREMADE['items']
+	sheet = _sheet
+	ch.get_node("GridContainer/HP_BAR").value = sheet['stats']['hp']
+	ch.get_node("GridContainer/HP_BAR").max_value = sheet['stats']['max_hp']
+	ch.get_node("GridContainer/MP_BAR").value = sheet['stats']['mp']
+	ch.get_node("GridContainer/MP_BAR").max_value = sheet['stats']['max_mp']
+	ch.get_node("GridContainer/HP_BAR/Label").text = 'HP: %s/%s' % [sheet['stats']['hp'],sheet['stats']['max_hp']]
+	ch.get_node("GridContainer/MP_BAR/Label").text = 'MP: %s/%s' % [sheet['stats']['mp'],sheet['stats']['max_mp']]
 
-	[cell]CRT [/cell][cell]%s[/cell]
-	[cell]AVD [/cell][cell]%s[/cell]
-	[cell]PAC [/cell][cell]%s[/cell]
-	[cell]MAC [/cell][cell]%s[/cell]
-
-	[cell]STR [/cell][cell]%s[/cell]
-	[cell]DEX [/cell][cell]%s[/cell]
-	[cell]CON [/cell][cell]%s[/cell]
-	[cell]INT [/cell][cell]%s[/cell]
-	[cell]WIS [/cell][cell]%s[/cell]
-	[cell]CHA [/cell][cell]%s[/cell]
-	[/table]
-	''' % [
-		sheet['stats']['hp'],
-		sheet['stats']['max_hp'],
-		sheet['stats']['mp'],
-		sheet['stats']['max_mp'],
+	
+	var stats = ch.get_node('RichTextLabel')
+	stats.text = ''
+	stats.text += '[table=2]'
+	for trans in MAIN.PREMADE['translations']:
+		if trans in ['hp','mp','max_hp','max_mp']:
+			continue
+		var translated_name = MAIN.PREMADE['translations'][trans]
+		var stat_number = sheet['stats'][trans]
+		stats.text += '[cell]%s: [/cell][cell]%s[/cell]' % [translated_name,stat_number]	
 		
-		sheet['stats']['exp'],
-		sheet['stats']['points'],
-		
-		sheet['stats']['crt'],
-		sheet['stats']['avd'],
-		sheet['stats']['pac'],
-		sheet['stats']['mac'],
-		
-		sheet['stats']['str'],
-		sheet['stats']['dex'],
-		sheet['stats']['con'],
-		sheet['stats']['int'],
-		sheet['stats']['wis'],
-		sheet['stats']['cha']
-	]
+	stats.text += '[/table]'
 	inv.text = ''
 	inv.text += '[center]Equipment[/center]\n'
-	inv.text += '[table=1]'
+	inv.text += '[table=2]'
 	for i in sheet['equipment']:
-		#ch.text += '[cell]%s:[/cell][cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [MAIN.PREMADE[i]['slot'],i,MAIN.PREMADE[i]['name']]
-		inv.text += '[cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [i,MAIN.PREMADE[i]['name']]
+		inv.text += '[cell]%s:   [/cell][cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [ITEMS[i]['slot'].capitalize(),i,ITEMS[i]['name']]
+		#inv.text += '[cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [i,ITEMS[i]['name']]
 	inv.text += '[/table]'
 	
 	inv.text += '[center]Inventory[/center]\n'
-	inv.text += '[table=2]'
+
+	inv.text += '[table=2]' 
 	for i in sheet['inventory']:
-		inv.text += '[cell][url={"inventory":"%s"}]%s    [/url][/cell][cell]x%s[/cell]\n' % [i,MAIN.PREMADE[i]['name'],sheet['inventory'][i]]
+		inv.text += '[cell][url={"inventory":"%s"}]%s    [/url][/cell][cell]x%s[/cell]\n' % [i,ITEMS[i]['name'],sheet['inventory'][i]]
 	inv.text += '[/table]'
 	pass
 	
@@ -197,3 +177,4 @@ func _on_inventory_meta_clicked(meta):
 
 func _on_chatbox_meta_clicked(meta):
 	interaction(meta)
+	

@@ -1,6 +1,6 @@
 from utils import dc
 
-ENTITY_STATS = {
+PLAYER_STATS = {
     'hp':       10,
     'mp':       10,
     'max_hp':   10,
@@ -8,10 +8,15 @@ ENTITY_STATS = {
     'exp':      0,
     'points':   0,
 
-    'crt':      1,
-    'avd':      1,
-    'pac':      1,
-    'mac':      1,
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
+
+    'physic_damage_min': 1,
+    'physic_damage_max': 4,
+    'magic_damage_min': 1,
+    'magic_damage_max': 4,
 
     'str':      1,
     'dex':      1,
@@ -25,10 +30,11 @@ STATS = {
     'max_hp':   0,
     'max_mp':   0,
 
-    'crt':      0,
-    'avd':      0,
-    'pac':      0,
-    'mac':      0,
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
+
 
     'str':      0,
     'dex':      0,
@@ -40,7 +46,7 @@ STATS = {
 
 DAMAGE = {
     'scaling': 'str',
-    'def_type': 'pac',
+    'blocked_by': 'physic_block',
     'min': 1,
     'max': 10    
 }
@@ -56,7 +62,7 @@ items_equipable = {
 
     'helmet0': {
         'name':'Basic Helmet', 
-        'stats': {'max_hp':5,'str': 4, 'dex': 1, 'pac': 10}, 
+        'stats': {'max_hp':5,'str': 4, 'dex': 1, 'physic_block': 10}, 
         'description': 'A hat', 
         'slot': 'helmet'
         },
@@ -88,6 +94,27 @@ items_misc = {
         }
 }
 
+translations = {
+    'exp':'EXP',
+    'points': 'Points',
+
+    'max_hp':'Max Health',
+    'hp':'Health',
+    'max_mp':'Max Mana',
+    'mp':'Mana',
+
+    'str':'Strength',
+    'dex':'Dexterity',
+    'con':'Constitution',
+    'int':'Inteligence',
+    'wis':'Wisdom',
+    'cha':'Charisma',
+    
+    'crit_chance':'Critical Chance',
+    'dodge_chance':'Dodge Chance',
+    'physic_block':'Physic Block',
+    'magic_block':'Magic Block'
+}
 def create_all_items():
     items = {}
 
@@ -107,7 +134,8 @@ def create_all_items():
     for item_id, item_data in items_consumable.items():
         items[item_id] = dc(item_data)
 
-    return items
+    everything = {'items':items,'translations':translations}
+    return everything
 
 if __name__ == '__main__':
     all_items = create_all_items()

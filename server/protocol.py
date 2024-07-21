@@ -65,7 +65,7 @@ class ServerProtocol(WebSocketServerProtocol):
             self.onPacket(self,packet.PremadePacket(self.factory.premade))
 
             name = p.payloads[0]
-            stats = utils.dc(premade.ENTITY_STATS)
+            stats = utils.dc(premade.PLAYER_STATS)
             inventory = {}
             equipment = []
 

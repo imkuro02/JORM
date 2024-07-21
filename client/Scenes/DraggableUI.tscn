@@ -11,7 +11,7 @@ script = ExtResource("1_xno77")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 320.0
+offset_right = 192.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="Panel"]
@@ -45,26 +45,11 @@ layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 5.8
+anchor_bottom = 3.2
 offset_top = 8.0
-metadata/_edit_group_ = true
-
-[node name="Resize" type="TextureRect" parent="Panel/Item"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 8.0
-offset_bottom = 4.00002
-grow_horizontal = 0
-grow_vertical = 0
-texture = ExtResource("3_jw0e6")
 
 [node name="PanelContainer" type="PanelContainer" parent="Panel/Item"]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -73,6 +58,21 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
+
+[node name="Resize" type="TextureRect" parent="Panel/Item"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -22.0
+offset_right = -2.0
+offset_bottom = -1.99998
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("3_jw0e6")
 
 [connection signal="gui_input" from="Panel" to="." method="_on_panel_gui_input"]
 [connection signal="toggled" from="Panel/Hide" to="." method="_on_hide_toggled"]

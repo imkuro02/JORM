@@ -18,14 +18,15 @@ class Actor:
         self.premade = self.protocol.factory.premade
     
     def character_sheet(self):
+        ITEMS = self.premade['items']
         # create a copy of base stats and reset stats
         self.stats = utils.dc(self.base_stats)
         
         # check every piece of equipment
         for equipment in self.equipment:
             # add each stat in the equipment to the stat in self.stats
-            for stat in self.premade[equipment]['stats']:
-                self.stats[stat] += self.premade[equipment]['stats'][stat]
+            for stat in ITEMS[equipment]['stats']:
+                self.stats[stat] += ITEMS[equipment]['stats'][stat]
 
         # return the character sheet 
         return {
@@ -55,19 +56,19 @@ class Actor:
             self.inventory[item_id] = quantity
 
     def equip(self,item_id):
-        
-        if item_id not in self.premade:
+        ITEMS = self.premade['items']
+        if item_id not in ITEMS:
             return 'item does not exist'
         if item_id not in self.inventory:
             return 'you do not have that item in the inventory'
-        if 'slot' not in self.premade[item_id]:
+        if 'slot' not in ITEMS[item_id]:
             return 'item is not equipable'
 
-        item_dict = self.premade[item_id]
+        item_dict = ITEMS[item_id]
 
         for equiped_item in self.equipment:
-            if self.premade[equiped_item]['slot'] == item_dict['slot']:
-                return f'You have an item already equipped in slot: {self.premade[equiped_item]["slot"]}'
+            if ITEMS[equiped_item]['slot'] == item_dict['slot']:
+                return f'You have an item already equipped in slot: {ITEMS[equiped_item]["slot"]}'
         
         self.equipment.append(item_id)
         self.remove_item(item_id,1)
