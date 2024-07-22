@@ -62,8 +62,9 @@ func PLAY(p):
 			chat_window.receive_character_sheet(_payloads[0])
 			
 		"Room":
-			var room = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2]}
+			var room = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
 			chat_window.receive_room(room)
+			chat_window.refresh_players()
 			
 		"Disconnect":
 			socket.close()

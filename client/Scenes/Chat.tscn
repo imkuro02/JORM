@@ -43,10 +43,9 @@ patch_margin_right = 32
 patch_margin_bottom = 32
 
 [node name="Chatbox" type="VBoxContainer" parent="CanvasLayer"]
-offset_left = 448.0
-offset_top = 272.0
-offset_right = 704.0
-offset_bottom = 592.0
+offset_left = 104.0
+offset_right = 360.0
+offset_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_group_ = true
@@ -66,10 +65,19 @@ hint_underlined = false
 texture_filter = 1
 layout_mode = 2
 
-[node name="Inventory" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 384.0
-offset_right = 656.0
-offset_bottom = 208.0
+[node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 368.0
+offset_right = 632.0
+offset_bottom = 336.0
+metadata/_edit_group_ = true
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Inventory"]
+layout_mode = 2
+focus_mode = 1
+placeholder_text = "Search Filter"
+
+[node name="Inventory" type="RichTextLabel" parent="CanvasLayer/Inventory"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -82,7 +90,6 @@ text = "Upgrade costs:
 [/table]"
 meta_underlined = false
 hint_underlined = false
-metadata/_edit_group_ = true
 
 [node name="CharacterSheet" type="Panel" parent="CanvasLayer"]
 offset_left = 656.0
@@ -165,6 +172,18 @@ grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 
+[node name="Others" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 904.0
+offset_top = 8.0
+offset_right = 1088.0
+offset_bottom = 128.0
+bbcode_enabled = true
+text = "Players
+
+Enemies"
+meta_underlined = false
+
 [connection signal="meta_clicked" from="CanvasLayer/Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
-[connection signal="meta_clicked" from="CanvasLayer/Inventory" to="." method="_on_inventory_meta_clicked"]
-[connection signal="meta_hover_started" from="CanvasLayer/Inventory" to="." method="_on_inventory_meta_hover_started"]
+[connection signal="meta_clicked" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
+[connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
+[connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]
