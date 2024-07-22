@@ -15,10 +15,13 @@ var can_resize = true
 func _ready():
 	min_size = Vector2(panel.size.x, item.size.y)
 	
-func set_item(item: Node, can_resize = true):
+func set_item(_item: Node, can_resize = true):
+	panel.position = _item.position
 	resize_button.visible = can_resize
-	min_size = item.size
-	item.reparent(item_container)
+	#min_size = item.size
+	panel.size.x = _item.size.x
+	item.size.y = _item.size.y
+	_item.reparent(item_container)
 
 
 	
@@ -64,6 +67,7 @@ func _on_panel_gui_input(event):
 		
 
 func _on_resize_gui_input(event):
+	
 	if event is InputEventMouseButton:
 		if event.button_index == 1:
 			resize_pressed = event.pressed
