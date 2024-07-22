@@ -13,10 +13,8 @@ PLAYER_STATS = {
     'physic_block': 0,
     'magic_block':  0,
 
-    'physic_damage_min': 1,
-    'physic_damage_max': 4,
-    'magic_damage_min': 1,
-    'magic_damage_max': 4,
+    'physic_damage': 2,
+    'magic_damage': 2,
 
     'str':      1,
     'dex':      1,
@@ -38,10 +36,8 @@ ENEMY_STATS = {
     'physic_block': 0,
     'magic_block':  0,
 
-    'physic_damage_min': 1,
-    'physic_damage_max': 4,
-    'magic_damage_min': 1,
-    'magic_damage_max': 4,
+    'physic_damage': 4,
+    'magic_damage': 4,
 
     'str':      1,
     'dex':      1,
@@ -52,7 +48,7 @@ ENEMY_STATS = {
 }
 
 
-STATS = {
+ITEM_STATS = {
     'max_hp':   0,
     'max_mp':   0,
 
@@ -61,6 +57,8 @@ STATS = {
     'physic_block': 0,
     'magic_block':  0,
 
+    'physic_damage': 0,
+    'magic_damage': 0,
 
     'str':      0,
     'dex':      0,
@@ -70,32 +68,24 @@ STATS = {
     'cha':      0
 }
 
-DAMAGE = {
-    'scaling': 'str',
-    'blocked_by': 'physic_block',
-    'min': 1,
-    'max': 10    
-}
-
 items_equipable = {
     'sword0': {
         'name':'Basic Sword', 
-        'stats': {'str': 1, 'dex': -1}, 
-        'damage': {'scaling': 'str', 'min': 10, 'max': 21}, 
+        'stats': {'str': 1, 'dex': -1, 'physic_damage':10}, 
         'description': 'A cool looking sword', 
         'slot': 'weapon'
         },
 
     'helmet0': {
         'name':'Basic Helmet', 
-        'stats': {'max_hp':5,'str': 4, 'dex': 1, 'physic_block': 10}, 
+        'stats': {'max_hp':5,'str': 4, 'dex': 1, 'physic_block': 10, 'magic_damage': 2}, 
         'description': 'A hat', 
         'slot': 'helmet'
         },
 
     'katana': {
         'name':'Super Katana', 
-        'stats': {'dex': 68}, 
+        'stats': {'dex': 68, 'magic_damage': 10}, 
         'description': 'A cool looking katana', 
         'slot': 'weapon'
         }
@@ -139,7 +129,10 @@ translations = {
     'crit_chance':'Critical Chance',
     'dodge_chance':'Dodge Chance',
     'physic_block':'Physic Block',
-    'magic_block':'Magic Block'
+    'magic_block':'Magic Block',
+
+    'physic_damage': 'Physic Damage',
+    'magic_damage': 'Magic Damage'
 }
 def create_all_items():
     items = {}
@@ -147,9 +140,9 @@ def create_all_items():
     # Create equipable items
     for item_id, item_data in items_equipable.items():
         item = dc(item_data)
-        item['stats'] = {**STATS, **item['stats']}
-        if 'damage' in item:
-            item['damage'] = {**DAMAGE, **item['damage']}
+        item['stats'] = {**ITEM_STATS, **item['stats']}
+        #if 'damage' in item:
+        #    item['damage'] = {**DAMAGE, **item['damage']}
         items[item_id] = item
 
     # Create miscellaneous items

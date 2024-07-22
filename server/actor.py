@@ -1,21 +1,32 @@
 import packet
 
 import random
-
+import premade
 import utils
 
 class Actor:
-    def __init__(self, protocol, name, stats, equipment, inventory, room):
+    def __init__(self, protocol, name, stats = premade.PLAYER_STATS, equipment = [], inventory = {}, skills = {}, room = None):
         self.protocol = protocol
         self.name = name
+
         self.base_stats = utils.dc(stats)
         self.stats = utils.dc(self.base_stats)
-        self.equipment = equipment
-        self.inventory = inventory
+        self.equipment = utils.dc(equipment)
+        self.inventory = utils.dc(inventory)
         self.room = room
+
+        self.skills = utils.dc(skills)
+        self.target = None
+
         self.ticks_passed = 0
 
         self.premade = self.protocol.factory.premade
+    
+    def character_stats(self):
+        return {
+            'name': self.name,
+            'stats': {'hp':self.stats['hp'],'max_hp':self.stats['max_hp'],'mp':self.stats['mp'],'max_mp':self.stats['max_mp']}
+        }
     
     def character_sheet(self):
         ITEMS = self.premade['items']
@@ -91,8 +102,8 @@ class Actor:
             p = packet.RoomPacket(  self.room.name, 
                                     self.room.description, 
                                     [room_name for room_name in self.room.exits], 
-                                    [self.room.players[player_name].character_sheet() for player_name in self.room.players],
-                                    [self.room.enemies[enemy_name].character_sheet() for enemy_name in self.room.enemies])
+                                    [self.room.players[player_name].character_stats() for player_name in self.room.players],
+                                    [self.room.enemies[enemy_name].character_stats() for enemy_name in self.room.enemies])
             self.protocol.onPacket(self.protocol, p)
 
             p = packet.CharacterSheetPacket(self.character_sheet())

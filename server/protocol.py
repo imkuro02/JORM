@@ -55,7 +55,6 @@ class ServerProtocol(WebSocketServerProtocol):
             if sender == self:
                 self.send_client(p)
 
-
     def LOGIN(self, sender: 'ServerProtocol', p: packet.Packet):
         if p.action == packet.Action.Register:
             self.send_client(packet.DenyPacket('Registered'))
@@ -67,13 +66,10 @@ class ServerProtocol(WebSocketServerProtocol):
             self.onPacket(self,packet.PremadePacket(self.factory.premade))
 
             name = p.payloads[0]
-            stats = utils.dc(premade.PLAYER_STATS)
-            inventory = {}
-            equipment = []
 
-            room = self.factory.map.rooms['village']
+            room = self.factory.map.rooms['Village']
             
-            self._actor = Actor(self, name, stats, equipment, inventory, None)
+            self._actor = Actor(self, name)
             room.add_player(self._actor)
 
             self._actor.add_item('coins',42069)

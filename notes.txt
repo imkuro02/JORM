@@ -1,0 +1,22 @@
+Point and click text based MMO
+
+
+TODO:
+    Actually add combat. (and skills)
+    
+    Target a player or enemy, use skill.
+    check if skill is offensive or defensive
+
+    send chat that player used a skill with skill id:
+    player0 used skill0 on enemy0
+    Josh used Cleave on Skeleton knight
+
+    then run skill use script
+
+    send damage numbers to target (enemy0) and send another chat saying what target took damage from and how much
+    
+    enemy0 lost 10hp from Cleave
+    enemy0 lost 5mp from Cleave
+    enemy0 is bleeding
+
+

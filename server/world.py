@@ -62,9 +62,9 @@ class Map:
     def __init__(self):
         self.rooms = {}
 
-        village = Room('village',   'starter Village')
-        forest  = Room('forest',    'You find yourself in a dark forest, something something ~scenery~ and such, lots of cool thins, very awasome')
-        sewers  = Room('sewers',    'village sewers')
+        village = Room('Village',   'starter Village')
+        forest  = Room('Forest',    'You find yourself in a dark forest, something something ~scenery~ and such, lots of cool thins, very awasome')
+        sewers  = Room('Sewers',    'village sewers')
 
         village.connect_room(forest)
         village.connect_room(sewers)

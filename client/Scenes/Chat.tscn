@@ -43,10 +43,10 @@ patch_margin_right = 32
 patch_margin_bottom = 32
 
 [node name="Chatbox" type="VBoxContainer" parent="CanvasLayer"]
-offset_left = 448.0
-offset_top = 72.0
-offset_right = 768.0
-offset_bottom = 504.0
+offset_left = 488.0
+offset_top = 48.0
+offset_right = 904.0
+offset_bottom = 576.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_group_ = true
@@ -59,6 +59,7 @@ size_flags_vertical = 3
 bbcode_enabled = true
 text = "
 "
+scroll_following = true
 meta_underlined = false
 hint_underlined = false
 
@@ -68,9 +69,9 @@ layout_mode = 2
 
 [node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
 offset_left = 248.0
-offset_top = 72.0
-offset_right = 440.0
-offset_bottom = 504.0
+offset_top = 48.0
+offset_right = 480.0
+offset_bottom = 576.0
 metadata/_edit_group_ = true
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Inventory"]
@@ -94,10 +95,11 @@ meta_underlined = false
 hint_underlined = false
 
 [node name="CharacterSheet" type="Panel" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
 offset_left = 8.0
-offset_top = 72.0
+offset_top = 48.0
 offset_right = 240.0
-offset_bottom = 504.0
+offset_bottom = 576.0
 metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer/CharacterSheet"]
@@ -169,18 +171,92 @@ vertical_alignment = 1
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CharacterSheet"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.24
-anchor_right = 1.0
-anchor_bottom = 1.0
+offset_top = 96.0
+offset_right = 232.0
+offset_bottom = 528.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 
-[node name="Others" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 952.0
-offset_top = 72.0
+[node name="CharacterSheetOther" type="Panel" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 912.0
+offset_top = 48.0
 offset_right = 1144.0
-offset_bottom = 504.0
+offset_bottom = 160.0
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/CharacterSheetOther"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 26.456
+text = "USERNAME USERNAME "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CharacterSheetOther"]
+layout_mode = 2
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HP_BAR" type="TextureProgressBar" parent="CanvasLayer/CharacterSheetOther/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("3_yxj6m")
+texture_progress = ExtResource("3_yxj6m")
+tint_under = Color(0.788235, 0, 0, 1)
+tint_progress = Color(0.00392157, 0.647059, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/CharacterSheetOther/GridContainer/HP_BAR"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100/250"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MP_BAR" type="TextureProgressBar" parent="CanvasLayer/CharacterSheetOther/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+allow_greater = true
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("3_yxj6m")
+texture_progress = ExtResource("3_yxj6m")
+tint_under = Color(0.788235, 0, 0, 1)
+tint_progress = Color(0.00392157, 0.647059, 1, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/CharacterSheetOther/GridContainer/MP_BAR"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100/250"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Others" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 912.0
+offset_top = 216.0
+offset_right = 1144.0
+offset_bottom = 576.0
 bbcode_enabled = true
 text = "Players
 

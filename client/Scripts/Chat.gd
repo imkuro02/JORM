@@ -6,6 +6,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var input = $CanvasLayer/Chatbox/LineEdit
 
 @onready var others = $CanvasLayer/Others
+@onready var ch_other = $CanvasLayer/CharacterSheetOther
 
 @onready var ch = $CanvasLayer/CharacterSheet
 @onready var inv = $CanvasLayer/Inventory
@@ -27,6 +28,7 @@ var ROOM = {}
 func _ready():
 	create_draggable_ui($CanvasLayer/Chatbox)
 	create_draggable_ui(ch,false)
+	create_draggable_ui(ch_other,false)
 	create_draggable_ui(inv)
 	create_draggable_ui(others)
 	
@@ -82,9 +84,11 @@ func interaction(data):
 		
 func receive_simple_message(text: String):
 	chatbox.text += '%s\n' % [text]
+
 	
 func receive_chat(sender: String, text: String):
 	chatbox.text += '[url={"player":"%s"}][color="#4287f5"]%s[/color][/url] Says %s\n' % [sender,sender,text]
+
 	
 func refresh_players():
 	others.text = ''
@@ -146,6 +150,7 @@ func receive_character_sheet(_sheet):
 		var translated_name = MAIN.PREMADE['translations'][trans]
 		var stat_number = sheet['stats'][trans]
 		stats.text += '[cell]%s: [/cell][cell]%s[/cell]' % [translated_name,stat_number]	
+	
 		
 	stats.text += '[/table]'
 	inv_text.text = ''
