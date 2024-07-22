@@ -3,4 +3,4 @@
 /server (BACKUP0)
 /server (BACKUP1)
 /server/env
-/server/__pycache__
+/server/__pycache__/
