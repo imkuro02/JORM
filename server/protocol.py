@@ -24,6 +24,8 @@ class ServerProtocol(WebSocketServerProtocol):
                 message_sender  = self._actor.name
                 p = packet.ChatPacket(message,message_sender)
                 self.broadcast(p,exclude_self=False)
+            else:
+                self.send_client(p)
         
         if p.action == packet.Action.Premade:
             if sender == self:

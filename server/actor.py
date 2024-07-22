@@ -91,7 +91,8 @@ class Actor:
             p = packet.RoomPacket(  self.room.name, 
                                     self.room.description, 
                                     [room_name for room_name in self.room.exits], 
-                                    [self.room.players[player_name].character_sheet() for player_name in self.room.players])
+                                    [self.room.players[player_name].character_sheet() for player_name in self.room.players],
+                                    [self.room.enemies[enemy_name].character_sheet() for enemy_name in self.room.enemies])
             self.protocol.onPacket(self.protocol, p)
 
             p = packet.CharacterSheetPacket(self.character_sheet())

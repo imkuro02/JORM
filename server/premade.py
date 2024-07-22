@@ -26,6 +26,32 @@ PLAYER_STATS = {
     'cha':      1
 }
 
+
+ENEMY_STATS = {
+    'hp':       10,
+    'mp':       10,
+    'max_hp':   10,
+    'max_mp':   10,
+
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
+
+    'physic_damage_min': 1,
+    'physic_damage_max': 4,
+    'magic_damage_min': 1,
+    'magic_damage_max': 4,
+
+    'str':      1,
+    'dex':      1,
+    'con':      1,
+    'int':      1,
+    'wis':      1,
+    'cha':      1
+}
+
+
 STATS = {
     'max_hp':   0,
     'max_mp':   0,

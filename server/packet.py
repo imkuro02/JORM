@@ -85,8 +85,8 @@ class UnequipPacket(Packet):
         super().__init__(Action.Unequip, item_id)
 #
 class RoomPacket(Packet):
-    def __init__(self, name: str, description: str, exits: list, players: list):
-        super().__init__(Action.Room, name, description, exits, players)
+    def __init__(self, name: str, description: str, exits: list, players: list, enemies: list):
+        super().__init__(Action.Room, name, description, exits, players, enemies)
 
 class GoPacket(Packet):
     def __init__(self, room_name: str):

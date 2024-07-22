@@ -1,5 +1,8 @@
 
 import packet
+import premade
+from enemy import Enemy
+import utils
 
 class Room:
     def __init__(self, name: str, description: str):
@@ -7,21 +10,24 @@ class Room:
         self.description = description
         self.exits = {}
         self.players = {}
+        self.enemies = {}
 
     def connect_room(self,room):
         self.exits[room.name]=room
+
+    def add_enemy(self,enemy):
+        self.enemies[enemy.name] = enemy
+        enemy.room = self
 
     def add_player(self,player):
         self.players[player.name] = player
         player.room = self
 
         p = packet.ChatPacket(f'{player.name} entered.')
-
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
 
     def remove_player(self,player):
         p = packet.ChatPacket(f'{player.name} left.')
-
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
             
         del self.players[player.name]
@@ -39,9 +45,16 @@ class Room:
         player_names = []
         for p in self.players:
             player_names.append(p)
+
+        enemy_names = []
+        for p in self.enemies:
+            enemy_names.append(p)
             
         for i in player_names:
             self.players[i].tick()
+
+        for i in enemy_names:
+            self.enemies[i].tick()
         
 
 
@@ -57,6 +70,13 @@ class Map:
         village.connect_room(sewers)
         sewers.connect_room(village)
         forest.connect_room(village)
+
+        name = 'Josh The Skeleton'
+        stats = utils.dc(premade.ENEMY_STATS)
+        enemy0 = Enemy(name, stats)
+        forest.add_enemy(utils.dc(enemy0))
+
+     
 
         self.add_room(village)
         self.add_room(forest)
