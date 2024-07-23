@@ -4,7 +4,7 @@ from autobahn.twisted.websocket import WebSocketServerProtocol
 
 import utils
 import premade
-from actor import Actor
+from player import Player
 
 class ServerProtocol(WebSocketServerProtocol):
     def __init__(self):
@@ -51,6 +51,12 @@ class ServerProtocol(WebSocketServerProtocol):
             if sender == self:
                 self._actor.room.move_player(self._actor,p.payloads[0])
 
+        if p.action == packet.Action.Target:
+            if sender == self:
+                response = self._actor.set_target(p.payloads[0])
+                p = packet.ChatPacket(response)
+                self.onPacket(None,p)
+
         if p.action == packet.Action.Disconnect:
             if sender == self:
                 self.send_client(p)
@@ -69,7 +75,7 @@ class ServerProtocol(WebSocketServerProtocol):
 
             room = self.factory.map.rooms['Village']
             
-            self._actor = Actor(self, name)
+            self._actor = Player(self, name)
             room.add_player(self._actor)
 
             self._actor.add_item('coins',42069)

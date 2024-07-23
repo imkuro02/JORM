@@ -68,6 +68,14 @@ ITEM_STATS = {
     'cha':      0
 }
 
+PLAYER_SKILLS = {
+    'basic_attack': {
+        'name': 'Reckless Charge',
+        'description': 'Recklessly charge the target! dealing dealing between 1 and physic_damage'
+    }
+
+
+}
 items_equipable = {
     'sword0': {
         'name':'Basic Sword', 
@@ -85,7 +93,7 @@ items_equipable = {
 
     'katana': {
         'name':'Super Katana', 
-        'stats': {'dex': 68, 'magic_damage': 10}, 
+        'stats': {'dex': 68, 'magic_damage': 10, 'max_mp':10}, 
         'description': 'A cool looking katana', 
         'slot': 'weapon'
         }
@@ -134,6 +142,8 @@ translations = {
     'physic_damage': 'Physic Damage',
     'magic_damage': 'Magic Damage'
 }
+
+
 def create_all_items():
     items = {}
 

@@ -4,7 +4,9 @@ import random
 
 import utils
 
-class Enemy:
+from actor import Actor
+
+class Enemy(Actor):
     def __init__(self, name, stats):
         self.name = name
         self.base_stats = utils.dc(stats)
@@ -14,12 +16,6 @@ class Enemy:
 
         self.roaming_text = ['Groans...','Roams around.','Farts.']
         self.chance_to_roam = 100
-    
-    def character_stats(self):
-        return {
-            'name': self.name,
-            'stats': {'hp':self.stats['hp'],'max_hp':self.stats['max_hp'],'mp':self.stats['mp'],'max_mp':self.stats['max_mp']}
-        }
     
     def character_sheet(self):
         # return the character sheet 

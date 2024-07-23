@@ -38,6 +38,18 @@ class Room:
 
         self.remove_player(player)
         self.exits[new_room].add_player(player)
+
+    def get_players(self):
+        players = {}
+        for i in self.players:
+            players[i] = self.players[i].character_stats()
+        return players
+
+    def get_enemies(self):
+        enemies = {}
+        for i in self.enemies:
+            enemies[i] = self.enemies[i].character_stats()
+        return enemies
        
         
     def tick(self):

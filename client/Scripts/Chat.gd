@@ -49,9 +49,13 @@ func interaction(data):
 
 	if 'player' in data:
 		interactions = ['target','trade','party invite']
+		var p: Packet = Packet.new('Target',[data['player']])
+		MAIN.send_packet(p)
 		
 	if 'enemy' in data:
 		interactions = ['target']
+		var p: Packet = Packet.new('Target',[data['enemy']])
+		MAIN.send_packet(p)
 		
 	if 'exit' in data:
 		interactions = ['inspect','go']
@@ -93,22 +97,37 @@ func receive_chat(sender: String, text: String):
 func refresh_players():
 	others.text = ''
 	others.text += 'Players:\n'
+	
+	if null == ROOM['players']:
+		return
+		
+	if sheet == null:
+		return
+		
 	for player in ROOM['players']:
-		var player_id = player['name']
-		var player_name = player['name']
-		var player_hp = player['stats']['hp']
-		var player_max_hp = player['stats']['max_hp']
-		others.text += '''[url={"player":"%s"}]%s[/url]''' % [player_id,player_name]
-		others.text += ''' [color=red](%s/%s)[/color]\n''' % [player_hp,player_max_hp]
+		var character = ROOM['players'][player]
+		var id = player
+		var name = player
+		var hp = character['stats']['hp']
+		var max_hp = character['stats']['max_hp']
+		if sheet['target'] == id:
+			others.text += '''[color=orange][url={"player":"%s"}]%s[/url][/color]''' % [id,name]
+		else:
+			others.text += '''[url={"player":"%s"}]%s[/url]''' % [id,name]
+		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 	
 	others.text += 'Enemies:\n'
-	for player in ROOM['enemies']:
-		var player_id = player['name']
-		var player_name = player['name']
-		var player_hp = player['stats']['hp']
-		var player_max_hp = player['stats']['max_hp']
-		others.text += '''[url={"enemy":"%s"}]%s[/url]''' % [player_id,player_name]
-		others.text += ''' [color=red](%s/%s)[/color]\n''' % [player_hp,player_max_hp]
+	for enemy in ROOM['enemies']:
+		var character = ROOM['enemies'][enemy]
+		var id = enemy
+		var name = enemy
+		var hp = character['stats']['hp']
+		var max_hp = character['stats']['max_hp']
+		if sheet['target'] == id:
+			others.text += '''[color=orange][url={"enemy":"%s"}]%s[/url][/color]''' % [id,name]
+		else:
+			others.text += '''[url={"enemy":"%s"}]%s[/url]''' % [id ,name]
+		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 		
 func receive_room(room):
 		
@@ -171,7 +190,6 @@ func receive_character_sheet(_sheet):
 			continue
 		inv_text.text += '[cell][url={"inventory":"%s"}]%s    [/url][/cell][cell]x%s[/cell]\n' % [i,ITEMS[i]['name'],sheet['inventory'][i]]
 	inv_text.text += '[/table]'
-	pass
 	
 func show_room():
 	var exits = ROOM['exits']
