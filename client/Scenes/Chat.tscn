@@ -36,9 +36,9 @@ patch_margin_bottom = 32
 
 [node name="Chatbox" type="VBoxContainer" parent="CanvasLayer"]
 offset_left = 488.0
-offset_top = 48.0
+offset_top = 8.0
 offset_right = 904.0
-offset_bottom = 576.0
+offset_bottom = 592.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_group_ = true
@@ -59,9 +59,9 @@ layout_mode = 2
 
 [node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
 offset_left = 248.0
-offset_top = 48.0
+offset_top = 8.0
 offset_right = 480.0
-offset_bottom = 576.0
+offset_bottom = 272.0
 metadata/_edit_group_ = true
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Inventory"]
@@ -87,9 +87,9 @@ hint_underlined = false
 [node name="CharacterSheet" type="Panel" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 8.0
-offset_top = 48.0
+offset_top = 8.0
 offset_right = 240.0
-offset_bottom = 576.0
+offset_bottom = 592.0
 metadata/_edit_group_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer/CharacterSheet"]
@@ -171,9 +171,9 @@ bbcode_enabled = true
 [node name="Settings" type="Panel" parent="CanvasLayer"]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 912.0
-offset_top = 48.0
+offset_top = 8.0
 offset_right = 1144.0
-offset_bottom = 160.0
+offset_bottom = 120.0
 metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings"]
@@ -181,6 +181,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Logout" type="Button" parent="CanvasLayer/Settings/VBoxContainer"]
 layout_mode = 2
@@ -196,11 +198,22 @@ min_value = 16.0
 max_value = 32.0
 value = 20.0
 
+[node name="Skills" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 248.0
+offset_top = 328.0
+offset_right = 480.0
+offset_bottom = 592.0
+bbcode_enabled = true
+text = "Players
+
+Enemies"
+meta_underlined = false
+
 [node name="Others" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 912.0
-offset_top = 216.0
+offset_top = 176.0
 offset_right = 1144.0
-offset_bottom = 576.0
+offset_bottom = 592.0
 bbcode_enabled = true
 text = "Players
 
@@ -212,4 +225,5 @@ meta_underlined = false
 [connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
 [connection signal="pressed" from="CanvasLayer/Settings/VBoxContainer/Logout" to="." method="_on_logout_pressed"]
 [connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Font Size" to="." method="_on_font_size_value_changed"]
+[connection signal="meta_clicked" from="CanvasLayer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]

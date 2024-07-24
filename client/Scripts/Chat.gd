@@ -11,7 +11,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var inv = $CanvasLayer/Inventory
 @onready var inv_text = $CanvasLayer/Inventory/Inventory
 @onready var inv_search = $CanvasLayer/Inventory/LineEdit
-
+@onready var skills = $CanvasLayer/Skills
 @onready var logout = $Logout
 
 #@onready var tooltip = $CanvasLayer/Tooltip
@@ -30,6 +30,7 @@ func _ready():
 	create_draggable_ui('Settings',settings)
 	create_draggable_ui('Inventory',inv)
 	create_draggable_ui('Others',others)
+	create_draggable_ui('Skills',skills)
 	
 	MAIN = get_tree().root.get_node('Main')
 	
@@ -207,8 +208,6 @@ func show_room():
 	for e in exits:
 		chatbox.text += '          [url={"exit":"%s"}]%s[/url]\n' % [e,e]
 	chatbox.text += '\n\n'
-	
-	
 	
 func send(text: String):
 	if text.split(' ')[0] == 'look':
