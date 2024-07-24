@@ -5,7 +5,7 @@ class Actor:
             'name': self.name,
             'stats': {'hp':self.stats['hp'],'max_hp':self.stats['max_hp'],'mp':self.stats['mp'],'max_mp':self.stats['max_mp']}
         }
-        
+
     def use_skill(self,skill_name):
         if self.target.room != self.room:
             return 'Target is not here'
@@ -13,6 +13,7 @@ class Actor:
         if skill_name == 'basic_attack':
             roll = random.randrange(1,self.stats['physic_damage'])
             self.target.take_physic_damage(hp = roll)
+            return 'You used '
 
     def regen(self, hp = 0, mp = 0):
         self.stats['hp'] += hp

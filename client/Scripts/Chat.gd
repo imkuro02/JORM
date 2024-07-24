@@ -27,14 +27,17 @@ var ROOM = {}
 
 func _ready():
 	create_draggable_ui($CanvasLayer/Chatbox)
-	create_draggable_ui(ch,false)
-	create_draggable_ui(ch_other,false)
+	create_draggable_ui(ch)
+	create_draggable_ui(ch_other)
 	create_draggable_ui(inv)
 	create_draggable_ui(others)
 	
 	MAIN = get_tree().root.get_node('Main')
 	
-
+func _process(_delta):
+	refresh_players()
+	
+	
 func create_draggable_ui(window_to_drag,resizeable = true):
 	var w = draggable_ui_chat.instantiate()
 	add_child(w)
@@ -50,6 +53,7 @@ func interaction(data):
 	if 'player' in data:
 		interactions = ['target','trade','party invite']
 		var p: Packet = Packet.new('Target',[data['player']])
+		#sheet['target'] = data['player']
 		MAIN.send_packet(p)
 		
 	if 'enemy' in data:
@@ -96,13 +100,16 @@ func receive_chat(sender: String, text: String):
 	
 func refresh_players():
 	others.text = ''
-	others.text += 'Players:\n'
 	
-	if null == ROOM['players']:
+	if ROOM == null:
 		return
 		
 	if sheet == null:
 		return
+		
+	others.text += 'Players:\n'
+	
+	
 		
 	for player in ROOM['players']:
 		var character = ROOM['players'][player]
@@ -151,6 +158,7 @@ func receive_room(room):
 func receive_character_sheet(_sheet):
 	ITEMS = MAIN.PREMADE['items']
 	sheet = _sheet
+	
 	ch.get_node("Label").text = sheet['name']
 	ch.get_node("GridContainer/HP_BAR").value = sheet['stats']['hp']
 	ch.get_node("GridContainer/HP_BAR").max_value = sheet['stats']['max_hp']
@@ -181,7 +189,6 @@ func receive_character_sheet(_sheet):
 		inv_text.text += '[cell]%s:   [/cell][cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [ITEMS[i]['slot'].capitalize(),i,ITEMS[i]['name']]
 		#inv.text += '[cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [i,ITEMS[i]['name']]
 	inv_text.text += '[/table]'
-	
 	inv_text.text += '[center]Inventory[/center]\n'
 
 	inv_text.text += '[table=2]' 

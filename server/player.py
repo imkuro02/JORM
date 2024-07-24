@@ -104,7 +104,7 @@ class Player(Actor):
             self.regen(hp = self.stats['con'])
             self.regen(mp = self.stats['int'])
 
-        if self.ticks_passed % 10 == 0:
+        if self.ticks_passed % 3 == 0:
             #print(self.character_sheet())
             # send player a updated version of the room
             p = packet.RoomPacket(  self.room.name, 

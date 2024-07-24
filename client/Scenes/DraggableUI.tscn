@@ -60,6 +60,7 @@ offset_right = -8.0
 offset_bottom = -8.0
 
 [node name="Resize" type="TextureRect" parent="Panel/Item"]
+self_modulate = Color(1, 1, 1, 0.054902)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -68,10 +69,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -26.0
 offset_top = -22.0
-offset_right = -2.0
-offset_bottom = -1.99998
+offset_right = 2.0
+offset_bottom = 3.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_default_cursor_shape = 6
 texture = ExtResource("3_jw0e6")
 
 [connection signal="gui_input" from="Panel" to="." method="_on_panel_gui_input"]

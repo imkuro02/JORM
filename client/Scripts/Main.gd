@@ -1,4 +1,5 @@
-extends Node
+extends Control
+
 
 var socket = WebSocketPeer.new()
 const Packet = preload("res://Scripts/Packet.gd")
@@ -11,6 +12,9 @@ var chat_window
 var PREMADE: Dictionary
 
 func _ready():
+
+	theme.default_font_size = 16
+
 	state = Callable(self, 'LOGIN')
 	
 	login_window = add_window(LOGIN_WINDOW)
@@ -64,7 +68,7 @@ func PLAY(p):
 		"Room":
 			var room = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
 			chat_window.receive_room(room)
-			chat_window.refresh_players()
+			
 			
 		"Disconnect":
 			socket.close()

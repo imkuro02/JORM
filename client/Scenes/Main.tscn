@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuf73mqbb5oej"]
+[gd_scene load_steps=3 format=3 uid="uid://cuf73mqbb5oej"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_57mj3"]
+[ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_dv228"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -9,4 +10,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_dv228")
 script = ExtResource("1_57mj3")
