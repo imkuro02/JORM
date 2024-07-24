@@ -5,9 +5,8 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var chatbox = $CanvasLayer/Chatbox/Chatbox
 @onready var input = $CanvasLayer/Chatbox/LineEdit
 
+@onready var settings = $CanvasLayer/Settings
 @onready var others = $CanvasLayer/Others
-@onready var ch_other = $CanvasLayer/CharacterSheetOther
-
 @onready var ch = $CanvasLayer/CharacterSheet
 @onready var inv = $CanvasLayer/Inventory
 @onready var inv_text = $CanvasLayer/Inventory/Inventory
@@ -26,11 +25,11 @@ var ITEMS
 var ROOM = {}
 
 func _ready():
-	create_draggable_ui($CanvasLayer/Chatbox)
-	create_draggable_ui(ch)
-	create_draggable_ui(ch_other)
-	create_draggable_ui(inv)
-	create_draggable_ui(others)
+	create_draggable_ui('Chat',$CanvasLayer/Chatbox)
+	create_draggable_ui('Character Sheet',ch)
+	create_draggable_ui('Settings',settings)
+	create_draggable_ui('Inventory',inv)
+	create_draggable_ui('Others',others)
 	
 	MAIN = get_tree().root.get_node('Main')
 	
@@ -38,9 +37,11 @@ func _process(_delta):
 	refresh_players()
 	
 	
-func create_draggable_ui(window_to_drag,resizeable = true):
+	
+func create_draggable_ui(window_name,window_to_drag,resizeable = true):
 	var w = draggable_ui_chat.instantiate()
 	add_child(w)
+	w.get_node('Panel/Label').text = window_name
 	w.set_item(window_to_drag,resizeable)
 	
 func interaction(data):
@@ -244,3 +245,6 @@ func _on_chatbox_meta_clicked(meta):
 
 func _on_others_meta_clicked(meta):
 	interaction(meta)
+	
+func _on_font_size_value_changed(value):
+	MAIN.theme.default_font_size = int(value)

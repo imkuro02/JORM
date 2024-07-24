@@ -16,5 +16,5 @@ corner_radius_bottom_left = 8
 
 [resource]
 default_font = ExtResource("1_bis1n")
-default_font_size = 16
+default_font_size = 20
 Panel/styles/panel = SubResource("StyleBoxFlat_2wuj4")
