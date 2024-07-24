@@ -33,11 +33,25 @@ class Room:
         del self.players[player.name]
 
     def move_player(self,player,new_room):
+        
         if new_room not in self.exits:
             return 'not a valid destination'
 
+        followers = []
+        for p in self.players:
+            if self.players[p].target == self.players[p]:
+                continue
+            if self.players[p].target == player:
+                followers.append(self.players[p])
+
+        
+
+
         self.remove_player(player)
         self.exits[new_room].add_player(player)
+
+        for p in followers:
+            self.move_player(p,new_room)
 
     def get_players(self):
         players = {}
@@ -87,6 +101,14 @@ class Map:
         stats = utils.dc(premade.ENEMY_STATS)
         enemy0 = Enemy(name, stats)
         forest.add_enemy(utils.dc(enemy0))
+
+        name = 'Jake The Slime'
+        stats = utils.dc(premade.ENEMY_STATS)
+        enemy1 = Enemy(name, stats)
+
+
+        forest.add_enemy(utils.dc(enemy0))
+        forest.add_enemy(utils.dc(enemy1))
 
      
 

@@ -14,6 +14,7 @@ class Player(Actor):
         self.equipment = utils.dc(equipment)
         self.inventory = utils.dc(inventory)
         self.room = room
+        self.tag = 'player'
 
         self.target = self
 

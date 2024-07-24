@@ -12,6 +12,7 @@ class Enemy(Actor):
         self.base_stats = utils.dc(stats)
         self.stats = utils.dc(self.base_stats)
         self.room = None
+        self.tag = 'enemy'
         self.ticks_passed = 0
 
         self.roaming_text = ['Groans...','Roams around.','Farts.']
@@ -29,8 +30,9 @@ class Enemy(Actor):
 
             roam_text = random.randrange(1,self.chance_to_roam)
             if roam_text == 1:
+                choice = random.choice(self.roaming_text)
                 for player in self.room.players:
-                    p = packet.ChatPacket(f'{self.name} {random.choice(self.roaming_text)}')
+                    p = packet.ChatPacket(f'{self.name} {choice}')
                     self.room.players[player].protocol.onPacket(None, p)
 
         self.ticks_passed += 1

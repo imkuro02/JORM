@@ -78,13 +78,15 @@ class ServerProtocol(WebSocketServerProtocol):
             self._actor = Player(self, name)
             room.add_player(self._actor)
 
-            self._actor.add_item('coins',42069)
+            
             self._actor.add_item('potion0',1)
             self._actor.add_item('katana',1)
             self._actor.add_item('sword0',1)
             self._actor.add_item('sword0',1)
             self._actor.add_item('helmet0',1)
             self._actor.add_item('rock',11)
+
+            self._actor.add_item('coins',42069)
 
             print(self._actor.equip('sword0'))
             print(self._actor.unequip('sword0'))

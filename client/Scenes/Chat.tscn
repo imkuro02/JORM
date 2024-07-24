@@ -13,14 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0wr01")
 
-[node name="Logout" type="Button" parent="."]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 70.0
-offset_bottom = 39.0
-text = "Logout"
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TextureRect" type="NinePatchRect" parent="CanvasLayer"]
@@ -57,7 +49,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-text = "the something brown fox jumped over the lazy dawg"
 scroll_following = true
 meta_underlined = false
 hint_underlined = false
@@ -170,10 +161,9 @@ vertical_alignment = 1
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CharacterSheet"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.182
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -0.0960083
+offset_top = 104.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
@@ -191,6 +181,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="Logout" type="Button" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Logout"
 
 [node name="Label" type="Label" parent="CanvasLayer/Settings/VBoxContainer"]
 layout_mode = 2
@@ -216,5 +210,6 @@ meta_underlined = false
 [connection signal="meta_clicked" from="CanvasLayer/Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
 [connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
+[connection signal="pressed" from="CanvasLayer/Settings/VBoxContainer/Logout" to="." method="_on_logout_pressed"]
 [connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Font Size" to="." method="_on_font_size_value_changed"]
 [connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]

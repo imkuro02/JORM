@@ -3,7 +3,7 @@ class Actor:
     def character_stats(self):
         return {
             'name': self.name,
-            'stats': {'hp':self.stats['hp'],'max_hp':self.stats['max_hp'],'mp':self.stats['mp'],'max_mp':self.stats['max_mp']}
+            'stats': self.stats
         }
 
     def use_skill(self,skill_name):

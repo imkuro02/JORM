@@ -96,7 +96,7 @@ func receive_simple_message(text: String):
 
 	
 func receive_chat(sender: String, text: String):
-	chatbox.text += '[url={"player":"%s"}][color="#4287f5"]%s[/color][/url] Says %s\n' % [sender,sender,text]
+	chatbox.text += '[url={"player":"%s"}][color=aqua]%s[/color][/url] Says %s\n' % [sender,sender,text]
 
 	
 func refresh_players():
@@ -119,9 +119,9 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += '''[color=orange][url={"player":"%s"}]%s[/url][/color]''' % [id,name]
+			others.text += '''[url={"player":"%s"}][color=orange]%s[/color][/url]''' % [id,name]
 		else:
-			others.text += '''[url={"player":"%s"}]%s[/url]''' % [id,name]
+			others.text += '''[url={"player":"%s"}][color=aqua]%s[/color][/url]''' % [id,name]
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 	
 	others.text += 'Enemies:\n'
@@ -132,22 +132,22 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += '''[color=orange][url={"enemy":"%s"}]%s[/url][/color]''' % [id,name]
+			others.text += '''[url={"enemy":"%s"}][color=orange]%s[/color][/url]''' % [id,name]
 		else:
-			others.text += '''[url={"enemy":"%s"}]%s[/url]''' % [id ,name]
+			others.text += '''[url={"enemy":"%s"}][color=coral]%s[/color][/url]''' % [id,name]
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 		
 func receive_room(room):
 		
 	if 'name' not in ROOM:
-		chatbox.text = ''
+		#chatbox.text = ''
 		ROOM = room
 		show_room()
 		return
 		
 		
 	if ROOM['name'] != room['name']:
-		chatbox.text = ''
+		#chatbox.text = ''
 		ROOM = room
 		show_room()
 		return
@@ -201,8 +201,8 @@ func receive_character_sheet(_sheet):
 	
 func show_room():
 	var exits = ROOM['exits']
-	chatbox.text += '[center]~~~ %s ~~~[/center]\n\n' % [ROOM['name']]
-	chatbox.text += '%s\n\n' % [ROOM['description']]
+	chatbox.text += '[center]~~~ %s ~~~[/center]\n' % [ROOM['name']]
+	chatbox.text += '%s\n' % [ROOM['description']]
 	chatbox.text += 'Exits:\n'
 	for e in exits:
 		chatbox.text += '          [url={"exit":"%s"}]%s[/url]\n' % [e,e]
