@@ -12,7 +12,8 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var inv_text = $CanvasLayer/Inventory/Inventory
 @onready var inv_search = $CanvasLayer/Inventory/LineEdit
 @onready var skills = $CanvasLayer/Skills
-@onready var logout = $Logout
+
+var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
 #@onready var tooltip = $CanvasLayer/Tooltip
 
@@ -46,59 +47,15 @@ func create_draggable_ui(window_name,window_to_drag,resizeable = true):
 	w.set_item(window_to_drag,resizeable)
 	
 func interaction(data):
-	var interactions
-	var json = JSON.new()
-	data = json.parse_string(data)
-	#if error == OK:
-	#	print(json.data)
-
-	if 'player' in data:
-		interactions = ['target','trade','party invite']
-		var p: Packet = Packet.new('Target',[data['player']])
-		#sheet['target'] = data['player']
-		MAIN.send_packet(p)
-		
-	if 'enemy' in data:
-		interactions = ['target']
-		var p: Packet = Packet.new('Target',[data['enemy']])
-		MAIN.send_packet(p)
-		
-	if 'exit' in data:
-		interactions = ['inspect','go']
-		var p: Packet = Packet.new('Go',[data['exit']])
-		MAIN.send_packet(p)
-		
-	if 'inventory' in data:
-		for d in data:
-			if 'slot' in ITEMS[data[d]]:
-				interactions = ['equip','inspect','drop']
-			elif 'use_script' in ITEMS[data[d]]:
-				interactions = ['use','inspect','drop']
-			else:
-				interactions = ['inspect','drop']
-				
-			var p: Packet = Packet.new('Equip',[data[d]])
-			MAIN.send_packet(p)
-		
-	if 'equipment' in data:
-		interactions = ['unequip','inspect']
-		for d in data:
-			var p: Packet = Packet.new('Unequip',[data[d]])
-			MAIN.send_packet(p)
-		
-	if 'loot' in data:
-		interactions = ['grab','inspect']
-		
-	for d in data:
-		print('%s: %s interactions: %s' % [data,data[d],interactions])
-		
+	var w = interactions_popup.instantiate()
+	add_child(w)
+	w.create_interaction(data)
+	
 func receive_simple_message(text: String):
 	chatbox.text += '%s\n' % [text]
-
 	
 func receive_chat(sender: String, text: String):
 	chatbox.text += '[url={"player":"%s"}][color=aqua]%s[/color][/url] Says %s\n' % [sender,sender,text]
-
 	
 func refresh_players():
 	others.text = ''
@@ -111,8 +68,6 @@ func refresh_players():
 		
 	others.text += 'Players:\n'
 	
-	
-		
 	for player in ROOM['players']:
 		var character = ROOM['players'][player]
 		var id = player
@@ -141,14 +96,14 @@ func refresh_players():
 func receive_room(room):
 		
 	if 'name' not in ROOM:
-		#chatbox.text = ''
+		chatbox.text = ''
 		ROOM = room
 		show_room()
 		return
 		
 		
 	if ROOM['name'] != room['name']:
-		#chatbox.text = ''
+		chatbox.text = ''
 		ROOM = room
 		show_room()
 		return

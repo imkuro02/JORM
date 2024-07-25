@@ -59,7 +59,7 @@ func _on_panel_gui_input(event):
 			
 	if event is InputEventMouseMotion and pressed:
 		var pos = panel.position + event.relative
-		var size = get_window().size
+		#var size = get_window().size
 		#print(size)
 
 		panel.position = pos

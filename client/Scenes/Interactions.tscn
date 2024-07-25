@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyqx5cbkbe6fi"]
+
+[ext_resource type="Script" path="res://Scripts/Interactions.gd" id="1_rdk1m"]
+
+[node name="Interactions" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 56.0
+script = ExtResource("1_rdk1m")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 8.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 8.0
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 0
+meta_underlined = false
+
+[connection signal="meta_clicked" from="RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
+[connection signal="mouse_exited" from="RichTextLabel" to="." method="_on_rich_text_label_mouse_exited"]
