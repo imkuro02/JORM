@@ -13,6 +13,7 @@ class Action(enum.Enum):
     CharacterSheet = enum.auto()
     Equip = enum.auto()
     Unequip = enum.auto()
+    Drop = enum.auto()
 
     Room = enum.auto()
     Go = enum.auto()
@@ -84,6 +85,11 @@ class EquipPacket(Packet):
 class UnequipPacket(Packet):
     def __init__(self, item_id: str):
         super().__init__(Action.Unequip, item_id)
+
+class DropPacket(Packet):
+    def __init__(self, item_id: str, quantity: int):
+        super().__init__(Action.Drop, item_id, quantity)
+
 #
 class RoomPacket(Packet):
     def __init__(self, name: str, description: str, exits: list, players: dict, enemies: dict):

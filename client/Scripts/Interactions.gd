@@ -3,50 +3,6 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var text = $RichTextLabel
 @onready var panel = $Panel
 
-func create_interactionsss(data):
-	position = get_local_mouse_position() - Vector2(30,10)
-	var MAIN = get_tree().root.get_node('Main')
-	var ITEMS = MAIN.PREMADE['items']
-	text.text = ''
-	
-	var interactions
-	var json = JSON.new()
-	data = json.parse_string(data)
-
-	if 'player' in data:
-		interactions = ['target','trade','party invite']
-		var p: Packet = Packet.new('Target',[data['player']])
-		#sheet['target'] = data['player']
-		MAIN.send_packet(p)
-		
-	if 'enemy' in data:
-		interactions = ['target']
-		var p: Packet = Packet.new('Target',[data['enemy']])
-		MAIN.send_packet(p)
-		
-	if 'exit' in data:
-		interactions = ['inspect','go']
-		var p: Packet = Packet.new('Go',[data['exit']])
-		MAIN.send_packet(p)
-		
-	if 'inventory' in data:
-		for d in data:
-			if 'slot' in ITEMS[data[d]]:
-				interactions = ['equip','inspect','drop']
-			elif 'use_script' in ITEMS[data[d]]:
-				interactions = ['use','inspect','drop']
-			else:
-				interactions = ['inspect','drop']
-				
-			var p: Packet = Packet.new('Equip',[data[d]])
-			MAIN.send_packet(p)
-		
-	if 'equipment' in data:
-		interactions = ['unequip','inspect']
-		for d in data:
-			var p: Packet = Packet.new('Unequip',[data[d]])
-			MAIN.send_packet(p)
-			
 func create_interaction(data):
 	position = get_local_mouse_position() - Vector2(5,5)
 	var MAIN = get_tree().root.get_node('Main')
@@ -58,28 +14,28 @@ func create_interaction(data):
 	data = json.parse_string(data)
 
 	if 'player' in data:
-		interactions = ['target','trade','party invite']
+		interactions = ['Target','Trade','Party invite']
 		
 	if 'enemy' in data:
-		interactions = ['target']
+		interactions = ['Target']
 		
 	if 'exit' in data:
-		interactions = ['go']
+		interactions = ['Go']
 
 	if 'inventory' in data:
 		for d in data:
 			if 'slot' in ITEMS[data[d]]:
-				interactions = ['equip','inspect','drop']
+				interactions = ['Equip','Inspect','Drop','Drop all']
 			elif 'use_script' in ITEMS[data[d]]:
-				interactions = ['use','inspect','drop']
+				interactions = ['Use','inspect','drop', 'Drop all']
 			else:
-				interactions = ['inspect','drop']
+				interactions = ['Inspect','Drop', 'Drop all']
 		
 	if 'equipment' in data:
-		interactions = ['unequip','inspect']
+		interactions = ['Unequip','Inspect']
 		
 	if 'loot' in data:
-		interactions = ['grab','inspect']
+		interactions = ['Grab','Inspect']
 		
 	for interaction in interactions:
 		for d in data:
@@ -90,6 +46,8 @@ func _process(_delta):
 
 func _on_rich_text_label_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
+	var ITEMS = MAIN.PREMADE['items']
+	
 	var json = JSON.new()
 	var data = json.parse_string(meta)
 	var action = null
@@ -101,19 +59,27 @@ func _on_rich_text_label_meta_clicked(meta):
 		
 	var p = null
 	match action:
-		'go':
+		'Go':
 			p = Packet.new('Go',[object])
-		'equip':
+		'Equip':
 			p = Packet.new('Equip',[object])
-		'unequip':
+		'Unequip':
 			p = Packet.new('Unequip',[object])
-		'target':
+		'Drop':
+			p = Packet.new('Drop', [object,1])
+		'Drop all':
+			p = Packet.new('Drop', [object,0])
+		'Target':
 			p = Packet.new('Target',[object])
+		'Inspect':
+			var text = ''
+			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
+			MAIN.chat_window.receive_simple_message(text)
 			
 	if p != null:
 		MAIN.send_packet(p)
-		self.queue_free()
-	
-	
+		
+	self.queue_free()
+		
 func _on_rich_text_label_mouse_exited():
 	self.queue_free()

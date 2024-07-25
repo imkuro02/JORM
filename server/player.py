@@ -48,8 +48,11 @@ class Player(Actor):
             return 'you do not have this item in the inventory'
         if self.inventory[item_id] < quantity:
             return 'you do not have that quantity of this item'
-        if self.inventory[item_id] <= 0:
+        if self.inventory[item_id] <= -1:
             return 'cant remove less than 0 of an item'
+        # if you drop 0 then you drop everything
+        if quantity == 0:
+            quantity = self.inventory[item_id]
         
         self.inventory[item_id] -= quantity
 

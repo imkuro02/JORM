@@ -43,6 +43,10 @@ class ServerProtocol(WebSocketServerProtocol):
             if sender == self:
                 self._actor.unequip(p.payloads[0])
 
+        if p.action == packet.Action.Drop:
+            if sender == self:
+                self._actor.remove_item(p.payloads[0],p.payloads[1])
+
         if p.action == packet.Action.Room:
             if sender == self:
                 self.send_client(p)
@@ -86,7 +90,7 @@ class ServerProtocol(WebSocketServerProtocol):
             self._actor.add_item('helmet0',1)
             self._actor.add_item('rock',11)
 
-            self._actor.add_item('coins',42069)
+            self._actor.add_item('coins',1)
 
             print(self._actor.equip('sword0'))
             print(self._actor.unequip('sword0'))
