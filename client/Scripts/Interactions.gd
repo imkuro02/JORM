@@ -4,7 +4,10 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var panel = $Panel
 
 func create_interaction(data):
+	print(data)
+	
 	position = get_local_mouse_position() - Vector2(5,5)
+	
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	text.text = ''
@@ -39,13 +42,19 @@ func create_interaction(data):
 	if 'target' in data['tag']:
 		interactions = []
 		
+
+	text.text = ''
+	text.text += '%s\n' % [data['label']]
 	for interaction in interactions:
-			text.text += '[url={"%s":"%s"}][color=yellow]>  %s[/color][/url]\n' % [interaction, data['object'], interaction]
+			text.text += '[url={"%s":"%s"}][color=yellow]%s[/color][/url]\n' % [interaction, data['object'], interaction]
+
 
 func _process(_delta):
-	panel.size = text.size
+	panel.size = text.size + Vector2(16,16)
+	panel.position = text.position - Vector2(8,8)
 
 func _on_rich_text_label_meta_clicked(meta):
+	print(meta)
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	
@@ -62,7 +71,7 @@ func _on_rich_text_label_meta_clicked(meta):
 	match action:
 		'Go':
 			p = Packet.new('Go',[object])
-			MAIN.audio.play('message')
+			MAIN.audio.play('go')
 		'Equip':
 			p = Packet.new('Equip',[object])
 			MAIN.audio.play('equip')
@@ -71,10 +80,10 @@ func _on_rich_text_label_meta_clicked(meta):
 			MAIN.audio.play('equip')
 		'Drop':
 			p = Packet.new('Drop', [object,1])
-			MAIN.audio.play('item')
+			MAIN.audio.play('message')
 		'Drop all':
 			p = Packet.new('Drop', [object,0])
-			MAIN.audio.play('item')
+			MAIN.audio.play('message')
 		'Target':
 			p = Packet.new('Target',[object])
 			MAIN.audio.play('message')

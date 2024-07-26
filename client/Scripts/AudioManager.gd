@@ -2,7 +2,7 @@ extends Node
 
 @onready var equip = $Equip
 @onready var message = $Message
-@onready var item = $Item
+@onready var go = $Go
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,7 +13,7 @@ func _ready():
 func set_volume(vol):
 	equip.volume_db = vol
 	message.volume_db = vol - 20
-	item.volume_db = vol
+	go.volume_db = vol
 	
 func play(sound):
 	match sound:
@@ -23,9 +23,9 @@ func play(sound):
 		'equip':
 			equip.pitch_scale = randf_range(0.8,1.2)
 			equip.play()
-		'item':
-			item.pitch_scale = randf_range(0.8,1.2)
-			item.play()
+		'go':
+			go.pitch_scale = randf_range(0.8,1.2)
+			go.play()
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

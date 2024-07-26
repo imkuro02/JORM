@@ -14,5 +14,5 @@ stream = ExtResource("2_12pfo")
 [node name="Message" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_4iu6s")
 
-[node name="Item" type="AudioStreamPlayer" parent="."]
+[node name="Go" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_mjn8d")
