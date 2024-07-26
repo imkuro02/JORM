@@ -173,7 +173,7 @@ self_modulate = Color(1, 1, 1, 0)
 offset_left = 912.0
 offset_top = 8.0
 offset_right = 1144.0
-offset_bottom = 120.0
+offset_bottom = 152.0
 metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings"]
@@ -221,7 +221,7 @@ meta_underlined = false
 
 [node name="Others" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 912.0
-offset_top = 176.0
+offset_top = 208.0
 offset_right = 1144.0
 offset_bottom = 592.0
 bbcode_enabled = true
