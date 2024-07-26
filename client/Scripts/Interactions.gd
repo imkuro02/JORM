@@ -13,33 +13,34 @@ func create_interaction(data):
 	var json = JSON.new()
 	data = json.parse_string(data)
 
-	if 'player' in data:
+	if 'player' in data['tag']:
 		interactions = ['Target','Trade','Party invite']
 		
-	if 'enemy' in data:
+	if 'enemy' in data['tag']:
 		interactions = ['Target']
 		
-	if 'exit' in data:
+	if 'exit' in data['tag']:
 		interactions = ['Go']
 
-	if 'inventory' in data:
-		for d in data:
-			if 'slot' in ITEMS[data[d]]:
-				interactions = ['Equip','Inspect','Drop','Drop all']
-			elif 'use_script' in ITEMS[data[d]]:
-				interactions = ['Use','inspect','drop', 'Drop all']
-			else:
-				interactions = ['Inspect','Drop', 'Drop all']
+	if 'inventory' in data['tag']:
+		if 'slot' in ITEMS[data['object']]:
+			interactions = ['Equip','Inspect','Drop','Drop all']
+		elif 'use_script' in ITEMS[data['object']]:
+			interactions = ['Use','inspect','drop', 'Drop all']
+		else:
+			interactions = ['Inspect','Drop', 'Drop all']
 		
-	if 'equipment' in data:
+	if 'equipment' in data['tag']:
 		interactions = ['Unequip','Inspect']
 		
-	if 'loot' in data:
+	if 'loot' in data['tag']:
 		interactions = ['Grab','Inspect']
 		
+	if 'target' in data['tag']:
+		interactions = []
+		
 	for interaction in interactions:
-		for d in data:
-			text.text += '[url={"%s":"%s"}][color=yellow]>  %s[/color][/url]\n' % [interaction, data[d], interaction]
+			text.text += '[url={"%s":"%s"}][color=yellow]>  %s[/color][/url]\n' % [interaction, data['object'], interaction]
 
 func _process(_delta):
 	panel.size = text.size

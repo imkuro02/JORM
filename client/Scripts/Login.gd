@@ -1,9 +1,9 @@
 extends Control
 
-@onready var username = get_node("Container/Username/TextEdit")
-@onready var password = get_node("Container/Username/TextEdit")
-@onready var login = get_node("Container/Buttons/Login")
-@onready var register = get_node("Container/Buttons/Register")
+@onready var username = $Username/TextEdit
+@onready var password = $Password/TextEdit
+@onready var login = $Buttons/Login
+@onready var register = $Buttons/Register
 
 const Packet = preload("res://Scripts/Packet.gd")
 

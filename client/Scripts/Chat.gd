@@ -19,32 +19,29 @@ var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
 var sheet
 
-var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
+
 
 var MAIN 
 var ITEMS
 var ROOM = {}
 
 func _ready():
-	create_draggable_ui('Chat',$CanvasLayer/Chatbox)
-	create_draggable_ui('Character Sheet',ch)
-	create_draggable_ui('Settings',settings)
-	create_draggable_ui('Inventory',inv)
-	create_draggable_ui('Others',others)
-	create_draggable_ui('Skills',skills)
-	
 	MAIN = get_tree().root.get_node('Main')
+	MAIN.create_draggable_ui(self,'Chat',$CanvasLayer/Chatbox)
+	MAIN.create_draggable_ui(self,'Character Sheet',ch)
+	MAIN.create_draggable_ui(self,'Settings',settings)
+	MAIN.create_draggable_ui(self,'Inventory',inv)
+	MAIN.create_draggable_ui(self,'Others',others)
+	MAIN.create_draggable_ui(self,'Skills',skills)
+	
+	
 	
 func _process(_delta):
 	refresh_players()
 	
 	
 	
-func create_draggable_ui(window_name,window_to_drag,resizeable = true):
-	var w = draggable_ui_chat.instantiate()
-	add_child(w)
-	w.get_node('Panel/Label').text = window_name
-	w.set_item(window_to_drag,resizeable)
+
 	
 func interaction(data):
 	var w = interactions_popup.instantiate()
@@ -55,7 +52,25 @@ func receive_simple_message(text: String):
 	chatbox.text += '%s\n' % [text]
 	
 func receive_chat(sender: String, text: String):
-	chatbox.text += '[url={"player":"%s"}][color=aqua]%s[/color][/url] Says %s\n' % [sender,sender,text]
+	chatbox.text += '%s Says %s\n' % [interactable('player',sender,sender),text]
+	
+func interactable(tag, object, label):
+	var x = '[url={"tag":"%s","object":"%s","label":"%s"}]%s[/url]' % [tag, object, label, label]
+	var col
+	match tag:
+		'player':
+			col = 'aqua'
+		'enemy': 
+			col = 'coral'
+		'item':
+			col = 'gray'
+		'target':
+			col = 'yellow'
+		_:
+			return x
+	x = '[color="%s"]' % [col] + x + '[/color]' 
+	#print(x)
+	return x
 	
 func refresh_players():
 	others.text = ''
@@ -75,9 +90,9 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += '''[url={"player":"%s"}][color=orange]%s[/color][/url]''' % [id,name]
+			others.text += interactable('target',id,'> '+name)
 		else:
-			others.text += '''[url={"player":"%s"}][color=aqua]%s[/color][/url]''' % [id,name]
+			others.text += interactable('player',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 	
 	others.text += 'Enemies:\n'
@@ -88,9 +103,9 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += '''[url={"enemy":"%s"}][color=orange]%s[/color][/url]''' % [id,name]
+			others.text += interactable('target',id,'> '+name)
 		else:
-			others.text += '''[url={"enemy":"%s"}][color=coral]%s[/color][/url]''' % [id,name]
+			others.text += interactable('enemy',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 		
 func receive_room(room):
@@ -143,8 +158,8 @@ func receive_character_sheet(_sheet):
 	for i in sheet['equipment']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
 			continue
-		inv_text.text += '[cell]%s:   [/cell][cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [ITEMS[i]['slot'].capitalize(),i,ITEMS[i]['name']]
-		#inv.text += '[cell][url={"equipment":"%s"}]%s[/url][/cell]\n' % [i,ITEMS[i]['name']]
+		inv_text.text += '[cell]%s:   [/cell][cell]%s[/cell]\n' % [ITEMS[i]['slot'].capitalize(), interactable('equipment',i,ITEMS[i]['name'])]
+
 	inv_text.text += '[/table]'
 	inv_text.text += '[center]Inventory[/center]\n'
 
@@ -152,7 +167,7 @@ func receive_character_sheet(_sheet):
 	for i in sheet['inventory']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
 			continue
-		inv_text.text += '[cell][url={"inventory":"%s"}]%s    [/url][/cell][cell]x%s[/cell]\n' % [i,ITEMS[i]['name'],sheet['inventory'][i]]
+		inv_text.text += '[cell]%s[/cell][cell]x%s[/cell]\n' % [interactable('inventory',i,ITEMS[i]['name']),sheet['inventory'][i]]
 	inv_text.text += '[/table]'
 	
 func show_room():
@@ -162,7 +177,7 @@ func show_room():
 	chatbox.text += '%s\n' % [ROOM['description']]
 	chatbox.text += 'Exits:\n'
 	for e in exits:
-		chatbox.text += '          [url={"exit":"%s"}]%s[/url]\n' % [e,e]
+		chatbox.text += '          %s\n' % interactable('exit',e,e)
 	chatbox.text += '\n\n'
 	
 func send(text: String):

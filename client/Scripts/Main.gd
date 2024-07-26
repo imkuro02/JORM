@@ -6,19 +6,16 @@ const Packet = preload("res://Scripts/Packet.gd")
 var state: Callable
 var LOGIN_WINDOW = preload("res://Scenes/Login.tscn")
 var CHAT_WINDOW = preload("res://Scenes/Chat.tscn")
+var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
 var login_window
 var chat_window
 
 var PREMADE: Dictionary
 
 func _ready():
-
 	theme.default_font_size = 16
-
 	state = Callable(self, 'LOGIN')
-	
 	login_window = add_window(LOGIN_WINDOW)
-
 	connect_to_server()
 
 func connect_to_server():
@@ -80,7 +77,13 @@ func PLAY(p):
 			
 			
 
-
+func create_draggable_ui(parent,window_name,window_to_drag,resizeable = true):
+	var w = draggable_ui_chat.instantiate()
+	parent.add_child(w)
+	w.get_node('Panel/Label').text = window_name
+	w.set_item(window_to_drag,resizeable)
+	return w
+	
 func _process(delta):
 	socket.poll()
 	var socket_state = socket.get_ready_state()
