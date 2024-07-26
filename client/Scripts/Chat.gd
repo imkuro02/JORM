@@ -68,6 +68,8 @@ func interactable(tag, object, label):
 			col = 'gray'
 		'target':
 			col = 'yellow'
+		'exit':
+			col = 'green'
 		_:
 			return x
 	x = '[color="%s"]' % [col] + x + '[/color]' 
@@ -176,11 +178,15 @@ func show_room():
 	var exits = ROOM['exits']
 	chatbox.text += '[center]~~~ %s ~~~[/center]\n' % [ROOM['name']]
 	#chatbox.text += '[center][img=420]Images/fields.png[/img][/center]\n'
-	chatbox.text += '%s\n' % [ROOM['description']]
-	chatbox.text += 'Exits:\n'
-	for e in exits:
-		chatbox.text += '          %s\n' % interactable('exit',e,e)
-	chatbox.text += '\n\n'
+	var desc = ROOM['description']
+	for e in ROOM['exits']:
+		print(e)
+		desc = desc.replace(e,interactable('exit',e,e))
+	chatbox.text += desc + '\n\n'
+	#chatbox.text += 'Exits:\n'
+	#for e in exits:
+	#	chatbox.text += '          %s\n' % interactable('exit',e,e)
+	#chatbox.text += '\n\n'
 	
 func send(text: String):
 	if text.split(' ')[0] == 'look':
