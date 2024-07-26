@@ -158,6 +158,7 @@ func receive_character_sheet(_sheet):
 func show_room():
 	var exits = ROOM['exits']
 	chatbox.text += '[center]~~~ %s ~~~[/center]\n' % [ROOM['name']]
+	#chatbox.text += '[center][img=420]Images/fields.png[/img][/center]\n'
 	chatbox.text += '%s\n' % [ROOM['description']]
 	chatbox.text += 'Exits:\n'
 	for e in exits:

@@ -3,15 +3,15 @@
 [ext_resource type="FontFile" uid="uid://ccpctcdodfn5p" path="res://fonts/Abaddon Bold.ttf" id="1_bis1n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wuj4"]
-bg_color = Color(0.180255, 0.180255, 0.180255, 1)
+bg_color = Color(0.168627, 0.215686, 0.270588, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
-border_blend = true
 
 [resource]
 default_font = ExtResource("1_bis1n")
 default_font_size = 20
 Panel/styles/panel = SubResource("StyleBoxFlat_2wuj4")
+RichTextLabel/colors/default_color = Color(0.772549, 0.831373, 0.847059, 1)
