@@ -46,6 +46,7 @@ texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "password"
+secret = true
 
 [node name="Buttons" type="HBoxContainer" parent="."]
 layout_mode = 2

@@ -198,6 +198,16 @@ min_value = 16.0
 max_value = 32.0
 value = 20.0
 
+[node name="Label2" type="Label" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Volume"
+
+[node name="Audio Volume" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer"]
+layout_mode = 2
+min_value = -80.0
+max_value = 0.0
+step = 0.2
+
 [node name="Skills" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 248.0
 offset_top = 328.0
@@ -225,5 +235,6 @@ meta_underlined = false
 [connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
 [connection signal="pressed" from="CanvasLayer/Settings/VBoxContainer/Logout" to="." method="_on_logout_pressed"]
 [connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Font Size" to="." method="_on_font_size_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Audio Volume" to="." method="_on_audio_volume_value_changed"]
 [connection signal="meta_clicked" from="CanvasLayer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]

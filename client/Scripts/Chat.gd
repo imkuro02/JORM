@@ -49,9 +49,11 @@ func interaction(data):
 	w.create_interaction(data)
 	
 func receive_simple_message(text: String):
+	MAIN.audio.play('message')
 	chatbox.text += '%s\n' % [text]
 	
 func receive_chat(sender: String, text: String):
+	MAIN.audio.play('message')
 	chatbox.text += '%s Says %s\n' % [interactable('player',sender,sender),text]
 	
 func interactable(tag, object, label):
@@ -218,3 +220,6 @@ func _on_others_meta_clicked(meta):
 	
 func _on_font_size_value_changed(value):
 	MAIN.theme.default_font_size = int(value)
+
+func _on_audio_volume_value_changed(value):
+	MAIN.audio.set_volume(value)

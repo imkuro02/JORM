@@ -6,6 +6,8 @@ const Packet = preload("res://Scripts/Packet.gd")
 var state: Callable
 var LOGIN_WINDOW = preload("res://Scenes/Login.tscn")
 var CHAT_WINDOW = preload("res://Scenes/Chat.tscn")
+var AUDIO = preload("res://Scenes/AudioManager.tscn")
+var audio
 var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
 var login_window
 var chat_window
@@ -13,6 +15,10 @@ var chat_window
 var PREMADE: Dictionary
 
 func _ready():
+	audio = AUDIO.instantiate()
+	add_child(audio)
+
+	
 	theme.default_font_size = 16
 	state = Callable(self, 'LOGIN')
 	login_window = add_window(LOGIN_WINDOW)

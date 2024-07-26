@@ -26,7 +26,7 @@ func create_interaction(data):
 		if 'slot' in ITEMS[data['object']]:
 			interactions = ['Equip','Inspect','Drop','Drop all']
 		elif 'use_script' in ITEMS[data['object']]:
-			interactions = ['Use','inspect','drop', 'Drop all']
+			interactions = ['Use','Inspect','Drop', 'Drop all']
 		else:
 			interactions = ['Inspect','Drop', 'Drop all']
 		
@@ -62,16 +62,22 @@ func _on_rich_text_label_meta_clicked(meta):
 	match action:
 		'Go':
 			p = Packet.new('Go',[object])
+			MAIN.audio.play('message')
 		'Equip':
 			p = Packet.new('Equip',[object])
+			MAIN.audio.play('equip')
 		'Unequip':
 			p = Packet.new('Unequip',[object])
+			MAIN.audio.play('equip')
 		'Drop':
 			p = Packet.new('Drop', [object,1])
+			MAIN.audio.play('item')
 		'Drop all':
 			p = Packet.new('Drop', [object,0])
+			MAIN.audio.play('item')
 		'Target':
 			p = Packet.new('Target',[object])
+			MAIN.audio.play('message')
 		'Inspect':
 			var text = ''
 			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
