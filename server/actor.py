@@ -1,3 +1,5 @@
+import random
+
 class Actor:
 
     def character_stats(self):
@@ -24,7 +26,7 @@ class Actor:
         if self.stats['mp'] > self.stats['max_mp']:
             self.stats['mp'] = self.stats['max_mp']
 
-    def take_physic_damage(roll, skill_name):
+    def take_physic_damage(self, roll, skill_name):
         roll -= self.stats['physic_block']
         if roll <= 0:
             return f'{self.name} Blocked all damage from {skill_name}'
