@@ -44,9 +44,12 @@ func _process(_delta):
 
 	
 func interaction(data):
+	
 	var w = interactions_popup.instantiate()
 	add_child(w)
-	w.create_interaction(data)
+	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
+
+		
 	
 func receive_simple_message(text: String):
 	MAIN.audio.play('message')

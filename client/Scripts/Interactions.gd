@@ -3,9 +3,8 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var text = $RichTextLabel
 @onready var panel = $Panel
 
-func create_interaction(data):
-	print(data)
-	
+func create_interaction(data, activate_now = false):
+
 	position = get_local_mouse_position() - Vector2(5,5)
 	
 	var MAIN = get_tree().root.get_node('Main')
@@ -40,8 +39,11 @@ func create_interaction(data):
 		interactions = ['Grab','Inspect']
 		
 	if 'target' in data['tag']:
-		interactions = []
+		interactions = ['']
 		
+	if activate_now:
+		var meta = '{"%s":"%s"}' % [interactions[0], data['object']]
+		_on_rich_text_label_meta_clicked(meta)
 
 	text.text = ''
 	text.text += '%s\n' % [data['label']]
@@ -54,7 +56,7 @@ func _process(_delta):
 	panel.position = text.position - Vector2(8,8)
 
 func _on_rich_text_label_meta_clicked(meta):
-	print(meta)
+	#print(meta)
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	
@@ -90,7 +92,7 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Inspect':
 			var text = ''
 			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
-			
+			'''
 			if 'slot' in ITEMS[object]:
 				text += '\n.....\n[table=2]'
 				var TRANS = MAIN.PREMADE['translations']
@@ -98,6 +100,7 @@ func _on_rich_text_label_meta_clicked(meta):
 					var stat = ITEMS[object]['stats'][stat_name]
 					text += '[cell]%s: [/cell][cell]%s [/cell]\n' % [TRANS[stat_name],stat]
 				text += '[/table]'
+			'''
 			MAIN.chat_window.receive_simple_message(text)
 			
 	if p != null:
