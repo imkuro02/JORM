@@ -13,14 +13,25 @@ class ServerProtocol(WebSocketServerProtocol):
         self._state: callable = self.LOGIN
         self._actor = None
 
-    def COMBAT(self, sender: 'ServerProtocol', p: packet.Packet):
-        if p.action == packet.Action.Combat:
-            self.send_client(p)
+   
             
     def PLAY(self, sender: 'ServerProtocol', p: packet.Packet):
         if p.action == packet.Action.Chat:  
             if sender == self:
-                message         = p.payloads[0]
+                
+                message = p.payloads[0]
+
+                # commands
+                try:
+                    if message[0] == '/':
+                        if 'additem' in message:
+                            cmd, item_id, quantity = message.split()
+                            self._actor.add_item(item_id, int(quantity))
+                            return
+                except Exception as e:
+                    pass
+            
+
                 message_sender  = self._actor.name
                 p = packet.ChatPacket(message,message_sender)
                 self.broadcast(p,exclude_self=False)

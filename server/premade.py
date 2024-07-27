@@ -1,4 +1,5 @@
 from utils import dc
+import ezodf
 
 PLAYER_STATS = {
     'hp':       10,
@@ -24,7 +25,6 @@ PLAYER_STATS = {
     'cha':      1
 }
 
-
 ENEMY_STATS = {
     'hp':       10,
     'mp':       10,
@@ -47,75 +47,11 @@ ENEMY_STATS = {
     'cha':      1
 }
 
-
-ITEM_STATS = {
-    'max_hp':   0,
-    'max_mp':   0,
-
-    'crit_chance':  0,
-    'dodge_chance': 0,
-    'physic_block': 0,
-    'magic_block':  0,
-
-    'physic_damage': 0,
-    'magic_damage': 0,
-
-    'str':      0,
-    'dex':      0,
-    'con':      0,
-    'int':      0,
-    'wis':      0,
-    'cha':      0
-}
-
 PLAYER_SKILLS = {
     'basic_attack': {
         'name': 'Reckless Charge',
         'description': 'Recklessly charge the target! dealing dealing between 1 and physic_damage'
     }
-
-
-}
-items_equipable = {
-    'sword0': {
-        'name':'Basic Sword', 
-        'stats': {'str': 1, 'dex': -1, 'physic_damage':10}, 
-        'description': 'A cool looking sword', 
-        'slot': 'weapon'
-        },
-
-    'helmet0': {
-        'name':'Basic Helmet', 
-        'stats': {'max_hp':5,'str': 4, 'dex': 1, 'physic_block': 10, 'magic_damage': 2}, 
-        'description': 'A hat', 
-        'slot': 'helmet'
-        },
-
-    'katana': {
-        'name':'Super Katana', 
-        'stats': {'dex': 68, 'magic_damage': 10, 'max_mp':10}, 
-        'description': 'A cool looking katana', 
-        'slot': 'weapon'
-        }
-}
-
-items_consumable = {
-    'potion0': {
-        'name': 'Health Potion',
-        'description': 'A health potion that heals 10% of your max HP!',
-        'use_script': 'potion0'
-    }
-}
-items_misc = {
-    'coins': {
-        'name': 'Coins',
-        'description': 'Shiny!'
-        },
-
-    'rock': {
-        'name':'Gray Rock', 
-        'description': 'Just a gray boring rock...'
-        }
 }
 
 translations = {
@@ -143,28 +79,87 @@ translations = {
     'magic_damage': 'Magic Damage'
 }
 
-
 def create_all_items():
+    # Load the ODS file
+    ods_file = ezodf.opendoc('items.ods')
+
+    # Access the first sheet
+    sheet = ods_file.sheets[0]
+
+    # Convert rows generator to a list
+    rows = list(sheet.rows())
+
+    # Read the first row to get column labels
+    labels = [cell.value for cell in rows[0]]
+
+    # Initialize an empty dictionary to store items
+    items_dict = {}
+
+    # Iterate over the rows starting from the second row
+    for row in rows[1:]:
+        # Extract the cell values from the row
+        row_values = [cell.value for cell in row]
+        
+        # Assume the first column is the ID
+        item_id = row_values[0]
+        
+        # Create a dictionary for the current item
+        item_dict = dict(zip(labels, row_values))
+        
+        # Store the item in the items_dict using the item_id as the key
+        items_dict[item_id] = item_dict
+
+    # Print the resulting dictionary
     items = {}
+    for item_id, item in items_dict.items():
+        if item['id'] == None:
+            continue
+        name = item['name']
+        description = item['description']
+        stats = {
+            'max_hp': int(item['max_hp']),
+            'max_mp': int(item['max_mp']),
 
-    # Create equipable items
-    for item_id, item_data in items_equipable.items():
-        item = dc(item_data)
-        item['stats'] = {**ITEM_STATS, **item['stats']}
-        #if 'damage' in item:
-        #    item['damage'] = {**DAMAGE, **item['damage']}
-        items[item_id] = item
+            
+            'crit_chance': int(item['crit_chance']),
+            'dodge_chance': int(item['dodge_chance']),
+            
+            'physic_block': int(item['physic_block']),
+            'magic_block': int(item['magic_block']),
+            
+            'physic_damage': int(item['physic_damage']),
+            'magic_damage': int(item['magic_damage']),
+            
+            
 
-    # Create miscellaneous items
-    for item_id, item_data in items_misc.items():
-        items[item_id] = dc(item_data)
+            'str': int(item['str']),
+            'dex': int(item['dex']),
+            'con': int(item['con']),
+            'int': int(item['int']),
+            'wis': int(item['wis']),
+            'cha': int(item['cha'])
+        }
 
-    # Create miscellaneous items
-    for item_id, item_data in items_consumable.items():
-        items[item_id] = dc(item_data)
+        slot = item['slot']
+        use_script = item['use_script']
 
-    everything = {'items':items,'translations':translations}
-    return everything
+        new_item = {
+            'name': name,
+            'description': description,
+            'slot': slot,
+            'stats': stats,
+            'use_script': use_script
+        }
+
+        if use_script == None: 
+            del new_item['use_script']
+        if slot == None: 
+            del new_item['slot']
+            del new_item['stats']
+
+        items[item_id] = new_item
+        
+    return {'items': items, 'translations': translations}
 
 if __name__ == '__main__':
     all_items = create_all_items()

@@ -60,6 +60,10 @@ class Player(Actor):
             del self.inventory[item_id]
 
     def add_item(self,item_id,quantity):
+        if item_id not in self.protocol.factory.premade['items']:
+            return
+        
+        
         if item_id in self.inventory:
             self.inventory[item_id] += quantity
         else:
