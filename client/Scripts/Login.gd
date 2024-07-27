@@ -15,13 +15,14 @@ func _ready():
 	MAIN = get_tree().root.get_node('Main')
 	login.pressed.connect(self._login)
 	register.pressed.connect(self._register)
-	bgpanel.size = $VBoxContainer.size + Vector2(20,20)
-	bgpanel.position = $VBoxContainer.position - Vector2(10,10)
+	
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	bgpanel.size = $VBoxContainer.size + Vector2(20,20)
+	bgpanel.position = $VBoxContainer.position - Vector2(10,10)
 	pass
 	
 func _login():
