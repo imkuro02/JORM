@@ -1,9 +1,10 @@
 extends Control
 
-@onready var username = $Username/TextEdit
-@onready var password = $Password/TextEdit
-@onready var login = $Buttons/Login
-@onready var register = $Buttons/Register
+@onready var username = $VBoxContainer/Username/TextEdit
+@onready var password = $VBoxContainer/Password/TextEdit
+@onready var login = $VBoxContainer/Buttons/Login
+@onready var register = $VBoxContainer/Buttons/Register
+@onready var bgpanel = $BGPanel
 
 const Packet = preload("res://Scripts/Packet.gd")
 
@@ -14,6 +15,8 @@ func _ready():
 	MAIN = get_tree().root.get_node('Main')
 	login.pressed.connect(self._login)
 	register.pressed.connect(self._register)
+	bgpanel.size = $VBoxContainer.size + Vector2(20,20)
+	bgpanel.position = $VBoxContainer.position - Vector2(10,10)
 	pass # Replace with function body.
 
 

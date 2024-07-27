@@ -18,6 +18,9 @@ class Actor:
             return 'You used '
 
     def regen(self, hp = 0, mp = 0):
+        if hp < 0: hp = 0
+        if mp < 0: mp = 0
+        
         self.stats['hp'] += hp
         if self.stats['hp'] > self.stats['max_hp']:
             self.stats['hp'] = self.stats['max_hp']
