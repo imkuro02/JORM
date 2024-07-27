@@ -90,6 +90,14 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Inspect':
 			var text = ''
 			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
+			
+			if 'slot' in ITEMS[object]:
+				text += '\n.....\n[table=2]'
+				var TRANS = MAIN.PREMADE['translations']
+				for stat_name in ITEMS[object]['stats']:
+					var stat = ITEMS[object]['stats'][stat_name]
+					text += '[cell]%s: [/cell][cell]%s [/cell]\n' % [TRANS[stat_name],stat]
+				text += '[/table]'
 			MAIN.chat_window.receive_simple_message(text)
 			
 	if p != null:

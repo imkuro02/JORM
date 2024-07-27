@@ -232,6 +232,7 @@ meta_underlined = false
 
 [connection signal="meta_clicked" from="CanvasLayer/Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
+[connection signal="meta_hover_ended" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
 [connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
 [connection signal="pressed" from="CanvasLayer/Settings/VBoxContainer/Logout" to="." method="_on_logout_pressed"]
 [connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Font Size" to="." method="_on_font_size_value_changed"]

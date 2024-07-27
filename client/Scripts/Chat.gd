@@ -146,13 +146,33 @@ func receive_character_sheet(_sheet):
 	
 	var stats = ch.get_node('RichTextLabel')
 	stats.text = ''
-	stats.text += '[table=2]'
+	stats.text += '[table=3]'
 	for trans in MAIN.PREMADE['translations']:
-		if trans in ['hp','mp','max_hp','max_mp']:
+		#if trans in ['hp','mp','max_hp','max_mp']:
+		if trans in ['hp','mp']:
 			continue
+
+		''' HORRIBLE TERRIBLE ITEM COMPARE CODE'''
+		var hovered_item_stat_number = ''
+		if hovered_item != null:
+			var _i = ITEMS[hovered_item]
+			if 'slot' in _i:
+				if trans in _i['stats']:
+					hovered_item_stat_number = int(_i['stats'][trans])
+					for e in sheet['equipment']:
+						if ITEMS[e]['slot'] == _i['slot']:
+							hovered_item_stat_number = int(_i['stats'][trans] - ITEMS[e]['stats'][trans])
+					if hovered_item_stat_number == 0:
+						hovered_item_stat_number = '[color=gray]%s[/color]' % _i['stats'][trans]
+					elif hovered_item_stat_number >= 1:
+						hovered_item_stat_number = '[color=green]+%s[/color]' % hovered_item_stat_number
+					else:
+						hovered_item_stat_number = '[color=red]%s[/color]' % hovered_item_stat_number
+		'''OH GOD'''
+		
 		var translated_name = MAIN.PREMADE['translations'][trans]
 		var stat_number = sheet['stats'][trans]
-		stats.text += '[cell]%s: [/cell][cell]%s[/cell]' % [translated_name,stat_number]	
+		stats.text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number]	
 	
 		
 	stats.text += '[/table]'
@@ -229,3 +249,15 @@ func _on_font_size_value_changed(value):
 
 func _on_audio_volume_value_changed(value):
 	MAIN.audio.set_volume(value)
+
+
+var hovered_item = null
+func _on_inventory_meta_hover_started(meta):
+	var json = JSON.new()
+	var data = json.parse_string(meta)
+	hovered_item = data['object']
+	pass # Replace with function body.
+
+func _on_inventory_meta_hover_ended(meta):
+	hovered_item = null
+	pass # Replace with function body.

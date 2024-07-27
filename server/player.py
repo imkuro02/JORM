@@ -82,7 +82,8 @@ class Player(Actor):
         
         for equiped_item in self.equipment:
             if ITEMS[equiped_item]['slot'] == item_dict['slot']:
-                return f'You have an item already equipped in slot: {ITEMS[equiped_item]["slot"]}'
+                self.unequip(equiped_item)
+                #return f'You have an item already equipped in slot: {ITEMS[equiped_item]["slot"]}'
         
         for s in ITEMS[item_id]['stats']:
             self.stats[s] += ITEMS[item_id]['stats'][s]
