@@ -5,7 +5,8 @@ from enemy import Enemy
 import utils
 
 class Room:
-    def __init__(self, name: str, description: str):
+    def __init__(self, map, name: str, description: str):
+        self.map = map
         self.name = name
         self.description = description
         self.exits = {}
@@ -85,12 +86,13 @@ class Room:
 
 
 class Map:
-    def __init__(self):
+    def __init__(self, factory):
+        self.factory = factory
         self.rooms = {}
 
-        village = Room('Village',   'The Village, you see a path leading to the Forest, and a kømlokk or smth leading to the Sewers below.')
-        forest  = Room('Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here.')
-        sewers  = Room('Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village.')
+        village = Room(self, 'Village',   'The Village, you see a path leading to the Forest, and a kømlokk or smth leading to the Sewers below.')
+        forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here.')
+        sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village.')
 
         village.connect_room(forest)
         village.connect_room(sewers)

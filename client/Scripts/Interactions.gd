@@ -41,6 +41,9 @@ func create_interaction(data, activate_now = false):
 	if 'target' in data['tag']:
 		interactions = ['']
 		
+	if 'skill' in data['tag']:
+		interactions = ['Use Skill','Skill Description']
+		
 	if activate_now:
 		var meta = '{"%s":"%s"}' % [interactions[0], data['object']]
 		_on_rich_text_label_meta_clicked(meta)
@@ -59,6 +62,7 @@ func _on_rich_text_label_meta_clicked(meta):
 	#print(meta)
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
+	var SKILLS = MAIN.PREMADE['skills']
 	
 	var json = JSON.new()
 	var data = json.parse_string(meta)
@@ -89,9 +93,15 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Target':
 			p = Packet.new('Target',[object])
 			MAIN.audio.play('message')
+		'Use Skill':
+			p = Packet.new('UseSkill',[object])
+		'Skill Description':
+			var text = ''
+			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]
+			MAIN.chat_window.receive_simple_message(text)
 		'Inspect':
 			var text = ''
-			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
+			text += '%s\n%s\n' % [ITEMS[object]['name'],ITEMS[object]['description']]
 			'''
 			if 'slot' in ITEMS[object]:
 				text += '\n.....\n[table=2]'

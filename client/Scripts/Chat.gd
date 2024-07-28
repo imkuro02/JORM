@@ -22,7 +22,7 @@ var sheet
 
 
 var MAIN 
-var ITEMS
+
 var ROOM = {}
 
 func _ready():
@@ -136,7 +136,8 @@ func receive_room(room):
 	return
 		
 func receive_character_sheet(_sheet):
-	ITEMS = MAIN.PREMADE['items']
+	var ITEMS = MAIN.PREMADE['items']
+	var SKILLS = MAIN.PREMADE['skills']
 	sheet = _sheet
 	
 	ch.get_node("Label").text = sheet['name']
@@ -198,6 +199,11 @@ func receive_character_sheet(_sheet):
 		inv_text.text += '[cell]%s[/cell][cell]x%s[/cell]\n' % [interactable('inventory',i,ITEMS[i]['name']),sheet['inventory'][i]]
 	inv_text.text += '[/table]'
 	
+	''' SKILLS '''
+	skills.text = ''
+	for skill in sheet['skills']:
+		skills.text += '%s\n' % [interactable('skill',skill,SKILLS[skill]['name'])]
+	
 func show_room():
 	var exits = ROOM['exits']
 	chatbox.text += '[center]~~~ %s ~~~[/center]\n' % [ROOM['name']]
@@ -228,6 +234,9 @@ func _input(event: InputEvent):
 			KEY_ENTER:
 				if input.text == 'ROOM':
 					print(ROOM)
+					return
+				if input.text == 'SELF':
+					print(sheet)
 					return
 				send(input.text)
 				input.text = ""

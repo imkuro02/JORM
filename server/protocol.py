@@ -58,6 +58,12 @@ class ServerProtocol(WebSocketServerProtocol):
             if sender == self:
                 self._actor.remove_item(p.payloads[0],p.payloads[1])
 
+        if p.action == packet.Action.UseSkill:
+            if sender == self:
+                flavour_text = self._actor.use_skill(p.payloads[0])
+                p = packet.ChatPacket(flavour_text,None)
+                self.broadcast(p,False)
+
         if p.action == packet.Action.Room:
             if sender == self:
                 self.send_client(p)

@@ -15,6 +15,7 @@ class Player(Actor):
         self.inventory = utils.dc(inventory)
         self.room = room
         self.tag = 'player'
+        self.skills = []
 
         self.target = self
 
@@ -23,12 +24,20 @@ class Player(Actor):
         self.premade = self.protocol.factory.premade
     
     def character_sheet(self):
+        self.skills = []
+        for e in self.equipment:
+            for skill in self.protocol.factory.premade['items'][e]['skills']:
+                if skill not in self.skills:
+                    self.skills.append(skill)
+        #print(self.skills)
+
         return {
             'name':         self.name,
             'stats':        self.stats,
             'equipment':    self.equipment,
             'inventory':    self.inventory,
-            'target':       self.target.name
+            'target':       self.target.name,
+            'skills':       self.skills
             }
 
     def set_target(self,target):

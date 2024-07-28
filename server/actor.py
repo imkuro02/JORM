@@ -1,4 +1,5 @@
 import random
+import packet
 
 class Actor:
 
@@ -8,14 +9,23 @@ class Actor:
             'stats': self.stats
         }
 
-    def use_skill(self,skill_name):
+    def use_skill(self,skill_id):
+        if skill_id not in self.room.map.factory.premade['skills']:
+            return 'skill does not exist'
+        
+        skill = self.room.map.factory.premade['skills'][skill_id]
+
         if self.target.room != self.room:
             return 'Target is not here'
 
-        if skill_name == 'basic_attack':
+        if skill_id == 'slash':
             roll = random.randrange(1,self.stats['physic_damage'])
-            self.target.take_physic_damage(hp = roll)
-            return 'You used '
+            damage_dealt = self.target.take_physic_damage(roll,skill)
+            damage_dealt = self.target.take_physic_damage(roll,skill)
+            damage_dealt = self.target.take_physic_damage(roll,skill)
+            
+        return f'{self.name} Used {skill["name"]}.'
+            
 
     def regen(self, hp = 0, mp = 0):
         if hp < 0: hp = 0
@@ -29,10 +39,23 @@ class Actor:
         if self.stats['mp'] > self.stats['max_mp']:
             self.stats['mp'] = self.stats['max_mp']
 
-    def take_physic_damage(self, roll, skill_name):
+    def take_physic_damage(self, roll, skill = None):
+
         roll -= self.stats['physic_block']
-        if roll <= 0:
-            return f'{self.name} Blocked all damage from {skill_name}'
-        
         self.stats['hp'] -= roll
-        return f'{self.name} took {roll} damage from {skill_name}'
+
+        if skill == None:
+            text = f'{self.name} Takes {roll} Damage.'
+        else:
+            if roll <= 0:
+                text = f'{self.name} Blocked {skill["name"]}.'
+            else:
+                text = f'{self.name} Takes {roll} Damage from {skill["name"]}.'
+
+        p: packet = packet.ChatPacket(text,None)
+        for player in self.room.players:
+            self.room.players[player].protocol.onPacket(None,p)
+
+        
+        
+        

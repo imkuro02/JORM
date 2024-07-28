@@ -15,8 +15,8 @@ class Factory(WebSocketServerFactory):
         self._last_delta_time_checked = time.time()
         self.tickrate: int = 30
         
-        self.premade = premade.create_all_items()
-        self.map = world.Map()
+        self.premade = premade.get_premade()
+        self.map = world.Map(self)
 
         tickloop = task.LoopingCall(self.tick)
         tickloop.start(1 / self.tickrate)
