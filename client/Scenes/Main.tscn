@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://cuf73mqbb5oej"]
+[gd_scene load_steps=8 format=3 uid="uid://cuf73mqbb5oej"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_57mj3"]
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_dv228"]
+[ext_resource type="Shader" path="res://Shaders/background.gdshader" id="3_7fsvk"]
+[ext_resource type="Texture2D" uid="uid://dueg6nnbrb2ma" path="res://Kenney/PNG/Double/pattern_32.png" id="4_er11j"]
+[ext_resource type="Texture2D" uid="uid://cjo5voyjhi0sv" path="res://Kenney/PNG/Default/pattern_32.png" id="4_yjhcp"]
+[ext_resource type="Texture2D" uid="uid://djepcu8ufiok2" path="res://Images/palette.png" id="6_n864l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xbnj"]
+shader = ExtResource("3_7fsvk")
+shader_parameter/scroll_speed = 0.005
+shader_parameter/angle_degrees = 300.0
+shader_parameter/repeat_x = 10.0
+shader_parameter/repeat_y = 10.0
+shader_parameter/row_offset = 0.0
+shader_parameter/tint = Color(0.0676436, 0.446896, 0.501931, 1)
+shader_parameter/bg = Color(0.0563528, 0.242412, 0.334428, 1)
+shader_parameter/texture_to_scroll = ExtResource("4_er11j")
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -12,3 +27,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_dv228")
 script = ExtResource("1_57mj3")
+
+[node name="ColorRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_4xbnj")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -276.0
+offset_top = -226.0
+offset_right = 1376.0
+offset_bottom = 1611.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_yjhcp")
+stretch_mode = 4
+
+[node name="Palette" type="Sprite2D" parent="."]
+position = Vector2(-977, 617)
+texture = ExtResource("6_n864l")

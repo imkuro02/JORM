@@ -36,6 +36,7 @@ func _ready():
 	
 	
 	
+	
 func _process(_delta):
 	refresh_players()
 	
@@ -252,7 +253,6 @@ func _on_font_size_value_changed(value):
 
 func _on_audio_volume_value_changed(value):
 	MAIN.audio.set_volume(value)
-
 
 var hovered_item = null
 func _on_inventory_meta_hover_started(meta):

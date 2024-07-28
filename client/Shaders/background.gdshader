@@ -27,7 +27,7 @@ void fragment() {
  vec2 snappedUV = round(scaled_uv / texelSize) * texelSize;
  
  vec4 new_texture =  texture(texture_to_scroll, snappedUV) * tint;
- if(length(new_texture.rgb)<0.1){
+ if(length(new_texture.rgb)<0.0001){
 	//new_texture.a = 0.0;
 	new_texture.rgba = bg;
  }
