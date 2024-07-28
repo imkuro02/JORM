@@ -59,6 +59,29 @@ func receive_simple_message(text: String):
 func receive_chat(sender: String, text: String):
 	MAIN.audio.play('message')
 	chatbox.text += '%s Says %s\n' % [interactable('player',sender,sender),text]
+
+func receive_flavoured_message(text):
+	#var time = Time.get_ticks_usec()
+	var _players = ROOM['players']
+	var _enemies = ROOM['enemies']
+	var _skills  = MAIN.PREMADE['skills']
+	var _items   = MAIN.PREMADE['items']
+	var _exits   = ROOM['exits']
+	text = ' '+text
+	for i in _items:
+		text = text.replace(' '+_items[i]['name'], ' '+interactable('loot',i,_items[i]['name']))
+	for i in _enemies:
+		text = text.replace(' '+_enemies[i]['name'], ' '+interactable('enemy',i,_enemies[i]['name']))
+	for i in _players:
+		text = text.replace(' '+_players[i]['name'], ' '+interactable('player',i,_players[i]['name']))
+	for i in _skills:
+		text = text.replace(' '+_skills[i]['name'], ' '+interactable('skill',i,_skills[i]['name']))
+	for i in _exits:
+		text = text.replace(' '+i, ' '+interactable('exit', i, i ) )
+	#print(Time.get_ticks_usec() - time)
+	
+	chatbox.text += text + '\n'
+	MAIN.audio.play('message')
 	
 func interactable(tag, object, label):
 	var x = '[url={"tag":"%s","object":"%s","label":"%s"}]%s[/url]' % [tag, object, label, label]
@@ -74,6 +97,10 @@ func interactable(tag, object, label):
 			col = 'yellow'
 		'exit':
 			col = 'green'
+		'skill':
+			col = 'LIGHT_GOLDENROD'
+		'loot':
+			col = 'yellow'
 		_:
 			return x
 	x = '[color="%s"]' % [col] + x + '[/color]' 

@@ -32,7 +32,7 @@ class Enemy(Actor):
             if roam_text == 1:
                 choice = random.choice(self.roaming_text)
                 for player in self.room.players:
-                    p = packet.ChatPacket(f'{self.name} {choice}')
+                    p = packet.FlavouredMessagePacket(f'{self.name} {choice}')
                     self.room.players[player].protocol.onPacket(None, p)
 
         self.ticks_passed += 1

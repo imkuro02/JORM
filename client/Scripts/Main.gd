@@ -71,7 +71,12 @@ func PLAY(p):
 		"Room":
 			var room = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
 			chat_window.receive_room(room)
-			
+		"FlavouredMessage":
+			chat_window.receive_flavoured_message(_payloads[0])
+		"CombatMessageSkillUsed":
+			chat_window.receive_skill_used(_payloads[0],_payloads[1])
+		"CombatMessageDamage":
+			chat_window.receive_damage_taken(_payloads[0], _payloads[1], _payloads[2])
 			
 		"Disconnect":
 			socket.close()

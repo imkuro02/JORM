@@ -179,7 +179,6 @@ def create_all_items():
         stats = {
             'max_hp': int(item['max_hp']),
             'max_mp': int(item['max_mp']),
-
             
             'crit_chance': int(item['crit_chance']),
             'dodge_chance': int(item['dodge_chance']),
@@ -190,8 +189,6 @@ def create_all_items():
             'physic_damage': int(item['physic_damage']),
             'magic_damage': int(item['magic_damage']),
             
-            
-
             'str': int(item['str']),
             'dex': int(item['dex']),
             'con': int(item['con']),

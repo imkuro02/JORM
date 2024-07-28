@@ -54,6 +54,7 @@ class Room:
         for p in followers:
             self.move_player(p,new_room)
 
+    
     def get_players(self):
         players = {}
         for i in self.players:
@@ -106,6 +107,7 @@ class Map:
 
         name = 'Jake The Slime'
         stats = utils.dc(premade.ENEMY_STATS)
+        stats['physic_block'] = 200
         enemy1 = Enemy(name, stats)
 
 

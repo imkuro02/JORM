@@ -33,10 +33,14 @@ class ServerProtocol(WebSocketServerProtocol):
             
 
                 message_sender  = self._actor.name
-                p = packet.ChatPacket(message,message_sender)
-                self.broadcast(p,exclude_self=False)
-            else:
-                self.send_client(p)
+                p = packet.FlavouredMessagePacket(f'{message_sender} Says {message}')
+                self.broadcast(p,exclude_self=True)
+            
+        
+        if p.action == packet.Action.FlavouredMessage:
+            self.send_client(p)
+
+
         
         if p.action == packet.Action.Premade:
             if sender == self:
@@ -60,10 +64,8 @@ class ServerProtocol(WebSocketServerProtocol):
 
         if p.action == packet.Action.UseSkill:
             if sender == self:
-                flavour_text = self._actor.use_skill(p.payloads[0])
-                p = packet.ChatPacket(flavour_text,None)
-                self.broadcast(p,False)
-
+                self._actor.use_skill(p.payloads[0])
+                
         if p.action == packet.Action.Room:
             if sender == self:
                 self.send_client(p)

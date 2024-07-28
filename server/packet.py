@@ -16,6 +16,8 @@ class Action(enum.Enum):
     Drop = enum.auto()
     UseSkill = enum.auto()
 
+    FlavouredMessage = enum.auto()
+
     Room = enum.auto()
     Go = enum.auto()
     Target = enum.auto()
@@ -25,11 +27,7 @@ class Action(enum.Enum):
     PartyLeave = enum.auto()
     PartyKick = enum.auto()
 
-    CombatStart = enum.auto()
-    CombatAction = enum.auto()
-    CombatReaction = enum.auto()
-    CombatTurn = enum.auto()
-    CombatStatusEffect = enum.auto()
+    
 
 class Packet:
     def __init__(self, action: Action,  *payloads):
@@ -108,6 +106,10 @@ class TargetPacket(Packet):
     def __init__(self, target: str):
         super().__init__(Action.Target, target)
 
+class FlavouredMessagePacket(Packet):
+    def __init__(self,message):
+        super().__init__(Action.FlavouredMessage, message)
+
 #
 class PartyRequestPacket(Packet):
     def __init__(self, actorID: int):
@@ -124,85 +126,6 @@ class PartyLeavePacket(Packet):
 class PartyKickPacket(Packet):
     def __init__(self, actorID: int):
         super().__init__(Action.PartyKick, actorID)
-
-# send a dict of every character in the combat, enemies and players
-class CombatStartPacket(Packet):
-    def __init__(self, combat: dict):
-        super().__init__(Action.CombatStart, combat)
-
-# send the id of which characters turn it is, player or enemy
-class CombatTurnPacket(Packet):
-    def __init__(self, actorID: int):
-        super().__init__(Action.CombatTurn, actorID)
-
-# player sends their combat action and their target
-class CombatActionPacket(Packet):
-    def __init__(self, target_actorID: int, action: str):
-        super().__init__(Action.CombatAction, target_actorID, action)
-
-class CombatReactionPacket(Packet):
-    def __init__(self, actorID: int, reaction: dict):
-        super().__init__(Action.CombatReaction, actorID, reaction)
-'''
-#reaction dict
-
-{
-'source':'bleed',
-'stats':{
-    'hp':-10
-    'mp':-2
-    }
-}
-
-# source is the source of the stat changes
-# stats is the stats affected, so the client would see
-
-Enemy0 loses 10 hp from bleed
-Enemy0 loses 2 mp from bleed
-
-and could therefore animate them properly
-
-or possibly send each stat change as individual packet would be cleaner
-
-{
-'source':'bleed',
-'hp': -10
-}
-
-{
-'source':'bleed',
-'mp': -2
-}
-
-this would work well with both skills and status effects
-
-{
-'source':'cleave',
-'hp': -20
-}
-
-Enemy0 takes 20 damage from Cleave
-'''
-class CombatStatusEffectPacket(Packet):
-    def __init__(self, actorID: int, status_effect: str, status_effect_amount: int):
-        super().__init__(Action.CombatStatusEffect, actorID, status_effect, status_effect_amount)
-
-'''
-send the actorID of the affected actor, if the actor did not have that effect beforehand clientside print
-Actor is now Blessed! / Bleeding! / Etc!
-
-if a packet gets sent with amount of 0, then remove that status effect clientside, as it no longer exists on the server
-
-Actor is no longer Bleeding / Blessed / Cursed / Etc
-
-otherwise just keep track of the "amount variable" so the clients always know how much an actor is affected
-
-status amount can both be a number of turns something lasts, and how much there is in a stack, for example bleeding wont go away on its own and only incriments
-so amount means how much damage a character takes each turn
-
-while blessed is a status that gives some bonus regardless of the amount, so amount 2 means for 2 more turns
-
-'''
 
 def from_json(json_str: str) -> Packet:
     obj_dict = json.loads(json_str)
