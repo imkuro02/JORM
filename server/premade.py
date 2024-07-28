@@ -2,10 +2,10 @@ from utils import dc
 import ezodf
 
 PLAYER_STATS = {
-    'hp':       10,
-    'mp':       10,
-    'max_hp':   10,
-    'max_mp':   10,
+    'hp':       100,
+    'mp':       100,
+    'max_hp':   100,
+    'max_mp':   100,
     'exp':      0,
     'points':   0,
 
@@ -116,6 +116,9 @@ def create_all_items():
             continue
         name = item['name']
         description = item['description']
+        #print(item)
+        level_req = int(item['level_req'])
+
         stats = {
             'max_hp': int(item['max_hp']),
             'max_mp': int(item['max_mp']),
@@ -147,6 +150,7 @@ def create_all_items():
             'name': name,
             'description': description,
             'slot': slot,
+            'level_req': level_req,
             'stats': stats,
             'use_script': use_script
         }
@@ -156,6 +160,7 @@ def create_all_items():
         if slot == None: 
             del new_item['slot']
             del new_item['stats']
+            del new_item['level_req']
 
         items[item_id] = new_item
         

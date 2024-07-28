@@ -181,7 +181,7 @@ func receive_character_sheet(_sheet):
 		
 	stats.text += '[/table]'
 	inv_text.text = ''
-	inv_text.text += '[center]Equipment[/center]\n'
+	inv_text.text += 'Equipment:\n'
 	inv_text.text += '[table=2]'
 	for i in sheet['equipment']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
@@ -189,7 +189,7 @@ func receive_character_sheet(_sheet):
 		inv_text.text += '[cell]%s:   [/cell][cell]%s[/cell]\n' % [ITEMS[i]['slot'].capitalize(), interactable('equipment',i,ITEMS[i]['name'])]
 
 	inv_text.text += '[/table]'
-	inv_text.text += '[center]Inventory[/center]\n'
+	inv_text.text += '\n\nInventory:\n'
 
 	inv_text.text += '[table=2]' 
 	for i in sheet['inventory']:
