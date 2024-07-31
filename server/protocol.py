@@ -92,6 +92,8 @@ class ServerProtocol(WebSocketServerProtocol):
             self.send_client(packet.OkPacket())
             self._state = self.PLAY
 
+            self.send_client(packet.ServerTimePacket(self.factory.server_time))
+
             self.onPacket(self,packet.PremadePacket(self.factory.premade))
 
             name = p.payloads[0]

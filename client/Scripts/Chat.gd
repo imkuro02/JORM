@@ -67,17 +67,18 @@ func receive_flavoured_message(text):
 	var _skills  = MAIN.PREMADE['skills']
 	var _items   = MAIN.PREMADE['items']
 	var _exits   = ROOM['exits']
-	text = ' '+text
+
+	text = ' '+text+' '
 	for i in _items:
-		text = text.replace(' '+_items[i]['name'], ' '+interactable('loot',i,_items[i]['name']))
+		text = text.replace(' '+_items[i]['name']+' ', ' '+interactable('loot',i,_items[i]['name'])+' ')
 	for i in _enemies:
-		text = text.replace(' '+_enemies[i]['name'], ' '+interactable('enemy',i,_enemies[i]['name']))
+		text = text.replace(' '+_enemies[i]['name']+' ', ' '+interactable('enemy',i,_enemies[i]['name'])+' ')
 	for i in _players:
-		text = text.replace(' '+_players[i]['name'], ' '+interactable('player',i,_players[i]['name']))
+		text = text.replace(' '+_players[i]['name']+' ', ' '+interactable('player',i,_players[i]['name'])+' ')
 	for i in _skills:
-		text = text.replace(' '+_skills[i]['name'], ' '+interactable('skill',i,_skills[i]['name']))
+		text = text.replace(' '+_skills[i]['name']+' ', ' '+interactable('skill',i,_skills[i]['name'])+' ')
 	for i in _exits:
-		text = text.replace(' '+i, ' '+interactable('exit', i, i ) )
+		text = text.replace(' '+i+' ', ' '+interactable('exit', i, i )+' ')
 	#print(Time.get_ticks_usec() - time)
 	
 	chatbox.text += text + '\n'
@@ -229,7 +230,10 @@ func receive_character_sheet(_sheet):
 	''' SKILLS '''
 	skills.text = ''
 	for skill in sheet['skills']:
-		skills.text += '%s\n' % [interactable('skill',skill,SKILLS[skill]['name'])]
+		if skill in sheet['skill_cooldowns']:
+			skills.text += '%s (%ss)\n' % [interactable('skill',skill,SKILLS[skill]['name']), abs(round(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill]))]
+		else:
+			skills.text += '%s\n' % [interactable('skill',skill,SKILLS[skill]['name'])]
 	
 func show_room():
 	var exits = ROOM['exits']
@@ -237,7 +241,7 @@ func show_room():
 	#chatbox.text += '[center][img=420]Images/fields.png[/img][/center]\n'
 	var desc = ROOM['description']
 	for e in ROOM['exits']:
-		print(e)
+		#print(e)
 		desc = desc.replace(e,interactable('exit',e,e))
 	chatbox.text += desc + '\n\n'
 	#chatbox.text += 'Exits:\n'

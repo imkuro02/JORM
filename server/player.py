@@ -16,6 +16,7 @@ class Player(Actor):
         self.room = room
         self.tag = 'player'
         self.skills = []
+        self.skill_cooldowns = {}
 
         self.target = self
 
@@ -32,14 +33,18 @@ class Player(Actor):
         #print(self.skills)
 
         return {
-            'name':         self.name,
-            'stats':        self.stats,
-            'equipment':    self.equipment,
-            'inventory':    self.inventory,
-            'target':       self.target.name,
-            'skills':       self.skills
+            'name':             self.name,
+            'stats':            self.stats,
+            'equipment':        self.equipment,
+            'inventory':        self.inventory,
+            'target':           self.target.name,
+            'skills':           self.skills,
+            'skill_cooldowns':  self.skill_cooldowns
             }
 
+    def die(self):
+        pass
+        
     def set_target(self,target):
         if target not in self.room.players and target not in self.room.enemies:
             return 'Can\'t find Target!'
@@ -117,6 +122,7 @@ class Player(Actor):
         return f'{item_id} unequiped'
 
     def tick(self):
+        super().tick()
         
         if self.ticks_passed % (30*3) == 0:
             self.regen(hp = self.stats['con'])

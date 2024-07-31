@@ -46,7 +46,7 @@ func _process(_delta):
 			
 
 	if panel.size.x <= min_size.x:
-		panel.size.x = min_size.x
+		panel.size.x = min_size.x 
 
 	if item.size.y  <= min_size.y:
 		item.size.y =  min_size.y
@@ -61,7 +61,6 @@ func _on_panel_gui_input(event):
 		var pos = panel.position + event.relative
 		#var size = get_window().size
 		#print(size)
-
 		panel.position = pos
 		
 		

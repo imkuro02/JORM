@@ -14,7 +14,7 @@ class Factory(WebSocketServerFactory):
         self.clients: set[protocol.ServerProtocol] = set()
         self._last_delta_time_checked = time.time()
         self.tickrate: int = 30
-        
+        self.server_time = time.time()
         self.premade = premade.get_premade()
         self.map = world.Map(self)
 
@@ -22,6 +22,7 @@ class Factory(WebSocketServerFactory):
         tickloop.start(1 / self.tickrate)
 
     def tick(self):
+        self.server_time = time.time()
         for r in self.map.rooms:
             self.map.rooms[r].tick()
 

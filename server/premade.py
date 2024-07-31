@@ -17,12 +17,12 @@ PLAYER_STATS = {
     'physic_damage': 2,
     'magic_damage': 2,
 
-    'str':      1,
-    'dex':      1,
-    'con':      1,
-    'int':      1,
-    'wis':      1,
-    'cha':      1
+    'str':      0,
+    'dex':      0,
+    'con':      0,
+    'int':      0,
+    'wis':      0,
+    'cha':      0
 }
 
 ENEMY_STATS = {
@@ -66,7 +66,7 @@ translations = {
     'str':'Strength',
     'dex':'Dexterity',
     'con':'Constitution',
-    'int':'Inteligence',
+    'int':'Intelligence',
     'wis':'Wisdom',
     'cha':'Charisma',
     

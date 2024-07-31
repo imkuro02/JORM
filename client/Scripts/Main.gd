@@ -12,6 +12,8 @@ var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
 var login_window
 var chat_window
 
+var SERVER_TIME = 0
+
 var PREMADE: Dictionary
 
 func _ready():
@@ -56,6 +58,8 @@ func LOGIN(p):
 func PLAY(p):
 	var _payloads = p.payloads
 	match p.action:
+		"ServerTime":
+			SERVER_TIME = _payloads[0]
 		"Premade":
 			PREMADE = _payloads[0]
 		"Chat":
@@ -96,6 +100,9 @@ func create_draggable_ui(parent,window_name,window_to_drag,resizeable = true):
 	return w
 	
 func _process(delta):
+	if SERVER_TIME != 0:
+		SERVER_TIME += delta
+		
 	socket.poll()
 	var socket_state = socket.get_ready_state()
 	if socket_state == WebSocketPeer.STATE_OPEN:

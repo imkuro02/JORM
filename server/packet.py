@@ -8,6 +8,8 @@ class Action(enum.Enum):
     Ok = enum.auto()
     Deny = enum.auto()
     Disconnect = enum.auto()
+
+    ServerTime = enum.auto()
     
     Premade = enum.auto()
     CharacterSheet = enum.auto()
@@ -69,6 +71,11 @@ class DisconnectPacket(Packet):
         super().__init__(Action.Disconnect, reason)
 
 #
+class ServerTimePacket(Packet):
+    def __init__(self, t):
+        super().__init__(Action.ServerTime, t)
+
+#
 class PremadePacket(Packet):
     def __init__(self, premade: dict):
         super().__init__(Action.Premade, premade)
@@ -126,6 +133,8 @@ class PartyLeavePacket(Packet):
 class PartyKickPacket(Packet):
     def __init__(self, actorID: int):
         super().__init__(Action.PartyKick, actorID)
+
+
 
 def from_json(json_str: str) -> Packet:
     obj_dict = json.loads(json_str)

@@ -20,6 +20,11 @@ class Room:
         self.enemies[enemy.name] = enemy
         enemy.room = self
 
+    def remove_enemy(self,enemy):
+        #self.enemies[player.name].protocol.broadcast(p,exclude_self=True)
+            
+        del self.enemies[enemy.name]
+
     def add_player(self,player):
         self.players[player.name] = player
         player.room = self
@@ -105,9 +110,12 @@ class Map:
         enemy0 = Enemy(name, stats)
         forest.add_enemy(utils.dc(enemy0))
 
-        name = 'Jake The Slime'
+        name = 'Sinclair The daddy dom bear'
         stats = utils.dc(premade.ENEMY_STATS)
-        stats['physic_block'] = 200
+        stats['max_hp'] = 100
+        stats['hp'] = 100
+        stats['physic_damage'] = 10
+        stats['crit_chance'] = 20
         enemy1 = Enemy(name, stats)
 
 
