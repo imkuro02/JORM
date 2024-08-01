@@ -78,6 +78,7 @@ translations = {
     'physic_damage': 'Physic Damage',
     'magic_damage': 'Magic Damage'
 }
+
 def create_all_skills():
     ods_file = ezodf.opendoc('skills.ods')
     sheet = ods_file.sheets[0]
@@ -229,6 +230,5 @@ def get_premade():
         'skills': create_all_skills()
     }
 if __name__ == '__main__':
-    
     p = get_premade()
     print(p['skills'])

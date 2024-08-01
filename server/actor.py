@@ -28,7 +28,11 @@ class Actor:
         for i in cooldowns_finished:
             del self.skill_cooldowns[i]
 
+    def set_cooldown(self,skill_id,cooldown):
+        self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
+
     def use_skill(self,skill_id):
+        # CONDITIONS AND EARLY RETURNS
         if skill_id not in self.skills:
             self.broadcast('You do not know that skill', self)
             return
@@ -47,43 +51,47 @@ class Actor:
             self.broadcast('Skill is on cooldown', self)
             return
 
+        # CHECK FOR CRIT
         crit = random.randrange(0,100)
         crit = crit <= self.stats['crit_chance']
+        # Print crit or not :p
         if crit:
-            
             self.broadcast(f'{self.name} used {skill["name"]}, its Critical!')
         else:
             self.broadcast(f'{self.name} used {skill["name"]}')
        
-        
+        # add cooldown of 3 seconds for every skill unless skill is on cooldown
         for i in self.skills:
+            if i in self.skill_cooldowns:
+                continue
             self.skill_cooldowns[i] = self.room.map.factory.server_time + 3
-        self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + 6
-
+        
+        # bleh
         targetting_oppesite = self.target.tag != self.tag
+
+        # use skill by id
         match skill_id:
             case 'slash':
+                self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
                 self.target.take_physic_damage(roll,skill['name'])
                 
             case 'stab':
+                self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 3
                 self.target.take_physic_damage(roll,skill['name'])
-
+    
             case 'firebolt':
+                self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['magic_damage'])
                 if crit: 
                     roll = roll * 2
-                    self.take_magic_damage(roll,skill['name'])
                 self.target.take_magic_damage(roll,skill['name'])
 
-
-            
-            
     def regen(self, hp = 0, mp = 0):
         if hp < 0: hp = 0
         if mp < 0: mp = 0
