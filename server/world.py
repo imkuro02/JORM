@@ -1,7 +1,7 @@
 
 import packet
 import premade
-from enemy import Enemy
+import enemy
 import utils
 
 class Room:
@@ -105,22 +105,15 @@ class Map:
         sewers.connect_room(village)
         forest.connect_room(village)
 
-        name = 'Josh The Skeleton'
-        stats = utils.dc(premade.ENEMY_STATS)
-        enemy0 = Enemy(name, stats)
-        forest.add_enemy(utils.dc(enemy0))
 
-        name = 'Sinclair The daddy dom bear'
-        stats = utils.dc(premade.ENEMY_STATS)
-        stats['max_hp'] = 100
-        stats['hp'] = 100
-        stats['physic_damage'] = 10
-        stats['crit_chance'] = 20
-        enemy1 = Enemy(name, stats)
-
-
+        enemy0 = enemy.new('skeleton')
+        enemy1 = enemy.new('skeleton')
+        enemy2 = enemy.new('slime')
+        enemy3 = enemy.new('slime')
         forest.add_enemy(utils.dc(enemy0))
         forest.add_enemy(utils.dc(enemy1))
+        forest.add_enemy(utils.dc(enemy2))
+        forest.add_enemy(utils.dc(enemy3))
 
      
 
