@@ -44,12 +44,23 @@ class Actor:
         skill = self.room.map.factory.premade['skills'][skill_id]
 
         if self.target.room != self.room:
-            self.broadcast('Target is not here', self)
+            self.broadcast(f'{self.target.name} is not here', self)
             return 
         
         if skill_id in self.skill_cooldowns:
-            self.broadcast('Skill is on cooldown', self)
+            self.broadcast(f'{skill["name"]} is on cooldown', self)
             return
+
+        if skill['mp_cost'] > self.stats['mp']:
+            self.broadcast(f'Not enough MP to use {skill["name"]}', self)
+            return
+
+        if skill['hp_cost'] > self.stats['mp']:
+            self.broadcast(f'Not enough HP to use {skill["name"]}', self)
+            return
+
+        self.stats['mp'] -= skill['mp_cost']
+        self.stats['hp'] -= skill['hp_cost']
 
         # CHECK FOR CRIT
         crit = random.randrange(0,100)
@@ -91,6 +102,29 @@ class Actor:
                 if crit: 
                     roll = roll * 2
                 self.target.take_magic_damage(roll,skill['name'])
+
+            case 'spit':
+                self.set_cooldown(skill_id,6)
+                roll = random.randrange(1,self.stats['physic_damage'])
+                if crit: 
+                    roll = roll * 2
+                self.target.take_magic_damage(roll,skill['name'])
+
+            case 'scratch':
+                self.set_cooldown(skill_id,6)
+                roll = random.randrange(1,self.stats['physic_damage'])
+                if crit: 
+                    roll = roll * 3
+                self.target.take_physic_damage(roll,skill['name'])
+
+            case 'push':
+                self.set_cooldown(skill_id,6)
+                roll = random.randrange(1,self.stats['physic_damage'])
+                if crit: 
+                    roll = roll * 3
+                self.broadcast(f'{self.target.name} lost {roll} MP!')
+                self.target.drain_mp(mp = roll)
+
 
     def regen(self, hp = 0, mp = 0):
         if hp < 0: hp = 0
@@ -134,6 +168,10 @@ class Actor:
 
         if self.stats['hp'] <= 0:
             self.die()
+
+    def drain_mp(self, mp):
+        self.stats['mp'] -= mp
+        if self.stats['mp'] < 0: self.stats['mp'] = 0
 
         
         

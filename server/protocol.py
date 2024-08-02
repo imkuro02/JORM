@@ -84,6 +84,31 @@ class ServerProtocol(WebSocketServerProtocol):
             if sender == self:
                 self.send_client(p)
 
+    def new_player(self, name):
+        room = self.factory.map.rooms['Village']
+            
+        self._actor = Player(self, name)
+        room.add_player(self._actor)
+
+        # add basic gear
+        basic_items = '''
+            head_basic
+            chest_basic
+            belt_basic
+            pants_basic
+            boots_basic
+            basic_accessory
+            basic_wand
+            basic_weapon
+            basic_shield
+            '''.split()
+
+        for i in basic_items:
+            self._actor.add_item(i,1)
+            self._actor.equip(i)
+        
+        self._actor.regen(hp=1000,mp=1000)
+
     def LOGIN(self, sender: 'ServerProtocol', p: packet.Packet):
         if p.action == packet.Action.Register:
             self.send_client(packet.DenyPacket('Registered'))
@@ -96,26 +121,10 @@ class ServerProtocol(WebSocketServerProtocol):
 
             self.onPacket(self,packet.PremadePacket(self.factory.premade))
 
-            name = p.payloads[0]
-
-            room = self.factory.map.rooms['Village']
-            
-            self._actor = Player(self, name)
-            room.add_player(self._actor)
+            self.new_player(p.payloads[0])
 
             
-            self._actor.add_item('potion0',1)
-            self._actor.add_item('katana',1)
-            self._actor.add_item('sword0',1)
-            self._actor.add_item('sword0',1)
-            self._actor.add_item('helmet0',1)
-            self._actor.add_item('rock',11)
 
-            self._actor.add_item('coins',1)
-
-            print(self._actor.equip('sword0'))
-            print(self._actor.unequip('sword0'))
-            print(self._actor.equip('sword0'))
    
           
 

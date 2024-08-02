@@ -67,7 +67,6 @@ func receive_flavoured_message(text):
 	var _skills  = MAIN.PREMADE['skills']
 	var _items   = MAIN.PREMADE['items']
 	var _exits   = ROOM['exits']
-
 	text = ' '+text+' '
 	for i in _items:
 		text = text.replace(' '+_items[i]['name']+' ', ' '+interactable('loot',i,_items[i]['name'])+' ')
@@ -76,6 +75,7 @@ func receive_flavoured_message(text):
 	for i in _players:
 		text = text.replace(' '+_players[i]['name']+' ', ' '+interactable('player',i,_players[i]['name'])+' ')
 	for i in _skills:
+		
 		text = text.replace(' '+_skills[i]['name']+' ', ' '+interactable('skill',i,_skills[i]['name'])+' ')
 	for i in _exits:
 		text = text.replace(' '+i+' ', ' '+interactable('exit', i, i )+' ')
@@ -186,7 +186,8 @@ func receive_character_sheet(_sheet):
 			continue
 
 		''' HORRIBLE TERRIBLE ITEM COMPARE CODE'''
-		var hovered_item_stat_number = ''
+		var hovered_item_stat_number = 0
+		var hovered_item_stat_number_display = ''
 		if hovered_item != null:
 			var _i = ITEMS[hovered_item]
 			if 'slot' in _i:
@@ -194,18 +195,22 @@ func receive_character_sheet(_sheet):
 					hovered_item_stat_number = int(_i['stats'][trans])
 					for e in sheet['equipment']:
 						if ITEMS[e]['slot'] == _i['slot']:
-							hovered_item_stat_number = int(_i['stats'][trans] - ITEMS[e]['stats'][trans])
+							if ITEMS[e] == _i:
+								hovered_item_stat_number = int(_i['stats'][trans]) * -1
+							else:
+								hovered_item_stat_number = int(_i['stats'][trans] - ITEMS[e]['stats'][trans]) 
+								
 					if hovered_item_stat_number == 0:
-						hovered_item_stat_number = '[color=gray]%s[/color]' % _i['stats'][trans]
-					elif hovered_item_stat_number >= 1:
-						hovered_item_stat_number = '[color=green]+%s[/color]' % hovered_item_stat_number
-					else:
-						hovered_item_stat_number = '[color=red]%s[/color]' % hovered_item_stat_number
-		'''OH GOD'''
-		
+						hovered_item_stat_number_display = '[color=gray][/color]' 
+					if hovered_item_stat_number > 0:
+						hovered_item_stat_number_display = '[color=green]+%s[/color]' % hovered_item_stat_number
+					if hovered_item_stat_number < 0:
+						hovered_item_stat_number_display = '[color=red]%s[/color]' % hovered_item_stat_number
+
 		var translated_name = MAIN.PREMADE['translations'][trans]
 		var stat_number = sheet['stats'][trans]
-		stats.text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number]	
+		stats.text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number_display]	
+		'''OH GOD'''
 	
 		
 	stats.text += '[/table]'
@@ -224,16 +229,26 @@ func receive_character_sheet(_sheet):
 	for i in sheet['inventory']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
 			continue
-		inv_text.text += '[cell]%s[/cell][cell]x%s[/cell]\n' % [interactable('inventory',i,ITEMS[i]['name']),sheet['inventory'][i]]
+	
+		var quantity = sheet['inventory'][i]
+		if quantity > 1:
+			quantity = ' x %s' % [quantity]
+		else:
+			quantity = ''
+		inv_text.text += '[cell]%s[/cell][cell]%s[/cell]\n' % [interactable('inventory',i,ITEMS[i]['name']),quantity]
+
+
 	inv_text.text += '[/table]'
 	
 	''' SKILLS '''
-	skills.text = ''
+	skills.text = '[table=3]'
 	for skill in sheet['skills']:
+		var cooldown = ''
 		if skill in sheet['skill_cooldowns']:
-			skills.text += '%s (%ss)\n' % [interactable('skill',skill,SKILLS[skill]['name']), abs(round(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill]))]
-		else:
-			skills.text += '%s\n' % [interactable('skill',skill,SKILLS[skill]['name'])]
+			cooldown = '(%ss)' % [abs(round(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill]))]
+		skills.text += '[cell]%s[/cell][cell] [color="aqua"]%s[/color][/cell][cell]%s[/cell]\n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
+		
+	skills.text += '[/table]'
 	
 func show_room():
 	var exits = ROOM['exits']

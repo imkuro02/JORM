@@ -6,29 +6,7 @@ import utils
 import premade
 from actor import Actor
 
-def new(enemy_id, name = None):
-    names = 'Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
-    names = names.split()
 
-    stats = utils.dc(premade.ENEMY_STATS)
-
-    if name == None:
-        name = random.choice(names)
-
-    match enemy_id:
-        case 'skeleton':
-            name += ' The Skeleton'
-            skills = ['slash','guard']
-        case 'slime':
-            name += ' The Slime'
-            skills = ['stab']
-            stats['max_hp'] = 20
-
-    stats['hp'] = stats['max_hp']
-    stats['mp'] = stats['max_mp']
-            
-    enemy = Enemy(name,stats,skills)
-    return enemy
 
 class Enemy(Actor):
     def __init__(self, name, stats, skills):

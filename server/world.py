@@ -3,6 +3,7 @@ import packet
 import premade
 import enemy
 import utils
+import random
 
 class Room:
     def __init__(self, map, name: str, description: str):
@@ -16,14 +17,58 @@ class Room:
     def connect_room(self,room):
         self.exits[room.name]=room
 
-    def add_enemy(self,enemy):
-        self.enemies[enemy.name] = enemy
-        enemy.room = self
-
-    def remove_enemy(self,enemy):
-        #self.enemies[player.name].protocol.broadcast(p,exclude_self=True)
+    def add_enemy(self, enemy_id, name = None):
+        retry = True
+        stats = utils.dc(premade.ENEMY_STATS)
+        retries = 0
+        while retry:
+            # define a list of possible names for monsters to spawn as
+            names = 'Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
+            names = names.split()
             
-        del self.enemies[enemy.name]
+            # if no name was defined when function was called get a random name from the list
+            if name == None:
+                name = random.choice(names)
+            
+            # add name prefix and customize stats
+            match enemy_id:
+                case 'skeleton':
+                    name += ' The Skeleton'
+                    skills = ['slash','guard']
+                case 'slime':
+                    name += ' The Slime'
+                    skills = ['spit','push']
+                    stats['max_hp'] = 20
+                    stats['magic_damage'] = 10
+                    stats['physic_damage'] = 10
+
+            
+            # if name is not already taken do not retry and the initialization and continue
+            if name not in self.enemies:
+                retry = False
+            # otherwise, set name to None so it can get randomized again
+            else:
+                name = None
+
+            # if this has repeated for more 10 or more times simply stop trying and dont spawn the enemy
+            retries += 1
+            if retries >= 10:
+                return
+
+        # set hp and mp to their maximum
+        stats['hp'] = stats['max_hp']
+        stats['mp'] = stats['max_mp']
+                
+        # create copy of this enemy
+        e = utils.dc(enemy.Enemy(name,stats,skills))
+
+        # ad the enemy to self.enemies and set the room for the enemy
+        self.enemies[e.name] = e
+        e.room = self
+
+    def remove_enemy(self,e):
+        #self.enemies[player.name].protocol.broadcast(p,exclude_self=True)
+        del self.enemies[e.name]
 
     def add_player(self,player):
         self.players[player.name] = player
@@ -105,15 +150,12 @@ class Map:
         sewers.connect_room(village)
         forest.connect_room(village)
 
+        forest.add_enemy('skeleton')
+        forest.add_enemy('skeleton')
+        forest.add_enemy('slime')
+        forest.add_enemy('slime')
+        forest.add_enemy('skeleton')
 
-        enemy0 = enemy.new('skeleton')
-        enemy1 = enemy.new('skeleton')
-        enemy2 = enemy.new('slime')
-        enemy3 = enemy.new('slime')
-        forest.add_enemy(utils.dc(enemy0))
-        forest.add_enemy(utils.dc(enemy1))
-        forest.add_enemy(utils.dc(enemy2))
-        forest.add_enemy(utils.dc(enemy3))
 
      
 

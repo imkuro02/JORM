@@ -2,10 +2,10 @@ from utils import dc
 import ezodf
 
 PLAYER_STATS = {
-    'hp':       100,
-    'mp':       100,
-    'max_hp':   100,
-    'max_mp':   100,
+    'hp':       20,
+    'mp':       20,
+    'max_hp':   20,
+    'max_mp':   20,
     'exp':      0,
     'points':   0,
 
@@ -91,13 +91,17 @@ def create_all_skills():
     for row in rows[1:]:
         row_values = [cell.value for cell in row]
         skill_id = row_values[0]
+        if skill_id == None:
+            continue
         skill_dict = dict(zip(labels, row_values))
         skill_dict[skill_id] = skill_dict
         _skills[skill_id] = {}
         _skills[skill_id]['name'] = skill_dict['name']
+        _skills[skill_id]['mp_cost'] = int(skill_dict['mp_cost'])
+        _skills[skill_id]['hp_cost'] = int(skill_dict['hp_cost'])
         _skills[skill_id]['description'] = skill_dict['description']
 
-    
+    print(_skills)
     return _skills
 
 def create_all_skill_sets():
