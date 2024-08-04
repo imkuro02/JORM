@@ -6,8 +6,32 @@ import utils
 
 from actor import Actor
 
+PLAYER_STATS = {
+    'hp':       20,
+    'mp':       20,
+    'max_hp':   20,
+    'max_mp':   20,
+    'exp':      0,
+    'points':   0,
+
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
+
+    'physic_damage': 2,
+    'magic_damage': 2,
+
+    'str':      0,
+    'dex':      0,
+    'con':      0,
+    'int':      0,
+    'wis':      0,
+    'cha':      0
+}
+
 class Player(Actor):
-    def __init__(self, protocol, name, stats = premade.PLAYER_STATS, equipment = [], inventory = {}, room = None):
+    def __init__(self, protocol, name, stats = PLAYER_STATS, equipment = [], inventory = {}, room = None):
         self.protocol = protocol
         self.name = name
         self.stats = utils.dc(stats)

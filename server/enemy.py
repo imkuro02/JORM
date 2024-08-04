@@ -3,7 +3,7 @@ import packet
 import random
 
 import utils
-import premade
+
 from actor import Actor
 
 class Loot:
@@ -13,30 +13,54 @@ class Loot:
         self.quantity_min = quantity_min
         self.quantity_max = quantity_max
 
+ENEMY_STATS = {
+    'hp':       10,
+    'mp':       10,
+    'max_hp':   10,
+    'max_mp':   10,
+
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
+
+    'physic_damage': 4,
+    'magic_damage': 4,
+
+    'str':      1,
+    'dex':      1,
+    'con':      1,
+    'int':      1,
+    'wis':      1,
+    'cha':      1
+}
+
 class Enemy(Actor):
-    def __init__(self, name, stats, skills):
+    def __init__(self, name, stats = ENEMY_STATS, skills = ['Guard'], loot_table = []):
         self.name = name
-        self.stats = utils.dc(stats)
+       
         self.room = None
         self.tag = 'enemy'
         self.ticks_passed = 0
         self.target = self
+        
+        self.stats = utils.dc(stats)
         self.skills = utils.dc(skills)
+        self.loot_table = utils.dc(loot_table)
+
         self.skill_cooldowns = {}
         self.player_damages = {}
-
-        self.loot = []
 
 
         self.roaming_text = ['Groans...','Roams around.','Farts.']
         self.chance_to_roam = 100
     
     def add_loot(self, loot: Loot):
-        self.loot.append(loot)
+        self.loot_table.append(loot)
 
     def roll_loot(self, owner):
         all_loot = {}
-        for i in self.loot:
+        for i in self.loot_table:
 
             if i.item_index not in self.room.map.factory.premade['items']:
                 print(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i.item_index}" but this does not exist!!!')
@@ -47,16 +71,19 @@ class Enemy(Actor):
             if drop_chance > i.drop_chance:
                 continue
 
-            quantity = random.randrange(i.quantity_min,i.quantity_max)
+            if i.quantity_max - i.quantity_min > 1:
+                quantity = random.randrange(i.quantity_min,i.quantity_max)
+            else:
+                quantity = 1
             owner.add_item(i.item_index,quantity)
             all_loot[self.room.map.factory.premade['items'][i.item_index]["name"]] = quantity
 
         if len(all_loot) <= 0:
             return
 
-        loot_text = 'You got!\n'
+        loot_text = 'Loot dropped: '
         for i in all_loot:
-            loot_text += f' {i} x {all_loot[i]} . '
+            loot_text += f' {i} x{all_loot[i]}   '
         self.broadcast(loot_text, owner)
 
 

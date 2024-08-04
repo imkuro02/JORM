@@ -1,6 +1,5 @@
 
 import packet
-import premade
 import enemy
 import utils
 import random
@@ -19,35 +18,46 @@ class Room:
 
     def add_enemy(self, enemy_id, name = None):
         retry = True
-        stats = utils.dc(premade.ENEMY_STATS)
         retries = 0
         while retry:
             # define a list of possible names for monsters to spawn as
             names = 'Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
             names = names.split()
-            loot = []
+            
             # if no name was defined when function was called get a random name from the list
             if name == None:
                 name = random.choice(names)
             
+            _enemy = enemy.Enemy(name)
             # add name prefix and customize stats
             match enemy_id:
                 case 'skeleton':
-                    name += ' The Skeleton'
-                    skills = ['slash','guard']
-                    stats['max_hp'] = 1
-                    loot = [
-                        enemy.Loot('corewrewins',100,1,100),
-                        enemy.Loot('fdsafds',75,1,5),
-                        enemy.Loot('fdsafdsa',10,1,2)
+                    _enemy.name += ' The Skeleton'
+                    _enemy.skills = ['slash','guard']
+                    _enemy.stats['max_hp'] = 1
+                    _enemy.loot_table = [
+                        enemy.Loot(item_index = 'money', drop_chance = 50, quantity_min = 10, quantity_max = 20),
+                        enemy.Loot(item_index = 'rock', drop_chance = 25, quantity_min = 1, quantity_max = 3)
                     ]
                 case 'slime':
-                    name += ' The Slime'
-                    skills = ['spit','push']
-                    stats['max_hp'] = 2
-                    stats['magic_damage'] = 10
-                    stats['physic_damage'] = 10
-
+                    _enemy.name += ' The Slime'
+                    _enemy.skills = ['spit','push']
+                    _enemy.stats['max_hp'] = 2
+                    _enemy.stats['magic_damage'] = 10
+                    _enemy.stats['physic_damage'] = 10
+                    _enemy.loot_table = [
+                        enemy.Loot(item_index = 'money', drop_chance = 100, quantity_min = 1, quantity_max = 10)
+                    ]
+                case 'gamer':
+                    _enemy.name += ' The Gamer'
+                    _enemy.skills = ['spit','push']
+                    _enemy.roaming_text = ['farts violently',' calls you a "!@#$%^&*" ']
+                    _enemy.stats['max_hp'] = 20
+                    _enemy.stats['physic_block'] = 10
+                    _enemy.stats['magic_block'] = 10
+                    _enemy.loot_table = [
+                        enemy.Loot(item_index = 'rock', drop_chance = 100, quantity_min = 1, quantity_max = 10)
+                    ]
             
             # if name is not already taken do not retry and the initialization and continue
             if name not in self.enemies:
@@ -62,16 +72,12 @@ class Room:
                 return
 
         # set hp and mp to their maximum
-        stats['hp'] = stats['max_hp']
-        stats['mp'] = stats['max_mp']
-                
-        # create copy of this enemy
-        e = enemy.Enemy(name,stats,skills)
-        e.loot = loot
+        _enemy.stats['hp'] = _enemy.stats['max_hp']
+        _enemy.stats['mp'] = _enemy.stats['max_mp']
 
         # ad the enemy to self.enemies and set the room for the enemy
-        self.enemies[e.name] = e
-        e.room = self
+        self.enemies[_enemy.name] = _enemy
+        _enemy.room = self
 
     def remove_enemy(self,e):
         #self.enemies[player.name].protocol.broadcast(p,exclude_self=True)
@@ -162,6 +168,19 @@ class Map:
         forest.add_enemy('slime')
         forest.add_enemy('slime')
         forest.add_enemy('skeleton')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        sewers.add_enemy('gamer')
+        
 
 
      

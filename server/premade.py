@@ -1,59 +1,6 @@
 from utils import dc
 import ezodf
 
-PLAYER_STATS = {
-    'hp':       20,
-    'mp':       20,
-    'max_hp':   20,
-    'max_mp':   20,
-    'exp':      0,
-    'points':   0,
-
-    'crit_chance':  0,
-    'dodge_chance': 0,
-    'physic_block': 0,
-    'magic_block':  0,
-
-    'physic_damage': 2,
-    'magic_damage': 2,
-
-    'str':      0,
-    'dex':      0,
-    'con':      0,
-    'int':      0,
-    'wis':      0,
-    'cha':      0
-}
-
-ENEMY_STATS = {
-    'hp':       10,
-    'mp':       10,
-    'max_hp':   10,
-    'max_mp':   10,
-
-    'crit_chance':  0,
-    'dodge_chance': 0,
-    'physic_block': 0,
-    'magic_block':  0,
-
-    'physic_damage': 4,
-    'magic_damage': 4,
-
-    'str':      1,
-    'dex':      1,
-    'con':      1,
-    'int':      1,
-    'wis':      1,
-    'cha':      1
-}
-
-PLAYER_SKILLS = {
-    'basic_attack': {
-        'name': 'Reckless Charge',
-        'description': 'Recklessly charge the target! dealing dealing between 1 and physic_damage'
-    }
-}
-
 translations = {
     'exp':'EXP',
     'points': 'Points',

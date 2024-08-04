@@ -81,6 +81,7 @@ func receive_flavoured_message(text):
 		text = text.replace(' '+i+' ', ' '+interactable('exit', i, i )+' ')
 	#print(Time.get_ticks_usec() - time)
 	
+	text = text.strip_edges(true, false)
 	chatbox.text += text + '\n'
 	MAIN.audio.play('message')
 	
