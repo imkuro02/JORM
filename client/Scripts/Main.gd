@@ -58,8 +58,14 @@ func LOGIN(p):
 func PLAY(p):
 	var _payloads = p.payloads
 	match p.action:
+		
 		"ServerTime":
-			SERVER_TIME = _payloads[0]
+			if SERVER_TIME == 0:
+				SERVER_TIME = _payloads[0]
+				print('time set')
+			print(SERVER_TIME - _payloads[0])
+			
+			
 		"Premade":
 			PREMADE = _payloads[0]
 		"Chat":
@@ -101,7 +107,7 @@ func create_draggable_ui(parent,window_name,window_to_drag,resizeable = true):
 	
 func _process(delta):
 	if SERVER_TIME != 0:
-		SERVER_TIME += delta
+		SERVER_TIME += delta*30
 		
 	socket.poll()
 	var socket_state = socket.get_ready_state()

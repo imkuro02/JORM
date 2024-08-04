@@ -136,6 +136,8 @@ class ServerProtocol(WebSocketServerProtocol):
             #self.broadcast(p,exclude_self=False)
 
     def tick(self):
+        if self.factory.server_time % (30*1) == 0:
+            self.send_client(packet.ServerTimePacket(self.factory.server_time))
         if not self._packet_queue.empty():
             s, p = self._packet_queue.get()
             self._state(s, p)

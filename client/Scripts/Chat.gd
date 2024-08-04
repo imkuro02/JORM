@@ -243,10 +243,12 @@ func receive_character_sheet(_sheet):
 	
 	''' SKILLS '''
 	skills.text = '[table=3]'
+	#print(MAIN.SERVER_TIME)
 	for skill in sheet['skills']:
+		
 		var cooldown = ''
 		if skill in sheet['skill_cooldowns']:
-			cooldown = '(%ss)' % [abs(round(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill]))]
+			cooldown = '(%ss)' % [int(abs(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill])/30)+1]
 		skills.text += '[cell]%s[/cell][cell] [color="aqua"]%s[/color][/cell][cell]%s[/cell]\n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
 		
 	skills.text += '[/table]'

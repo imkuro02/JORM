@@ -29,6 +29,7 @@ class Actor:
             del self.skill_cooldowns[i]
 
     def set_cooldown(self,skill_id,cooldown):
+        cooldown = cooldown * self.room.map.factory.tickrate
         self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
 
     def use_skill(self,skill_id):
@@ -67,7 +68,7 @@ class Actor:
         crit = crit <= self.stats['crit_chance']
         # Print crit or not :p
         if crit:
-            self.broadcast(f'{self.name} used {skill["name"]}, its Critical!')
+            self.broadcast(f'{self.name} used {skill["name"]} , its Critical!')
         else:
             self.broadcast(f'{self.name} used {skill["name"]}')
        
@@ -75,7 +76,7 @@ class Actor:
         for i in self.skills:
             if i in self.skill_cooldowns:
                 continue
-            self.skill_cooldowns[i] = self.room.map.factory.server_time + 3
+            self.set_cooldown(i,3)
         
         # bleh
         targetting_oppesite = self.target.tag != self.tag
@@ -101,6 +102,7 @@ class Actor:
                 roll = random.randrange(1,self.stats['magic_damage'])
                 if crit: 
                     roll = roll * 2
+                    self.take_magic_damage(roll,self,skill['name'])
                 self.target.take_magic_damage(roll,self,skill['name'])
 
             case 'spit':

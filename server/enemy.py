@@ -41,6 +41,7 @@ class Enemy(Actor):
        
         self.room = None
         self.tag = 'enemy'
+        self.id = 'No ID'
         self.ticks_passed = 0
         self.target = self
         

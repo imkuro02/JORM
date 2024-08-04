@@ -12,9 +12,14 @@ class Room:
         self.exits = {}
         self.players = {}
         self.enemies = {}
+        self.enemy_spawns = []
+        self.ticks_passed = 0
 
     def connect_room(self,room):
         self.exits[room.name]=room
+
+    def add_enemy_spawn(self, enemy_id: str, quantity: int, spawn_rate: int):
+        self.enemy_spawns.append({'enemy_id': enemy_id, 'quantity': quantity, 'spawn_rate': spawn_rate})
 
     def add_enemy(self, enemy_id, name = None):
         retry = True
@@ -29,6 +34,8 @@ class Room:
                 name = random.choice(names)
             
             _enemy = enemy.Enemy(name)
+            _enemy.id = enemy_id
+
             # add name prefix and customize stats
             match enemy_id:
                 case 'skeleton':
@@ -132,6 +139,20 @@ class Room:
        
         
     def tick(self):
+        self.ticks_passed += 1
+        
+
+        for spawn in self.enemy_spawns:
+            exisisting_enemies = 0
+            for e in self.enemies:
+                if self.enemies[e].id == spawn['enemy_id']:
+                    exisisting_enemies += 1
+            if exisisting_enemies >= spawn['quantity']:
+                continue
+            if (self.map.factory.server_time/30) % spawn['spawn_rate'] == 0:
+                self.add_enemy(spawn['enemy_id'])
+
+
         # create a temporary array of players since the original list will be changing if the player decides to move around
         player_names = []
         for p in self.players:
@@ -158,29 +179,21 @@ class Map:
         forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here.')
         sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village.')
 
+        
+
         village.connect_room(forest)
         village.connect_room(sewers)
         sewers.connect_room(village)
         forest.connect_room(village)
 
-        forest.add_enemy('skeleton')
+        #village.add_enemy_spawn('skeleton',1,10)
+        sewers.add_enemy_spawn('slime',3,15)
+
+        '''
         forest.add_enemy('skeleton')
         forest.add_enemy('slime')
-        forest.add_enemy('slime')
-        forest.add_enemy('skeleton')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        sewers.add_enemy('gamer')
-        
+        '''
+
 
 
      
