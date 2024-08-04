@@ -87,35 +87,35 @@ class Actor:
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
-                self.target.take_physic_damage(roll,skill['name'])
+                self.target.take_physic_damage(roll,self,skill['name'])
                 
             case 'stab':
                 self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 3
-                self.target.take_physic_damage(roll,skill['name'])
+                self.target.take_physic_damage(roll,self,skill['name'])
     
             case 'firebolt':
                 self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['magic_damage'])
                 if crit: 
                     roll = roll * 2
-                self.target.take_magic_damage(roll,skill['name'])
+                self.target.take_magic_damage(roll,self,skill['name'])
 
             case 'spit':
                 self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
-                self.target.take_magic_damage(roll,skill['name'])
+                self.target.take_magic_damage(roll,self,skill['name'])
 
             case 'scratch':
                 self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 3
-                self.target.take_physic_damage(roll,skill['name'])
+                self.target.take_physic_damage(roll,self,skill['name'])
 
             case 'push':
                 self.set_cooldown(skill_id,6)
@@ -138,36 +138,40 @@ class Actor:
         if self.stats['mp'] > self.stats['max_mp']:
             self.stats['mp'] = self.stats['max_mp']
 
-    def take_physic_damage(self, dmg, skill = None):
+    def take_physic_damage(self, dmg, damager, skill = None):
         dmg -= self.stats['physic_block']
 
         if dmg <= 0:
             dmg = 0    
 
-        self.stats['hp'] -= dmg
+        self.take_damage(dmg, damager)
 
-        p: packet = packet.FlavouredMessagePacket(f'{self.name} took {dmg} damage from {skill}')
-        for player in self.room.players:
-            self.room.players[player].protocol.onPacket(None,p)
+        self.broadcast(f'{self.name} took {dmg} damage from {skill}')
 
 
         if self.stats['hp'] <= 0:
             self.die()
 
-    def take_magic_damage(self, dmg, skill = None):
+        return dmg
+
+    def take_magic_damage(self, dmg, damager, skill = None):
         dmg -= self.stats['magic_block']
 
         if dmg <= 0:
             dmg = 0    
 
-        self.stats['hp'] -= dmg
+        self.take_damage(dmg, damager)
 
-        p: packet = packet.FlavouredMessagePacket(f'{self.name} took {dmg} magic damage from {skill}')
-        for player in self.room.players:
-            self.room.players[player].protocol.onPacket(None,p)
+        
+        self.broadcast(f'{self.name} took {dmg} magic damage from {skill}')
 
         if self.stats['hp'] <= 0:
             self.die()
+
+        return dmg
+
+    def take_damage(self, dmg, source):
+        self.stats['hp'] -= dmg
 
     def drain_mp(self, mp):
         self.stats['mp'] -= mp

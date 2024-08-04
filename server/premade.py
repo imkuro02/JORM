@@ -101,7 +101,6 @@ def create_all_skills():
         _skills[skill_id]['hp_cost'] = int(skill_dict['hp_cost'])
         _skills[skill_id]['description'] = skill_dict['description']
 
-    print(_skills)
     return _skills
 
 def create_all_skill_sets():
@@ -233,6 +232,7 @@ def get_premade():
         'translations': translations,
         'skills': create_all_skills()
     }
+
 if __name__ == '__main__':
     p = get_premade()
     print(p['skills'])

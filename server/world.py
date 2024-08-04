@@ -25,7 +25,7 @@ class Room:
             # define a list of possible names for monsters to spawn as
             names = 'Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
             names = names.split()
-            
+            loot = []
             # if no name was defined when function was called get a random name from the list
             if name == None:
                 name = random.choice(names)
@@ -35,10 +35,16 @@ class Room:
                 case 'skeleton':
                     name += ' The Skeleton'
                     skills = ['slash','guard']
+                    stats['max_hp'] = 1
+                    loot = [
+                        enemy.Loot('corewrewins',100,1,100),
+                        enemy.Loot('fdsafds',75,1,5),
+                        enemy.Loot('fdsafdsa',10,1,2)
+                    ]
                 case 'slime':
                     name += ' The Slime'
                     skills = ['spit','push']
-                    stats['max_hp'] = 20
+                    stats['max_hp'] = 2
                     stats['magic_damage'] = 10
                     stats['physic_damage'] = 10
 
@@ -60,7 +66,8 @@ class Room:
         stats['mp'] = stats['max_mp']
                 
         # create copy of this enemy
-        e = utils.dc(enemy.Enemy(name,stats,skills))
+        e = enemy.Enemy(name,stats,skills)
+        e.loot = loot
 
         # ad the enemy to self.enemies and set the room for the enemy
         self.enemies[e.name] = e
