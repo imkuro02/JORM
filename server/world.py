@@ -26,7 +26,9 @@ class Room:
         retries = 0
         while retry:
             # define a list of possible names for monsters to spawn as
-            names = 'Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
+            names = ''
+            names += ' Alice Bob Charlie Diana Edward Fiona George Hannah Ian Julia Kevin Laura Mike Nancy Oliver Patricia Quinn Rachel Steve Tina Ursula'
+            names += ' Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
             names = names.split()
             
             # if no name was defined when function was called get a random name from the list

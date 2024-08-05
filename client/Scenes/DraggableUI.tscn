@@ -41,6 +41,7 @@ toggle_mode = true
 icon = ExtResource("2_uyma2")
 
 [node name="Item" type="Panel" parent="Panel"]
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0

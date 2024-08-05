@@ -38,12 +38,11 @@ func _ready():
 	
 	
 func _process(_delta):
+	# print server time delay
+	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
 	refresh_players()
 	
-	
-	
 
-	
 func interaction(data):
 	hovered_item = null # just reset hovered item real quick
 	var w = interactions_popup.instantiate()
@@ -93,8 +92,10 @@ func interactable(tag, object, label):
 			col = 'aqua'
 		'enemy': 
 			col = 'coral'
-		'item':
-			col = 'gray'
+		'inventory':
+			col = 'LIGHT_STEEL_BLUE'
+		'equipment':
+			col = 'LIGHT_STEEL_BLUE'
 		'target':
 			col = 'yellow'
 		'exit':
@@ -118,8 +119,7 @@ func refresh_players():
 	if sheet == null:
 		return
 		
-	others.text += 'Players:\n'
-	
+	#others.text += 'Players:\n'
 	for player in ROOM['players']:
 		var character = ROOM['players'][player]
 		var id = player
@@ -132,7 +132,7 @@ func refresh_players():
 			others.text += interactable('player',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 	
-	others.text += 'Enemies:\n'
+	#others.text += 'Enemies:\n'
 	for enemy in ROOM['enemies']:
 		var character = ROOM['enemies'][enemy]
 		var id = enemy

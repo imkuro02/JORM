@@ -49,7 +49,7 @@ func create_interaction(data, activate_now = false):
 		_on_rich_text_label_meta_clicked(meta)
 
 	text.text = ''
-	text.text += '%s\n' % [data['label']]
+	#text.text += '%s\n' % [data['label']]
 	for interaction in interactions:
 			text.text += '[url={"%s":"%s"}][color=yellow]%s[/color][/url]\n' % [interaction, data['object'], interaction]
 
@@ -58,8 +58,17 @@ func _process(_delta):
 	panel.size = text.size + Vector2(16,16)
 	panel.position = text.position - Vector2(8,8)
 
+func _input(event):
+	if event is InputEventMouseButton:
+		var mouse_position = event.position
+		if get_rect().has_point(mouse_position):
+			#print("Mouse is within the panel's rect.")
+			pass
+		else:
+			queue_free()
+			#print("Mouse is outside the panel's rect.")
+	
 func _on_rich_text_label_meta_clicked(meta):
-	#print(meta)
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	var SKILLS = MAIN.PREMADE['skills']
@@ -119,4 +128,5 @@ func _on_rich_text_label_meta_clicked(meta):
 	self.queue_free()
 		
 func _on_rich_text_label_mouse_exited():
-	self.queue_free()
+	#self.queue_free()
+	pass

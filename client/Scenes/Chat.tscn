@@ -168,45 +168,44 @@ grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
 
-[node name="Settings" type="Panel" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0)
-offset_left = 912.0
-offset_top = 8.0
-offset_right = 1144.0
-offset_bottom = 152.0
-metadata/_edit_group_ = true
+[node name="Settings" type="VBoxContainer" parent="CanvasLayer"]
+clip_contents = true
+anchors_preset = -1
+anchor_left = 0.792
+anchor_top = 0.012
+anchor_right = 0.993
+anchor_bottom = 0.235
+offset_left = -0.384033
+offset_top = 0.224
+offset_right = 0.0639648
+offset_bottom = -0.280014
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Logout" type="Button" parent="CanvasLayer/Settings/VBoxContainer"]
+[node name="Logout" type="Button" parent="CanvasLayer/Settings"]
 layout_mode = 2
 text = "Logout"
 
-[node name="Label" type="Label" parent="CanvasLayer/Settings/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Settings"]
 layout_mode = 2
 text = "Font Size"
 
-[node name="Font Size" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer"]
+[node name="Font Size" type="HSlider" parent="CanvasLayer/Settings"]
 layout_mode = 2
 min_value = 16.0
 max_value = 32.0
 value = 20.0
 
-[node name="Label2" type="Label" parent="CanvasLayer/Settings/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/Settings"]
 layout_mode = 2
 text = "Volume"
 
-[node name="Audio Volume" type="HSlider" parent="CanvasLayer/Settings/VBoxContainer"]
+[node name="Audio Volume" type="HSlider" parent="CanvasLayer/Settings"]
 layout_mode = 2
 min_value = -80.0
 max_value = 0.0
 step = 0.2
+
+[node name="Delay" type="Label" parent="CanvasLayer/Settings"]
+layout_mode = 2
 
 [node name="Skills" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 208.0
@@ -221,7 +220,7 @@ meta_underlined = false
 
 [node name="Others" type="RichTextLabel" parent="CanvasLayer"]
 offset_left = 912.0
-offset_top = 208.0
+offset_top = 216.0
 offset_right = 1144.0
 offset_bottom = 592.0
 bbcode_enabled = true
@@ -234,8 +233,8 @@ meta_underlined = false
 [connection signal="meta_clicked" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
 [connection signal="meta_hover_ended" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
 [connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
-[connection signal="pressed" from="CanvasLayer/Settings/VBoxContainer/Logout" to="." method="_on_logout_pressed"]
-[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Font Size" to="." method="_on_font_size_value_changed"]
-[connection signal="value_changed" from="CanvasLayer/Settings/VBoxContainer/Audio Volume" to="." method="_on_audio_volume_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Settings/Logout" to="." method="_on_logout_pressed"]
+[connection signal="value_changed" from="CanvasLayer/Settings/Font Size" to="." method="_on_font_size_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]
 [connection signal="meta_clicked" from="CanvasLayer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]

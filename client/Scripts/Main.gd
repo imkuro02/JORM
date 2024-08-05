@@ -14,6 +14,7 @@ var chat_window
 
 var SERVER_TIME = 0
 
+
 var PREMADE: Dictionary
 
 func _ready():
@@ -63,7 +64,8 @@ func PLAY(p):
 			if SERVER_TIME == 0:
 				SERVER_TIME = _payloads[0]
 				print('time set')
-			print(SERVER_TIME - _payloads[0])
+			# prints the offset of server time and client time
+			#print(SERVER_TIME - _payloads[0])
 			
 			
 		"Premade":
