@@ -45,7 +45,7 @@ func _process(_delta):
 
 	
 func interaction(data):
-	
+	hovered_item = null # just reset hovered item real quick
 	var w = interactions_popup.instantiate()
 	add_child(w)
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
