@@ -5,7 +5,7 @@ var socket = WebSocketPeer.new()
 const Packet = preload("res://Scripts/Packet.gd")
 var state: Callable
 var LOGIN_WINDOW = preload("res://Scenes/Login.tscn")
-var CHAT_WINDOW = preload("res://Scenes/Chat.tscn")
+var CHAT_WINDOW = preload("res://Scenes/Game.tscn")
 var AUDIO = preload("res://Scenes/AudioManager.tscn")
 var audio
 var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")

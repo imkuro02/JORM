@@ -39,10 +39,14 @@ func create_interaction(data, activate_now = false):
 		interactions = ['Grab','Inspect']
 		
 	if 'target' in data['tag']:
-		interactions = ['']
+		interactions = ['Untarget']
 		
 	if 'skill' in data['tag']:
 		interactions = ['Use Skill','Skill Description']
+		
+	if 'look' in data['tag']:
+		activate_now = true
+		interactions = ['Look']
 		
 	if activate_now:
 		var meta = '{"%s":"%s"}' % [interactions[0], data['object']]
@@ -84,6 +88,8 @@ func _on_rich_text_label_meta_clicked(meta):
 		
 	var p = null
 	match action:
+		'Look':
+			MAIN.chat_window.show_room()
 		'Go':
 			p = Packet.new('Go',[object])
 			MAIN.audio.play('go')
@@ -101,6 +107,9 @@ func _on_rich_text_label_meta_clicked(meta):
 			MAIN.audio.play('message')
 		'Target':
 			p = Packet.new('Target',[object])
+			MAIN.audio.play('message')
+		'Untarget':
+			p = Packet.new('Target',[null])
 			MAIN.audio.play('message')
 		'Use Skill':
 			p = Packet.new('UseSkill',[object])

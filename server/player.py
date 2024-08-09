@@ -42,7 +42,7 @@ class Player(Actor):
         self.skills = []
         self.skill_cooldowns = {}
 
-        self.target = self
+        self.target = None
 
         self.ticks_passed = 0
 
@@ -55,13 +55,16 @@ class Player(Actor):
                 if skill not in self.skills:
                     self.skills.append(skill)
         #print(self.skills)
-
+        if self.target == None:
+            _target_name = 'None'
+        else:
+            _target_name = self.target.name
         return {
             'name':             self.name,
             'stats':            self.stats,
             'equipment':        self.equipment,
             'inventory':        self.inventory,
-            'target':           self.target.name,
+            'target':           _target_name,
             'skills':           self.skills,
             'skill_cooldowns':  self.skill_cooldowns
             }
@@ -70,6 +73,10 @@ class Player(Actor):
         pass
         
     def set_target(self,target):
+        if target == None:
+            self.target = None
+            return
+
         if target not in self.room.players and target not in self.room.enemies:
             return 'Can\'t find Target!'
 

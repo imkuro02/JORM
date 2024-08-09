@@ -1,6 +1,4 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bunsa4hauwco7"]
-
-[ext_resource type="FontFile" uid="uid://c8iaeabb7kd35" path="res://fonts/Ldfcomicsanslight-6dZo.ttf" id="1_ahfkh"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bunsa4hauwco7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2wuj4"]
 bg_color = Color(0.168627, 0.215686, 0.270588, 1)
@@ -11,7 +9,5 @@ border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
 
 [resource]
-default_font = ExtResource("1_ahfkh")
-default_font_size = 20
 Panel/styles/panel = SubResource("StyleBoxFlat_2wuj4")
 RichTextLabel/colors/default_color = Color(0.772549, 0.831373, 0.847059, 1)

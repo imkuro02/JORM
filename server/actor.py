@@ -44,6 +44,10 @@ class Actor:
         
         skill = self.room.map.factory.premade['skills'][skill_id]
 
+        if self.target == None:
+            self.broadcast(f'You are not targetting anyone', self)
+            return 
+
         if self.target.room != self.room:
             self.broadcast(f'{self.target.name} is not here', self)
             return 
