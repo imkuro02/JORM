@@ -75,7 +75,6 @@ class ServerProtocol(WebSocketServerProtocol):
                 self._actor.room.move_player(self._actor,p.payloads[0])
 
         if p.action == packet.Action.Target:
-            print(p)
             if sender == self:
                 if p.payloads[0] == '': 
                     target= self._actor.name

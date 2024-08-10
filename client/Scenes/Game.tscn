@@ -107,22 +107,18 @@ offset_right = 208.0
 offset_bottom = 592.0
 metadata/_edit_group_ = true
 
-[node name="Label" type="Label" parent="CanvasLayer/CharacterSheet"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 26.456
-text = "USERNAME USERNAME "
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer/CharacterSheet"]
 layout_mode = 2
 anchor_right = 1.0
-offset_top = 24.0
 offset_bottom = 384.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Name" type="Label" parent="CanvasLayer/CharacterSheet/GridContainer"]
+layout_mode = 2
+text = "USERNAME USERNAME "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HP_BAR" type="TextureProgressBar" parent="CanvasLayer/CharacterSheet/GridContainer"]
 layout_mode = 2

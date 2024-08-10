@@ -43,6 +43,37 @@ func _process(_delta):
 	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
 	refresh_players()
 	
+	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
+	if sheet != null:
+		#var time = Time.get_ticks_usec()
+		var meta_contents = []
+		var regex = RegEx.new()
+		regex.compile(r"\[url(.*?)\[/url\]")
+		var result = regex.search_all(chatbox.text)
+		for _match in result:
+			var str = '[url' + _match.get_string(1)+ '[/url]'
+			meta_contents.append(str) # Get the content between [meta] and [/meta]
+
+		for content in meta_contents:
+			if sheet['target'] in content:
+				chatbox.text = chatbox.text.replace(content,interactable('target',sheet['target'],sheet['target']))
+			else:
+				for enemy in ROOM['enemies']:
+					if enemy in content: 
+						chatbox.text = chatbox.text.replace(content,interactable('enemy',enemy,enemy))
+				for player in ROOM['players']:
+					if player in content: 
+						chatbox.text = chatbox.text.replace(content,interactable('player',player,player))
+						
+			if ('"tag":"target"' in content) and (sheet['target'] not in content):
+				regex.compile(r"\"label\":\"(.*?)\"")
+				var label_result = regex.search_all(content)
+				label_result = label_result[0].get_string(1)
+				chatbox.text = chatbox.text.replace(content,interactable('enemy',label_result,label_result))
+		#print(Time.get_ticks_usec() - time)
+		
+	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
+	
 
 func interaction(data):
 	hovered_item = null # just reset hovered item real quick
@@ -85,7 +116,7 @@ func receive_flavoured_message(text):
 	MAIN.audio.play('message')
 	
 func interactable(tag, object, label):
-	var x = '[url={"tag":"%s","object":"%s","label":"%s"}]%s[/url]' % [tag, object, label, label]
+	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="PINK"]%s[/color][/url]' % [tag, object, label, label]
 	var col
 	match tag:
 		'player':
@@ -113,7 +144,8 @@ func interactable(tag, object, label):
 			col = 'yellow'
 		_:
 			return x
-	x = '[color="%s"]' % [col] + x + '[/color]' 
+	#x = '[color="%s"]' % [col] + x + '[/color]' 
+	x = x.replace('PINK',col)
 	#print(x)
 	return x
 	
@@ -176,7 +208,7 @@ func receive_character_sheet(_sheet):
 	var SKILLS = MAIN.PREMADE['skills']
 	sheet = _sheet
 	
-	ch.get_node("Label").text = sheet['name']
+	ch.get_node("GridContainer/Name").text = sheet['name']
 	ch.get_node("GridContainer/HP_BAR").value = sheet['stats']['hp']
 	ch.get_node("GridContainer/HP_BAR").max_value = sheet['stats']['max_hp']
 	ch.get_node("GridContainer/MP_BAR").value = sheet['stats']['mp']

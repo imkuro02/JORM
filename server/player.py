@@ -78,6 +78,7 @@ class Player(Actor):
             return
 
         if target not in self.room.players and target not in self.room.enemies:
+            self.target = None
             return 'Can\'t find Target!'
 
         if target in self.room.players:
