@@ -55,21 +55,21 @@ func LOGIN(p):
 			chat_window = add_window(CHAT_WINDOW)
 		"Deny":
 			pass
-			
-func PLAY(p):
-	var _payloads = p.payloads
-	match p.action:
-		
 		"ServerTime":
 			if SERVER_TIME == 0:
 				SERVER_TIME = _payloads[0]
 				print('time set')
 			# prints the offset of server time and client time
 			#print(SERVER_TIME - _payloads[0])
-			
-			
 		"Premade":
+			print('set premade')
 			PREMADE = _payloads[0]
+			
+func PLAY(p):
+	var _payloads = p.payloads
+	match p.action:
+		
+		
 		"Chat":
 			var message = "Something went wrong with receiving Chat message"
 			if _payloads[1] == null:

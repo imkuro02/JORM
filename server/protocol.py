@@ -41,11 +41,6 @@ class ServerProtocol(WebSocketServerProtocol):
             self.send_client(p)
 
 
-        
-        if p.action == packet.Action.Premade:
-            if sender == self:
-                self.send_client(p)
-
         if p.action == packet.Action.CharacterSheet:
             if sender == self:
                 self.send_client(p)
@@ -86,7 +81,20 @@ class ServerProtocol(WebSocketServerProtocol):
 
         if p.action == packet.Action.Disconnect:
             if sender == self:
-                self.send_client(p)
+                self.send_client(p)     
+
+        if p.action == packet.Action.ServerTime:
+            if sender == self:
+                self.send_client(p) 
+
+        if p.action == packet.Action.Ok:
+            if sender == self:
+                self.send_client(p) 
+
+        if p.action == packet.Action.Premade:
+            if sender == self:
+                self.send_client(p) 
+        
 
     def new_player(self, name):
         room = self.factory.map.rooms['Village']
@@ -113,25 +121,50 @@ class ServerProtocol(WebSocketServerProtocol):
         
         self._actor.regen(hp=1000,mp=1000)
 
+
+        #self.factory.database.save_player(self._actor)
+        #self.factory.database.load_player(self._actor.name)
+        return
+
     def LOGIN(self, sender: 'ServerProtocol', p: packet.Packet):
         if p.action == packet.Action.Register:
             self.send_client(packet.DenyPacket('Registered'))
+            username = p.payloads[0]
+            password = p.payloads[1]
+            self.factory.database.create_account(username,password)
 
         if p.action == packet.Action.Login:
-            self.send_client(packet.OkPacket())
+            username = p.payloads[0]
+            password = p.payloads[1]
+            account = self.factory.database.get_account(username,password)
+
+            if len(account) != 1:
+                print('account not found, need to register first')
+                return
+
+            player = self.factory.database.load_player(username)
+            self.new_player(username)
+
+            if player == None:
+                print('player not found')
+                self.factory.database.save_player(self._actor)
+            else:
+                print('player found')
+                self._actor.inventory = player['inventory']
+                self._actor.equipment = player['equipment']
+                self._actor.stats = player['stats']
+                self._actor.skills = []
+
             self._state = self.PLAY
-
-            self.send_client(packet.ServerTimePacket(self.factory.server_time))
-
             self.onPacket(self,packet.PremadePacket(self.factory.premade))
-
-            self.new_player(p.payloads[0])
+            self.onPacket(self,packet.ServerTimePacket(self.factory.server_time))
+            self.onPacket(self,packet.OkPacket())
+            
+            
 
             
 
-   
-          
-
+            
             #print(self._actor.stats)
 
             
@@ -139,9 +172,12 @@ class ServerProtocol(WebSocketServerProtocol):
             #p = packet.ChatPacket(f'{self._actor.name} Logged in')
             #self.broadcast(p,exclude_self=False)
 
+       
+
     def tick(self):
         if self.factory.server_time % (30*1) == 0:
             self.send_client(packet.ServerTimePacket(self.factory.server_time))
+            
         if not self._packet_queue.empty():
             s, p = self._packet_queue.get()
             self._state(s, p)
@@ -173,8 +209,10 @@ class ServerProtocol(WebSocketServerProtocol):
         if self._state == self.PLAY:
             #p = packet.ChatPacket(f'{self._actor.name} Disconnected')
             #self.broadcast(p,exclude_self=True)
+            if self._actor != None:
+                self.factory.database.save_player(self._actor)
+                self._actor.room.remove_player(self._actor)
 
-            self._actor.room.remove_player(self._actor)
 
         self.factory.remove_protocol(self)
         print('Websocket connection closed ', 'unexpectedly' if not wasClean else 'cleanly', ' with code ', code,':', reason) 

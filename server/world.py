@@ -189,6 +189,7 @@ class Map:
 
         forest.add_enemy_spawn('skeleton',6,10)
         sewers.add_enemy_spawn('slime',3,15)
+        sewers.add_enemy_spawn('gamer',1,60)
 
         '''
         forest.add_enemy('skeleton')
