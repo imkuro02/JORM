@@ -33,7 +33,7 @@ class ServerProtocol(WebSocketServerProtocol):
             
 
                 message_sender  = self._actor.name
-                p = packet.FlavouredMessagePacket(f'{message_sender} Says {message}')
+                p = packet.FlavouredMessagePacket(f'{message_sender} Says: {message}')
                 self.broadcast(p,exclude_self=True)
             
         
@@ -75,8 +75,13 @@ class ServerProtocol(WebSocketServerProtocol):
                 self._actor.room.move_player(self._actor,p.payloads[0])
 
         if p.action == packet.Action.Target:
+            print(p)
             if sender == self:
-                response = self._actor.set_target(p.payloads[0])
+                if p.payloads[0] == '': 
+                    target= self._actor.name
+                else:
+                    target = p.payloads[0]
+                response = self._actor.set_target(target)
                 p = packet.ChatPacket(response)
                 self.onPacket(None,p)
 

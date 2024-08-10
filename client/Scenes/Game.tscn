@@ -38,7 +38,7 @@ patch_margin_bottom = 32
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 520.0
+offset_left = 528.0
 offset_top = 8.0
 offset_right = -248.0
 offset_bottom = -56.0
@@ -73,10 +73,10 @@ texture_filter = 1
 layout_mode = 2
 
 [node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
-offset_left = 208.0
+offset_left = 216.0
 offset_top = 8.0
-offset_right = 512.0
-offset_bottom = 328.0
+offset_right = 520.0
+offset_bottom = 384.0
 metadata/_edit_group_ = true
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Inventory"]
@@ -103,7 +103,7 @@ hint_underlined = false
 self_modulate = Color(1, 1, 1, 0)
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 184.0
+offset_right = 208.0
 offset_bottom = 592.0
 metadata/_edit_group_ = true
 
@@ -223,9 +223,9 @@ step = 0.2
 layout_mode = 2
 
 [node name="Skills" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 208.0
-offset_top = 384.0
-offset_right = 512.0
+offset_left = 216.0
+offset_top = 440.0
+offset_right = 520.0
 offset_bottom = 592.0
 bbcode_enabled = true
 text = "Players

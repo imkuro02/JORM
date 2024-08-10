@@ -177,20 +177,17 @@ class Map:
         self.factory = factory
         self.rooms = {}
 
-        'The Village, you see a path leading to the Forest , and a mlokk or smth leading to the Sewers below.'
-        a = 'The Village, you see a path leading to the Forest , and a mlokk or smth leading to the Sewers below.'*1
-        village = Room(self, 'Village',   a)
+        village = Room(self, 'Village',   'The Village , you see a path leading to the Forest , and a mlokk or smth leading to the Sewers below.')
         forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here')
         sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village ')
 
         
-
         village.connect_room(forest)
         village.connect_room(sewers)
         sewers.connect_room(village)
         forest.connect_room(village)
 
-        #village.add_enemy_spawn('skeleton',1,10)
+        forest.add_enemy_spawn('skeleton',6,10)
         sewers.add_enemy_spawn('slime',3,15)
 
         '''

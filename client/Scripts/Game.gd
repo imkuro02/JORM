@@ -26,7 +26,7 @@ var MAIN
 var ROOM = {}
 
 func _ready():
-	commands.text = '%s' % [interactable('look',0,'Look')]
+	commands.text = '%s | %s | %s' % [interactable('look',0,'Look'),interactable('self_target',0,'Self Target'),interactable('un_self_target',0,'Untarget')]
 	MAIN = get_tree().root.get_node('Main')
 	MAIN.create_draggable_ui(self,'Chat',$CanvasLayer/Chatbox)
 	MAIN.create_draggable_ui(self,'Character Sheet',ch)
@@ -97,14 +97,19 @@ func interactable(tag, object, label):
 		'equipment':
 			col = 'LIGHT_STEEL_BLUE'
 		'target':
-			col = 'yellow'
+			col = 'RED'
 		'exit':
 			col = 'green'
 		'skill':
 			col = 'LIGHT_GOLDENROD'
 		'loot':
-			col = 'yellow'
+			col = 'GOLDENROD'
+		# commands
 		'look':
+			col = 'yellow'
+		'self_target':
+			col = 'yellow'
+		'un_self_target':
 			col = 'yellow'
 		_:
 			return x
@@ -129,7 +134,7 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += interactable('target',id,'> '+name)
+			others.text += interactable('target',id,name)
 		else:
 			others.text += interactable('player',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
@@ -142,7 +147,7 @@ func refresh_players():
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
 		if sheet['target'] == id:
-			others.text += interactable('target',id,'> '+name)
+			others.text += interactable('target',id,name)
 		else:
 			others.text += interactable('enemy',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]

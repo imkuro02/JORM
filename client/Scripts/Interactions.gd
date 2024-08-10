@@ -15,16 +15,16 @@ func create_interaction(data, activate_now = false):
 	var json = JSON.new()
 	data = json.parse_string(data)
 
-	if 'player' in data['tag']:
+	if 'player' == data['tag']:
 		interactions = ['Target','Trade','Party invite']
 		
-	if 'enemy' in data['tag']:
+	if 'enemy' == data['tag']:
 		interactions = ['Target']
 		
-	if 'exit' in data['tag']:
+	if 'exit' == data['tag']:
 		interactions = ['Go']
 
-	if 'inventory' in data['tag']:
+	if 'inventory' == data['tag']:
 		if 'slot' in ITEMS[data['object']]:
 			interactions = ['Equip','Inspect','Drop','Drop all']
 		elif 'use_script' in ITEMS[data['object']]:
@@ -32,21 +32,30 @@ func create_interaction(data, activate_now = false):
 		else:
 			interactions = ['Inspect','Drop', 'Drop all']
 		
-	if 'equipment' in data['tag']:
+	if 'equipment' == data['tag']:
 		interactions = ['Unequip','Inspect']
 		
-	if 'loot' in data['tag']:
+	if 'loot' == data['tag']:
 		interactions = ['Grab','Inspect']
 		
-	if 'target' in data['tag']:
+	if 'target' == data['tag']:
 		interactions = ['Untarget']
 		
-	if 'skill' in data['tag']:
+	if 'skill' == data['tag']:
 		interactions = ['Use Skill','Skill Description']
 		
-	if 'look' in data['tag']:
+	if 'look' == data['tag']:
 		activate_now = true
 		interactions = ['Look']
+	
+	if 'self_target' == data['tag']:
+		activate_now = true
+		interactions = ['Target']
+		data['object'] = ''
+		
+	if 'un_self_target' == data['tag']:
+		activate_now = true
+		interactions = ['Untarget']
 		
 	if activate_now:
 		var meta = '{"%s":"%s"}' % [interactions[0], data['object']]
@@ -64,13 +73,8 @@ func _process(_delta):
 
 func _input(event):
 	if event is InputEventMouseButton:
-		var mouse_position = event.position
-		if get_rect().has_point(mouse_position):
-			#print("Mouse is within the panel's rect.")
-			pass
-		else:
-			queue_free()
-			#print("Mouse is outside the panel's rect.")
+		await get_tree().create_timer(0.1).timeout
+		queue_free()
 	
 func _on_rich_text_label_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
@@ -108,6 +112,9 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Target':
 			p = Packet.new('Target',[object])
 			MAIN.audio.play('message')
+		'Self Target':
+			p = Packet.new('Target',[object])
+			MAIN.audio.play('message')
 		'Untarget':
 			p = Packet.new('Target',[null])
 			MAIN.audio.play('message')
@@ -118,6 +125,7 @@ func _on_rich_text_label_meta_clicked(meta):
 			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]
 			MAIN.chat_window.receive_simple_message(text)
 		'Inspect':
+			print('fdsafsda')
 			var text = ''
 			text += '%s\n%s\n' % [ITEMS[object]['name'],ITEMS[object]['description']]
 			'''
