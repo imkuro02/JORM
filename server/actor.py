@@ -127,8 +127,8 @@ class Actor:
                 self.set_cooldown(skill_id,6)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
-                    roll = roll * 3
-                self.broadcast(f'{self.target.name} lost {roll} MP!')
+                    roll = roll * 2
+                self.broadcast(f'{self.target.name} lost {int(roll)} MP!')
                 self.target.drain_mp(mp = roll)
 
 

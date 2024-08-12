@@ -79,21 +79,30 @@ class DataBase:
     def save_player(self,actor):
         _stats = tuple(actor.stats.values())
         _actor = _stats + (actor.name,) 
-        try:
-            self.cursor.execute('''
+        self.cursor.execute('''
             INSERT INTO actors (
                 hp, mp, max_hp, max_mp, exp, points, crit_chance, dodge_chance,
                 physic_block, magic_block, physic_damage, magic_damage, str, dex, con, int, wis, cha, username
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', _actor)
-        except Exception as e:
-            #print(e)
-            self.cursor.execute('''
-            UPDATE actors
-            SET hp = ?, mp = ?, max_hp = ?, max_mp = ?, exp = ?, points = ?, crit_chance = ?, dodge_chance = ?,
-                physic_block = ?, magic_block = ?, physic_damage = ?, magic_damage = ?, str = ?, dex = ?, con = ?, 
-                int = ?, wis = ?, cha = ?
-            WHERE username = ?
+            ON CONFLICT(username) DO UPDATE SET
+                hp = excluded.hp,
+                mp = excluded.mp,
+                max_hp = excluded.max_hp,
+                max_mp = excluded.max_mp,
+                exp = excluded.exp,
+                points = excluded.points,
+                crit_chance = excluded.crit_chance,
+                dodge_chance = excluded.dodge_chance,
+                physic_block = excluded.physic_block,
+                magic_block = excluded.magic_block,
+                physic_damage = excluded.physic_damage,
+                magic_damage = excluded.magic_damage,
+                str = excluded.str,
+                dex = excluded.dex,
+                con = excluded.con,
+                int = excluded.int,
+                wis = excluded.wis,
+                cha = excluded.cha
             ''', _actor)
         
         

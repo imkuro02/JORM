@@ -69,7 +69,8 @@ func _process(_delta):
 				var label_result = regex.search_all(content)
 				label_result = label_result[0].get_string(1)
 				chatbox.text = chatbox.text.replace(content,interactable('enemy',label_result,label_result))
-		print(Time.get_ticks_usec() - time)
+				
+		#print(Time.get_ticks_usec() - time)
 		
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
 	
