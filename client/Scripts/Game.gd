@@ -42,7 +42,12 @@ func _process(_delta):
 	# print server time delay
 	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
 	refresh_players()
+	# trim chatbox to 90k characters
+	if len(chatbox.text) >= 90_000:
+		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
+	
+		
 	if sheet != null:
 		var time = Time.get_ticks_usec()
 		var meta_contents = []
@@ -116,8 +121,8 @@ func receive_flavoured_message(text):
 	MAIN.audio.play('message')
 	
 func interactable(tag, object, label):
-	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="PINK"]%s[/color][/url]' % [tag, object, label, label]
-	var col
+	var col = 'white'
+	
 	match tag:
 		'player':
 			col = 'aqua'
@@ -142,11 +147,8 @@ func interactable(tag, object, label):
 			col = 'yellow'
 		'un_self_target':
 			col = 'yellow'
-		_:
-			return x
-	#x = '[color="%s"]' % [col] + x + '[/color]' 
-	x = x.replace('PINK',col)
-	#print(x)
+			
+	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
 	return x
 	
 func refresh_players():

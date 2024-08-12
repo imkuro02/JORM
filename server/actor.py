@@ -76,11 +76,11 @@ class Actor:
         else:
             self.broadcast(f'{self.name} used {skill["name"]}')
        
-        # add cooldown of 3 seconds for every skill unless skill is on cooldown
+        # add cooldown of 6 seconds for every skill unless skill is on cooldown
         for i in self.skills:
             if i in self.skill_cooldowns:
                 continue
-            self.set_cooldown(i,3)
+            self.set_cooldown(i,6)
         
         # bleh
         targetting_oppesite = self.target.tag != self.tag
@@ -88,21 +88,21 @@ class Actor:
         # use skill by id
         match skill_id:
             case 'slash':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
                 self.target.take_physic_damage(roll,self,skill['name'])
                 
             case 'stab':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 3
                 self.target.take_physic_damage(roll,self,skill['name'])
     
             case 'firebolt':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['magic_damage'])
                 if crit: 
                     roll = roll * 2
@@ -110,21 +110,21 @@ class Actor:
                 self.target.take_magic_damage(roll,self,skill['name'])
 
             case 'spit':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
                 self.target.take_magic_damage(roll,self,skill['name'])
 
             case 'scratch':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 3
                 self.target.take_physic_damage(roll,self,skill['name'])
 
             case 'push':
-                self.set_cooldown(skill_id,6)
+                self.set_cooldown(skill_id,9)
                 roll = random.randrange(1,self.stats['physic_damage'])
                 if crit: 
                     roll = roll * 2
