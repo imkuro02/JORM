@@ -43,7 +43,7 @@ class Room:
                 case 'skeleton':
                     _enemy.name += ' The Skeleton'
                     _enemy.skills = ['slash','guard']
-                    _enemy.stats['max_hp'] = 1
+                    _enemy.stats['max_hp'] = 10
                     _enemy.loot_table = [
                         enemy.Loot(item_index = 'money', drop_chance = 50, quantity_min = 10, quantity_max = 20),
                         enemy.Loot(item_index = 'rock', drop_chance = 25, quantity_min = 1, quantity_max = 3)
@@ -51,7 +51,7 @@ class Room:
                 case 'slime':
                     _enemy.name += ' The Slime'
                     _enemy.skills = ['spit','push']
-                    _enemy.stats['max_hp'] = 2
+                    _enemy.stats['max_hp'] = 15
                     _enemy.stats['magic_damage'] = 10
                     _enemy.stats['physic_damage'] = 10
                     _enemy.loot_table = [

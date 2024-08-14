@@ -156,7 +156,7 @@ class Player(Actor):
     def tick(self):
         super().tick()
         
-        if self.ticks_passed % (30*3) == 0:
+        if self.ticks_passed % (30*10) == 0:
             self.regen(hp = self.stats['con'])
             self.regen(mp = self.stats['int'])
 
