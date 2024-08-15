@@ -6,12 +6,13 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
 @onready var settings = $Settings
-@onready var others = $Others
-@onready var ch = $Self/CharacterSheet
-@onready var inv = $Self/Inventory
-@onready var inv_text = $Self/Inventory/Inventory
-@onready var inv_search = $Self/Inventory/LineEdit
-@onready var skills = $Skills
+@onready var others = $RightPanel/VSplitContainer/Others
+@onready var ch = $LeftPanel/VSplitContainer/CharacterSheet
+@onready var inv = $LeftPanel/VSplitContainer/Inventory
+@onready var inv_text = $LeftPanel/VSplitContainer/Inventory/Inventory
+@onready var inv_search = $LeftPanel/VSplitContainer/Inventory/LineEdit
+@onready var skills = $RightPanel/VSplitContainer/Skills
+@onready var combat_panel = $CombatPanel/Combat
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -212,14 +213,18 @@ func receive_character_sheet(_sheet):
 	var SKILLS = MAIN.PREMADE['skills']
 	sheet = _sheet
 	
-	ch.get_node("GridContainer/Name").text = sheet['name']
-	ch.get_node("GridContainer/HP_BAR").value = sheet['stats']['hp']
-	ch.get_node("GridContainer/HP_BAR").max_value = sheet['stats']['max_hp']
-	ch.get_node("GridContainer/MP_BAR").value = sheet['stats']['mp']
-	ch.get_node("GridContainer/MP_BAR").max_value = sheet['stats']['max_mp']
-	ch.get_node("GridContainer/HP_BAR/Label").text = 'HP: %s/%s' % [sheet['stats']['hp'],sheet['stats']['max_hp']]
-	ch.get_node("GridContainer/MP_BAR/Label").text = 'MP: %s/%s' % [sheet['stats']['mp'],sheet['stats']['max_mp']]
+	combat_panel.get_node("Self").set_sheet(sheet)
+	
+	var target_sheet 
+	if sheet['target'] in ROOM['players']:
+		target_sheet = ROOM['players'][sheet['target']]
+	elif sheet['target'] in ROOM['enemies']:
+		target_sheet = ROOM['enemies'][sheet['target']]
+	else:
+		target_sheet = null
 
+	combat_panel.get_node("Target").set_sheet(target_sheet)
+	
 	
 	var stats = ch.get_node('RichTextLabel')
 	stats.text = ''

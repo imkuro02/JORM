@@ -29,7 +29,6 @@ theme = ExtResource("1_dv228")
 script = ExtResource("1_57mj3")
 
 [node name="ColorRect" type="TextureRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_4xbnj")
 layout_mode = 1
 anchors_preset = 15
@@ -47,3 +46,12 @@ stretch_mode = 4
 [node name="Palette" type="Sprite2D" parent="."]
 position = Vector2(-977, 617)
 texture = ExtResource("6_n864l")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.780392)
