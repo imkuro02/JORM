@@ -29,6 +29,7 @@ theme = ExtResource("1_dv228")
 script = ExtResource("1_57mj3")
 
 [node name="ColorRect" type="TextureRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_4xbnj")
 layout_mode = 1
 anchors_preset = 15

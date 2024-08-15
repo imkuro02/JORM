@@ -2,16 +2,16 @@ extends Control
 
 const Packet = preload("res://Scripts/Packet.gd")
 
-@onready var chatbox = $Chatbox/Chatbox
-@onready var input = $Chatbox/LineEdit
-@onready var commands = $Chatbox/Commands
-@onready var settings = $Settings
-@onready var others = $Others
-@onready var ch = $Self/CharacterSheet
-@onready var inv = $Self/Inventory
-@onready var inv_text = $Self/Inventory/Inventory
-@onready var inv_search = $Self/Inventory/LineEdit
-@onready var skills = $Skills
+@onready var chatbox = $CanvasLayer/Chatbox/Chatbox
+@onready var input = $CanvasLayer/Chatbox/LineEdit
+@onready var commands = $CanvasLayer/Chatbox/Commands
+@onready var settings = $CanvasLayer/Settings
+@onready var others = $CanvasLayer/Others
+@onready var ch = $CanvasLayer/CharacterSheet
+@onready var inv = $CanvasLayer/Inventory
+@onready var inv_text = $CanvasLayer/Inventory/Inventory
+@onready var inv_search = $CanvasLayer/Inventory/LineEdit
+@onready var skills = $CanvasLayer/Skills
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -28,14 +28,12 @@ var ROOM = {}
 func _ready():
 	commands.text = '%s | %s | %s' % [interactable('look',0,'Look'),interactable('self_target',0,'Self Target'),interactable('un_self_target',0,'Untarget')]
 	MAIN = get_tree().root.get_node('Main')
-	'''
 	MAIN.create_draggable_ui(self,'Chat',$CanvasLayer/Chatbox)
 	MAIN.create_draggable_ui(self,'Character Sheet',ch)
 	MAIN.create_draggable_ui(self,'Settings',settings)
 	MAIN.create_draggable_ui(self,'Inventory',inv)
 	MAIN.create_draggable_ui(self,'Others',others)
 	MAIN.create_draggable_ui(self,'Skills',skills)
-	'''
 	
 	
 	
@@ -191,14 +189,14 @@ func refresh_players():
 func receive_room(room):
 		
 	if 'name' not in ROOM:
-		#chatbox.text = ''
+		chatbox.text = ''
 		ROOM = room
 		show_room()
 		return
 		
 		
 	if ROOM['name'] != room['name']:
-		#chatbox.text = ''
+		chatbox.text = ''
 		ROOM = room
 		show_room()
 		return
@@ -228,6 +226,7 @@ func receive_character_sheet(_sheet):
 		#if trans in ['hp','mp','max_hp','max_mp']:
 		if trans in ['hp','mp']:
 			continue
+
 		''' HORRIBLE TERRIBLE ITEM COMPARE CODE'''
 		var hovered_item_stat_number = 0
 		var hovered_item_stat_number_display = ''
@@ -254,18 +253,19 @@ func receive_character_sheet(_sheet):
 		var stat_number = sheet['stats'][trans]
 		stats.text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number_display]	
 		'''OH GOD'''
-	stats.text += '[/table]'
 	
+		
+	stats.text += '[/table]'
 	inv_text.text = ''
-	inv_text.text += '[center]Equipment[/center]\n'
-
+	inv_text.text += 'Equipment:\n'
+	inv_text.text += '[table=2]'
 	for i in sheet['equipment']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
 			continue
-		#inv_text.text += '[cell]%s:   [/cell][cell]%s[/cell]\n' % [ITEMS[i]['slot'].capitalize(), interactable('equipment',i,ITEMS[i]['name'])]
-		inv_text.text += '%s\n' % [interactable('equipment',i,ITEMS[i]['name'])]
+		inv_text.text += '[cell]%s:   [/cell][cell]%s[/cell]\n' % [ITEMS[i]['slot'].capitalize(), interactable('equipment',i,ITEMS[i]['name'])]
 
-	inv_text.text += '[center]Inventory[/center]\n'
+	inv_text.text += '[/table]'
+	inv_text.text += '\n\nInventory:\n'
 
 	inv_text.text += '[table=2]' 
 	for i in sheet['inventory']:
@@ -283,23 +283,23 @@ func receive_character_sheet(_sheet):
 	inv_text.text += '[/table]'
 	
 	''' SKILLS '''
-	skills.text = '[table=2]'
+	skills.text = '[table=3]'
 	#print(MAIN.SERVER_TIME)
 	for skill in sheet['skills']:
 		
 		var cooldown = ''
 		if skill in sheet['skill_cooldowns']:
 			cooldown = '(%ss)' % [int(abs(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill])/30)+1]
-		skills.text += '[cell]%s[/cell][cell][color="aqua"]%s[/color] %s[/cell] \n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
+		skills.text += '[cell]%s[/cell][cell] [color="aqua"]%s[/color][/cell][cell]%s[/cell]\n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
 		
 	skills.text += '[/table]'
 	
 func show_room():
 	#chatbox.text = ''
 	var exits = ROOM['exits']
-	chatbox.text += '[b]%s[/b]\n' % [ROOM['name']]
+	chatbox.text += '[center]~~~ %s ~~~[/center]\n' % [ROOM['name']]
 	var desc = ROOM['description']
-	desc = desc + '\n'
+	desc = desc + '\n\n'
 	receive_flavoured_message(desc)
 	
 func send(text: String):

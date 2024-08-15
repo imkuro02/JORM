@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=5 format=3 uid="uid://jegqc35wf1ts"]
 
+[ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
 [ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_ri2kw"]
 [ext_resource type="Texture2D" uid="uid://bwrf2tfgebyjw" path="res://Images/bar.png" id="3_btu2q"]
@@ -14,19 +15,21 @@ grow_vertical = 2
 script = ExtResource("1_olyvw")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="TextureRect" type="NinePatchRect" parent="CanvasLayer"]
 visible = false
+
+[node name="TextureRect" type="NinePatchRect" parent="."]
 texture_filter = 1
+use_parent_material = true
+layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.021
-anchor_top = 0.099
-anchor_right = 0.979
-anchor_bottom = 0.963
-offset_left = -16.192
-offset_top = -16.152
-offset_right = 16.192
-offset_bottom = 15.976
+anchor_left = 0.451
+anchor_top = 0.025
+anchor_right = 0.722
+anchor_bottom = 0.198
+offset_left = 0.447937
+offset_top = -0.200001
+offset_right = 0.25592
+offset_bottom = -0.304016
 texture = ExtResource("2_ri2kw")
 region_rect = Rect2(0, 0, 128, 128)
 patch_margin_left = 32
@@ -34,21 +37,25 @@ patch_margin_top = 32
 patch_margin_right = 32
 patch_margin_bottom = 32
 
-[node name="Chatbox" type="VBoxContainer" parent="CanvasLayer"]
-anchors_preset = 15
+[node name="Chatbox" type="VBoxContainer" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.198
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 528.0
-offset_top = 8.0
-offset_right = -248.0
-offset_bottom = -56.0
+offset_left = 328.0
+offset_top = 7.69598
+offset_right = -8.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_4mtw6")
 metadata/_edit_group_ = true
 
-[node name="Chatbox" type="RichTextLabel" parent="CanvasLayer/Chatbox"]
+[node name="Chatbox" type="RichTextLabel" parent="Chatbox"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -58,7 +65,7 @@ scroll_following = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="Commands" type="RichTextLabel" parent="CanvasLayer/Chatbox"]
+[node name="Commands" type="RichTextLabel" parent="Chatbox"]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -68,23 +75,111 @@ scroll_following = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Chatbox"]
+[node name="LineEdit" type="LineEdit" parent="Chatbox"]
 texture_filter = 1
 layout_mode = 2
 
-[node name="Inventory" type="VBoxContainer" parent="CanvasLayer"]
-offset_left = 240.0
+[node name="Self" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
 offset_top = 8.0
-offset_right = 520.0
-offset_bottom = 384.0
+offset_right = 312.0
+offset_bottom = -8.0
+grow_vertical = 2
+
+[node name="CharacterSheet" type="Panel" parent="Self"]
+self_modulate = Color(1, 1, 1, 0)
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
 metadata/_edit_group_ = true
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Inventory"]
+[node name="GridContainer" type="GridContainer" parent="Self/CharacterSheet"]
+layout_mode = 2
+anchor_right = 1.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="Label" parent="Self/CharacterSheet/GridContainer"]
+layout_mode = 2
+text = "USERNAME USERNAME "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HP_BAR" type="TextureProgressBar" parent="Self/CharacterSheet/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("3_btu2q")
+texture_progress = ExtResource("3_btu2q")
+tint_under = Color(0.788235, 0, 0, 1)
+tint_progress = Color(0.00392157, 0.647059, 0, 1)
+
+[node name="Label" type="Label" parent="Self/CharacterSheet/GridContainer/HP_BAR"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100/250"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MP_BAR" type="TextureProgressBar" parent="Self/CharacterSheet/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+allow_greater = true
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("3_btu2q")
+texture_progress = ExtResource("3_btu2q")
+tint_under = Color(0.788235, 0, 0, 1)
+tint_progress = Color(0.00392157, 0.647059, 1, 1)
+
+[node name="Label" type="Label" parent="Self/CharacterSheet/GridContainer/MP_BAR"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100/250"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Self/CharacterSheet"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+
+[node name="Inventory" type="VBoxContainer" parent="Self"]
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="LineEdit" type="LineEdit" parent="Self/Inventory"]
 layout_mode = 2
 focus_mode = 1
 placeholder_text = "Search Filter"
 
-[node name="Inventory" type="RichTextLabel" parent="CanvasLayer/Inventory"]
+[node name="Inventory" type="RichTextLabel" parent="Self/Inventory"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -99,154 +194,94 @@ text = "Upgrade costs:
 meta_underlined = false
 hint_underlined = false
 
-[node name="CharacterSheet" type="Panel" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0)
+[node name="Settings" type="VBoxContainer" parent="."]
+visible = false
+use_parent_material = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = 8.0
-offset_right = 232.0
-offset_bottom = 592.0
+offset_top = 488.0
+offset_right = -912.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_group_ = true
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CharacterSheet"]
-layout_mode = 2
-anchor_right = 1.0
-offset_bottom = 384.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Name" type="Label" parent="CanvasLayer/CharacterSheet/GridContainer"]
-layout_mode = 2
-text = "USERNAME USERNAME "
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HP_BAR" type="TextureProgressBar" parent="CanvasLayer/CharacterSheet/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-nine_patch_stretch = true
-stretch_margin_left = 16
-stretch_margin_top = 16
-stretch_margin_right = 16
-stretch_margin_bottom = 16
-texture_under = ExtResource("3_btu2q")
-texture_progress = ExtResource("3_btu2q")
-tint_under = Color(0.788235, 0, 0, 1)
-tint_progress = Color(0.00392157, 0.647059, 0, 1)
-
-[node name="Label" type="Label" parent="CanvasLayer/CharacterSheet/GridContainer/HP_BAR"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "HP: 100/250"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MP_BAR" type="TextureProgressBar" parent="CanvasLayer/CharacterSheet/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-allow_greater = true
-nine_patch_stretch = true
-stretch_margin_left = 16
-stretch_margin_top = 16
-stretch_margin_right = 16
-stretch_margin_bottom = 16
-texture_under = ExtResource("3_btu2q")
-texture_progress = ExtResource("3_btu2q")
-tint_under = Color(0.788235, 0, 0, 1)
-tint_progress = Color(0.00392157, 0.647059, 1, 1)
-
-[node name="Label" type="Label" parent="CanvasLayer/CharacterSheet/GridContainer/MP_BAR"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "HP: 100/250"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/CharacterSheet"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 104.0
-grow_horizontal = 2
-grow_vertical = 2
-bbcode_enabled = true
-
-[node name="Settings" type="VBoxContainer" parent="CanvasLayer"]
-clip_contents = true
-anchors_preset = -1
-anchor_left = 0.792
-anchor_top = 0.012
-anchor_right = 0.993
-anchor_bottom = 0.235
-offset_left = -0.384033
-offset_top = 0.224
-offset_right = 0.0639648
-offset_bottom = -0.280014
-
-[node name="Logout" type="Button" parent="CanvasLayer/Settings"]
+[node name="Logout" type="Button" parent="Settings"]
 layout_mode = 2
 text = "Logout"
 
-[node name="Label" type="Label" parent="CanvasLayer/Settings"]
+[node name="Label" type="Label" parent="Settings"]
 layout_mode = 2
 text = "Font Size"
 
-[node name="Font Size" type="HSlider" parent="CanvasLayer/Settings"]
+[node name="Font Size" type="HSlider" parent="Settings"]
 layout_mode = 2
 min_value = 12.0
 max_value = 32.0
 value = 16.0
 
-[node name="Label2" type="Label" parent="CanvasLayer/Settings"]
+[node name="Label2" type="Label" parent="Settings"]
 layout_mode = 2
 text = "Volume"
 
-[node name="Audio Volume" type="HSlider" parent="CanvasLayer/Settings"]
+[node name="Audio Volume" type="HSlider" parent="Settings"]
 layout_mode = 2
 min_value = -80.0
 max_value = 0.0
 step = 0.2
 
-[node name="Delay" type="Label" parent="CanvasLayer/Settings"]
+[node name="Delay" type="Label" parent="Settings"]
 layout_mode = 2
 
-[node name="Skills" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 240.0
-offset_top = 440.0
-offset_right = 520.0
-offset_bottom = 592.0
+[node name="Skills" type="RichTextLabel" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.012
+anchor_right = 0.444
+anchor_bottom = 0.185
+offset_left = 328.0
+offset_top = 0.224
+offset_right = 0.511963
+offset_bottom = 0.119995
+grow_horizontal = 0
+grow_vertical = 0
 bbcode_enabled = true
 text = "Players
 
 Enemies"
 meta_underlined = false
 
-[node name="Others" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 912.0
-offset_top = 216.0
-offset_right = 1144.0
-offset_bottom = 592.0
+[node name="Others" type="RichTextLabel" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.722
+anchor_right = 1.0
+anchor_bottom = 0.198
+offset_left = 8.25592
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.30402
+grow_horizontal = 2
+grow_vertical = 2
 bbcode_enabled = true
 text = "Players
 
 Enemies"
 meta_underlined = false
 
-[connection signal="meta_clicked" from="CanvasLayer/Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
-[connection signal="meta_clicked" from="CanvasLayer/Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
-[connection signal="meta_clicked" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
-[connection signal="meta_hover_ended" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
-[connection signal="meta_hover_started" from="CanvasLayer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
-[connection signal="pressed" from="CanvasLayer/Settings/Logout" to="." method="_on_logout_pressed"]
-[connection signal="value_changed" from="CanvasLayer/Settings/Font Size" to="." method="_on_font_size_value_changed"]
-[connection signal="value_changed" from="CanvasLayer/Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]
-[connection signal="meta_clicked" from="CanvasLayer/Skills" to="." method="_on_others_meta_clicked"]
-[connection signal="meta_clicked" from="CanvasLayer/Others" to="." method="_on_others_meta_clicked"]
+[connection signal="meta_clicked" from="Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
+[connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
+[connection signal="meta_clicked" from="Self/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
+[connection signal="meta_hover_ended" from="Self/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
+[connection signal="meta_hover_started" from="Self/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
+[connection signal="pressed" from="Settings/Logout" to="." method="_on_logout_pressed"]
+[connection signal="value_changed" from="Settings/Font Size" to="." method="_on_font_size_value_changed"]
+[connection signal="value_changed" from="Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]
+[connection signal="meta_clicked" from="Skills" to="." method="_on_others_meta_clicked"]
+[connection signal="meta_clicked" from="Others" to="." method="_on_others_meta_clicked"]
