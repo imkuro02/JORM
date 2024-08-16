@@ -13,6 +13,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var inv_search = $LeftPanel/VSplitContainer/Inventory/LineEdit
 @onready var skills = $RightPanel/VSplitContainer/Skills
 @onready var combat_panel = $CombatPanel/Combat
+@onready var background_manager = $BackgroundManager
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -108,7 +109,8 @@ func refresh_players():
 			others.text += interactable('target',id,name)
 		else:
 			others.text += interactable('player',id,name)
-		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+		others.text += '\n'
+		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 	
 	#others.text += 'Enemies:\n'
 	for enemy in ROOM['enemies']:
@@ -121,7 +123,8 @@ func refresh_players():
 			others.text += interactable('target',id,name)
 		else:
 			others.text += interactable('enemy',id,name)
-		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+		others.text += '\n'
+		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 
 func _process(_delta):
 	# print server time delay
@@ -183,7 +186,7 @@ func receive_flavoured_message(text):
 	text = text + '\n'
 	text = text.strip_edges(true, false)
 	chat_message_queue.append(text)
-	print(Time.get_ticks_usec() - time)
+	#print(Time.get_ticks_usec() - time)
 
 	
 	
@@ -227,14 +230,14 @@ func receive_room(room):
 	if 'name' not in ROOM:
 		#chatbox.text = ''
 		ROOM = room
-		show_room()
+		show_room(true)
 		return
 		
 		
 	if ROOM['name'] != room['name']:
 		#chatbox.text = ''
 		ROOM = room
-		show_room()
+		show_room(true)
 		return
 		
 	ROOM = room
@@ -321,24 +324,40 @@ func receive_character_sheet(_sheet):
 	inv_text.text += '[/table]'
 	
 	''' SKILLS '''
-	skills.text = '[table=2]'
+	skills.text = '[table=3]'
 	#print(MAIN.SERVER_TIME)
 	for skill in sheet['skills']:
 		
 		var cooldown = ''
 		if skill in sheet['skill_cooldowns']:
 			cooldown = '(%ss)' % [int(abs(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill])/30)+1]
-		skills.text += '[cell]%s[/cell][cell][color="aqua"]%s[/color] %s[/cell] \n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
+		skills.text += '[cell]%s [/cell][cell][color="aqua"]%s [/color][/cell][cell] %s[/cell] \n' % [interactable('skill',skill,SKILLS[skill]['name']),SKILLS[skill]['mp_cost'],cooldown]
 		
 	skills.text += '[/table]'
 	
-func show_room():
-	#chatbox.text = ''
+func show_room(clear = false):
+	if clear: 
+		chatbox.text = ''
+		
+	background_manager.new_room(ROOM['name'])
 	var exits = ROOM['exits']
-	var label = '<%s>\n' % [ROOM['name']]
+	var label = '[center][color="GOLD"]%s[/color][/center]\n' % [ROOM['name']]
 	var desc = ROOM['description']
 	desc = label + desc + '\n'
-	receive_flavoured_message(desc)
+	#receive_flavoured_message(desc)
+	for exit in exits:
+		desc += 'Go to: ' + interactable('exit',exit,exit) + '\n'
+		
+	
+	for player in ROOM['players']:
+		desc += interactable('player',player,player)+'\n'
+		
+	for enemy in ROOM['enemies']:
+		desc += interactable('enemy',enemy,enemy)+'\n'
+		
+	desc += 'Is here..\n'
+		
+	chatbox.text += desc
 	
 func send(text: String):
 	if len(text) > 0:

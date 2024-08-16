@@ -73,7 +73,7 @@ func PLAY(p):
 		"Chat":
 			var message = "Something went wrong with receiving Chat message"
 			if _payloads[1] == null:
-				chat_window.receive_simple_message(_payloads[0])
+				chat_window.receive_flavoured_message(_payloads[0])
 			else:
 				chat_window.receive_chat(_payloads[1], _payloads[0])
 			

@@ -97,7 +97,7 @@ class ServerProtocol(WebSocketServerProtocol):
         
 
     def new_player(self, name):
-        room = self.factory.map.rooms['Village']
+        room = self.factory.map.rooms['Small Town']
             
         self._actor = Player(self, name)
         room.add_player(self._actor)
@@ -141,6 +141,12 @@ class ServerProtocol(WebSocketServerProtocol):
             if len(account) != 1:
                 print('account not found, need to register first')
                 return
+
+            for client in self.factory.clients:
+                if client._actor != None:
+                    if client._actor.name == username:
+                        print('Already logged in')
+                        return
 
             player = self.factory.database.load_player(username)
             self.new_player(username)
@@ -189,7 +195,7 @@ class ServerProtocol(WebSocketServerProtocol):
             if client._state != client.PLAY:
                 continue
 
-            client.send_client(p)
+            client.onPacket(self,p)
         return
 
     def onPacket(self, sender: 'ServerProtocol', p: packet.Packet):

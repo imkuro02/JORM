@@ -153,6 +153,18 @@ class Player(Actor):
         self.equipment.remove(item_id)
         return f'{item_id} unequiped'
 
+    def room_update(self):
+        p = packet.RoomPacket(  self.room.name, 
+                                self.room.description, 
+                                [room_name for room_name in self.room.exits], 
+                                self.room.get_players(),
+                                self.room.get_enemies())
+                                
+        self.protocol.onPacket(self.protocol, p)
+
+        p = packet.CharacterSheetPacket(self.character_sheet())
+        self.protocol.onPacket(self.protocol, p)
+
     def tick(self):
         super().tick()
         
@@ -161,17 +173,7 @@ class Player(Actor):
             self.regen(mp = self.stats['int'])
 
         if self.ticks_passed % 3 == 0:
-            #print(self.character_sheet())
-            # send player a updated version of the room
-            p = packet.RoomPacket(  self.room.name, 
-                                    self.room.description, 
-                                    [room_name for room_name in self.room.exits], 
-                                    self.room.get_players(),
-                                    self.room.get_enemies())
-            self.protocol.onPacket(self.protocol, p)
-
-            p = packet.CharacterSheetPacket(self.character_sheet())
-            self.protocol.onPacket(self.protocol, p)
+           self.room_update()
 
         self.ticks_passed += 1
 

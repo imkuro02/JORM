@@ -97,11 +97,14 @@ class Room:
         self.players[player.name] = player
         player.room = self
 
-        p = packet.ChatPacket(f'{player.name} entered.')
+        for _player in self.players:
+            self.players[_player].room_update()
+
+        p = packet.FlavouredMessagePacket(f'{player.name} entered.')
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
 
     def remove_player(self,player):
-        p = packet.ChatPacket(f'{player.name} left.')
+        p = packet.FlavouredMessagePacket(f'{player.name} left.')
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
             
         del self.players[player.name]
@@ -178,10 +181,35 @@ class Map:
         self.factory = factory
         self.rooms = {}
 
+        smalltown =                 Room(self, 'Small Town',                 'Welcome to Small Town! its a.. well.. a small town, the Small Town Gate is just west of here, need to pass through the Small Town Ruins to get to it.')
+        smalltown_ruins =           Room(self, 'Small Town Ruins',           'Small Town Ruins, some Slimes seek refuge here, you can see Small Town Gate from here.')
+        smalltown_gate =            Room(self, 'Small Town Gate',            'The gateway to Small Town, need to pass through the Small Town Ruins first though. There is a path leading to the Forest West Of Small Town')
+        forest_west_smalltown =     Room(self, 'Forest West Of Small Town',  'The forest, wilderness.. A path leads deeper into the Forest East Of Big Town, and another path leading straight to Small Town Gate.')
+        forest_east_bigtown =       Room(self, 'Forest East Of Big Town',    'the forest, wilderness.. A path leads deeper into the Forest West Of Small Town, and another path leading straight to Big Town Gate')
+        bigtown_gate =              Room(self, 'Big Town Gate',              'The Big Town Gate, guarded by gamers... a path leads away into the Forest East Of Big Town')
+
+        smalltown.connect_room(smalltown_ruins)
+        smalltown_ruins.connect_room(smalltown)
+        smalltown_ruins.connect_room(smalltown_gate)
+        smalltown_gate.connect_room(smalltown_ruins)
+        smalltown_gate.connect_room(forest_west_smalltown)
+        forest_west_smalltown.connect_room(smalltown_gate)
+        forest_west_smalltown.connect_room(forest_east_bigtown)
+        forest_east_bigtown.connect_room(forest_west_smalltown)
+        forest_east_bigtown.connect_room(bigtown_gate)
+        bigtown_gate.connect_room(forest_east_bigtown)
+
+        self.add_room(smalltown)
+        self.add_room(smalltown_ruins)
+        self.add_room(smalltown_gate)
+        self.add_room(forest_west_smalltown)
+        self.add_room(forest_east_bigtown)
+        self.add_room(bigtown_gate)
+
         village = Room(self, 'Village',   'The Village, you see a path leading to the Forest. and a gate to the Sewers.')
         forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here')
         sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village ')
-
+    
         
         village.connect_room(forest)
         village.connect_room(sewers)
@@ -191,6 +219,13 @@ class Map:
         forest.add_enemy_spawn('skeleton',6,10)
         sewers.add_enemy_spawn('slime',3,15)
         sewers.add_enemy_spawn('gamer',1,60)
+
+        smalltown_ruins.add_enemy_spawn('slime',3,15)
+        smalltown_ruins.add_enemy_spawn('skeleton',1,60)
+        forest_west_smalltown.add_enemy_spawn('slime',5,16)
+        forest_east_bigtown.add_enemy_spawn('gamer',1,15)
+        bigtown_gate.add_enemy_spawn('gamer',3,15)
+
 
         '''
         forest.add_enemy('skeleton')
