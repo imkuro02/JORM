@@ -61,14 +61,14 @@ func _process(_delta):
 	get_node("MP_BAR").max_value = sheet['stats']['max_mp']
 	
 	if sheet['stats']['hp'] > get_node("HP_BAR").value:
-		get_node("HP_BAR").value += 0.1
+		get_node("HP_BAR").value += get_node("HP_BAR").max_value/100
 	if sheet['stats']['hp'] < get_node("HP_BAR").value:
-		get_node("HP_BAR").value -= 0.1
+		get_node("HP_BAR").value -= get_node("HP_BAR").max_value/100
 		
 	if sheet['stats']['mp'] > get_node("MP_BAR").value:
-		get_node("MP_BAR").value += 0.1
+		get_node("MP_BAR").value += get_node("MP_BAR").max_value/100
 	if sheet['stats']['mp'] < get_node("MP_BAR").value:
-		get_node("MP_BAR").value -= 0.1
+		get_node("MP_BAR").value -= get_node("MP_BAR").max_value/100
 	
 	
 	get_node("HP_BAR/Label").text = 'HP: %s/%s' % [sheet['stats']['hp'],sheet['stats']['max_hp']]

@@ -68,7 +68,7 @@ class Enemy(Actor):
                 self.broadcast(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i.item_index}" but this does not exist!!!')
                 return
 
-            drop_chance = random.randrange(0,100)
+            drop_chance = random.randrange(0,1_000_000)/1_000_000
             if drop_chance > i.drop_chance:
                 continue
 
@@ -99,6 +99,12 @@ class Enemy(Actor):
         _killer = None
         _damage = 0
         for player in self.player_damages:
+            # untarget if dead
+            if player in self.room.players:
+                if self.room.players[player].target == self:
+                    self.room.players[player].target = None
+
+
             if self.player_damages[player] > _damage:
                 _killer = player
                 _damage = self.player_damages[player] 

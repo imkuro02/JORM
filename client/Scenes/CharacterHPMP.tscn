@@ -16,7 +16,7 @@ vertical_alignment = 1
 [node name="HP_BAR" type="TextureProgressBar" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-step = 0.1
+step = 0.001
 nine_patch_stretch = true
 stretch_margin_left = 16
 stretch_margin_top = 16

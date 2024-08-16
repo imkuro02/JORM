@@ -7,20 +7,20 @@ import utils
 from actor import Actor
 
 PLAYER_STATS = {
-    'hp':       20,
-    'mp':       20,
-    'max_hp':   20,
-    'max_mp':   20,
+    'hp':       100,
+    'mp':       100,
+    'max_hp':   100,
+    'max_mp':   100,
     'exp':      0,
     'points':   0,
 
-    'crit_chance':  0,
-    'dodge_chance': 0,
+    'crit_chance':  5,
+    'dodge_chance': 5,
     'physic_block': 0,
     'magic_block':  0,
 
-    'physic_damage': 2,
-    'magic_damage': 2,
+    'physic_damage': 10,
+    'magic_damage': 10,
 
     'str':      0,
     'dex':      0,

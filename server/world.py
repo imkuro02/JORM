@@ -45,8 +45,8 @@ class Room:
                     _enemy.skills = ['slash','guard']
                     _enemy.stats['max_hp'] = 10
                     _enemy.loot_table = [
-                        enemy.Loot(item_index = 'money', drop_chance = 50, quantity_min = 10, quantity_max = 20),
-                        enemy.Loot(item_index = 'rock', drop_chance = 25, quantity_min = 1, quantity_max = 3)
+                        enemy.Loot(item_index = 'money', drop_chance = .5, quantity_min = 10, quantity_max = 20),
+                        enemy.Loot(item_index = 'rock', drop_chance = .25, quantity_min = 1, quantity_max = 3)
                     ]
                 case 'slime':
                     _enemy.name += ' The Slime'
@@ -55,7 +55,7 @@ class Room:
                     _enemy.stats['magic_damage'] = 10
                     _enemy.stats['physic_damage'] = 10
                     _enemy.loot_table = [
-                        enemy.Loot(item_index = 'money', drop_chance = 100, quantity_min = 1, quantity_max = 10)
+                        enemy.Loot(item_index = 'money', drop_chance = 1, quantity_min = 1, quantity_max = 10)
                     ]
                 case 'gamer':
                     _enemy.name += ' The Gamer'
@@ -65,7 +65,8 @@ class Room:
                     _enemy.stats['physic_block'] = 10
                     _enemy.stats['magic_block'] = 10
                     _enemy.loot_table = [
-                        enemy.Loot(item_index = 'rock', drop_chance = 100, quantity_min = 1, quantity_max = 10)
+                        enemy.Loot(item_index = 'rock', drop_chance = 1, quantity_min = 1, quantity_max = 10),
+                        enemy.Loot(item_index = 'gamer_katana', drop_chance = .1, quantity_min = 1, quantity_max = 10)
                     ]
             
             # if name is not already taken do not retry and the initialization and continue
