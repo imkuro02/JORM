@@ -22,7 +22,7 @@ func _ready():
 	add_child(audio)
 
 	
-	theme.default_font_size = 16
+	theme.default_font_size = 21
 	state = Callable(self, 'LOGIN')
 	login_window = add_window(LOGIN_WINDOW)
 	connect_to_server()

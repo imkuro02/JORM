@@ -25,32 +25,34 @@ var sheet
 var MAIN 
 
 var ROOM = {}
+var chat_message_queue = []
 
 func _ready():
-	commands.text = '%s | %s | %s' % [interactable('look',0,'Look'),interactable('self_target',0,'Self Target'),interactable('un_self_target',0,'Untarget')]
-	MAIN = get_tree().root.get_node('Main')
-	'''
-	MAIN.create_draggable_ui(self,'Chat',$CanvasLayer/Chatbox)
-	MAIN.create_draggable_ui(self,'Character Sheet',ch)
-	MAIN.create_draggable_ui(self,'Settings',settings)
-	MAIN.create_draggable_ui(self,'Inventory',inv)
-	MAIN.create_draggable_ui(self,'Others',others)
-	MAIN.create_draggable_ui(self,'Skills',skills)
-	'''
-	
-	
-	
-	
-func _process(_delta):
-	# print server time delay
-	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
-	refresh_players()
-	# trim chatbox to 90k characters
-	if len(chatbox.text) >= 90_000:
-		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
-	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
-	
+	commands.text = '%s | %s | %s | %s' % [
+		interactable('look',0,'Look'),
+		interactable('self_target',0,'Self Target'),
+		interactable('un_self_target',0,'Untarget'),
+		interactable('clear_chat',0,'Clear')
+		]
 		
+	MAIN = get_tree().root.get_node('Main')
+	
+	
+	
+var text_appended = false
+func chatbox_update():
+	if int(MAIN.SERVER_TIME) % 5 == 0:
+		if not text_appended:
+			if len(chat_message_queue) >= 1:
+				chatbox.text += chat_message_queue[0]
+				chat_message_queue.pop_at(0)
+				text_appended = true
+				MAIN.audio.play('message')
+	else:
+		text_appended = false
+
+func interactive_chatbox_update():
+	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
 	if sheet != null:
 		var time = Time.get_ticks_usec()
 		var meta_contents = []
@@ -81,79 +83,11 @@ func _process(_delta):
 		#print(Time.get_ticks_usec() - time)
 		
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
-	
 
-func interaction(data):
-	hovered_item = null # just reset hovered item real quick
-	var w = interactions_popup.instantiate()
-	add_child(w)
-	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
+func chatbox_trim_update():
+	if len(chatbox.text) >= 90_000:
+		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
 
-		
-	
-func receive_simple_message(text: String):
-	MAIN.audio.play('message')
-	chatbox.text += '%s\n' % [text]
-	
-func receive_chat(sender: String, text: String):
-	MAIN.audio.play('message')
-	chatbox.text += '%s Says %s\n' % [interactable('player',sender,sender),text]
-
-func receive_flavoured_message(text):
-	#var time = Time.get_ticks_usec()
-	var _players = ROOM['players']
-	var _enemies = ROOM['enemies']
-	var _skills  = MAIN.PREMADE['skills']
-	var _items   = MAIN.PREMADE['items']
-	var _exits   = ROOM['exits']
-	text = ' '+text+' '
-	for i in _items:
-		text = text.replace(' '+_items[i]['name']+' ', ' '+interactable('loot',i,_items[i]['name'])+' ')
-	for i in _enemies:
-		text = text.replace(' '+_enemies[i]['name']+' ', ' '+interactable('enemy',i,_enemies[i]['name'])+' ')
-	for i in _players:
-		text = text.replace(' '+_players[i]['name']+' ', ' '+interactable('player',i,_players[i]['name'])+' ')
-	for i in _skills:
-		text = text.replace(' '+_skills[i]['name']+' ', ' '+interactable('skill',i,_skills[i]['name'])+' ')
-	for i in _exits:
-		text = text.replace(' '+i+' ', ' '+interactable('exit', i, i )+' ')
-	#print(Time.get_ticks_usec() - time)
-	
-	text = text.strip_edges(true, false)
-	chatbox.text += text + '\n'
-	MAIN.audio.play('message')
-	
-func interactable(tag, object, label):
-	var col = 'white'
-	
-	match tag:
-		'player':
-			col = 'aqua'
-		'enemy': 
-			col = 'coral'
-		'inventory':
-			col = 'LIGHT_STEEL_BLUE'
-		'equipment':
-			col = 'LIGHT_STEEL_BLUE'
-		'target':
-			col = 'RED'
-		'exit':
-			col = 'green'
-		'skill':
-			col = 'LIGHT_GOLDENROD'
-		'loot':
-			col = 'GOLDENROD'
-		# commands
-		'look':
-			col = 'yellow'
-		'self_target':
-			col = 'yellow'
-		'un_self_target':
-			col = 'yellow'
-			
-	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
-	return x
-	
 func refresh_players():
 	others.text = ''
 	
@@ -188,6 +122,105 @@ func refresh_players():
 		else:
 			others.text += interactable('enemy',id,name)
 		others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+
+func _process(_delta):
+	# print server time delay
+	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
+	
+	refresh_players()
+	chatbox_trim_update()
+	chatbox_update()
+	interactive_chatbox_update()
+	
+	
+
+func interaction(data):
+	hovered_item = null # just reset hovered item real quick
+	var w = interactions_popup.instantiate()
+	add_child(w)
+	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
+
+func receive_simple_message(text: String):
+	MAIN.audio.play('message')
+	chatbox.text += '%s\n' % [text]
+	
+
+func receive_chat(sender: String, text: String):
+	MAIN.audio.play('message')
+	var msg = '%s Says %s\n' % [interactable('player',sender,sender),text]
+	chatbox.text += msg
+
+func receive_flavoured_message(text):
+	var time = Time.get_ticks_usec()
+	var _players = ROOM['players']
+	var _enemies = ROOM['enemies']
+	var _skills  = MAIN.PREMADE['skills']
+	var _items   = MAIN.PREMADE['items']
+	var _exits   = ROOM['exits']
+	
+	# Define the pattern types
+	text = ' '+text+' '
+	var patterns = [
+		{'type': 'loot', 'data': _items},
+		{'type': 'enemy', 'data': _enemies},
+		{'type': 'player', 'data': _players},
+		{'type': 'skill', 'data': _skills}
+	]
+	var acceptable_fixes = [',','.','\n',' ','?','!']
+	for pattern in patterns:
+		for key in pattern['data']:
+			for fix in acceptable_fixes:
+				text = text.replace(
+					''+pattern['data'][key]['name']+fix,
+					''+interactable(pattern['type'],key,pattern['data'][key]['name'])+fix)
+			
+	# exits dont have a names field
+	for i in _exits:
+		for fix in acceptable_fixes:
+			text = text.replace(''+i+fix, ''+interactable('exit', i, i )+fix)
+	
+	text = text.strip_edges(true, false)
+	text = text + '\n'
+	text = text.strip_edges(true, false)
+	chat_message_queue.append(text)
+	print(Time.get_ticks_usec() - time)
+
+	
+	
+func interactable(tag, object, label):
+	var col = 'white'
+	
+	match tag:
+		'player':
+			col = 'aqua'
+		'enemy': 
+			col = 'coral'
+		'inventory':
+			col = 'LIGHT_STEEL_BLUE'
+		'equipment':
+			col = 'LIGHT_STEEL_BLUE'
+		'target':
+			col = 'RED'
+		'exit':
+			col = 'green'
+		'skill':
+			col = 'LIGHT_GOLDENROD'
+		'loot':
+			col = 'GOLDENROD'
+		# commands
+		'clear_chat':
+			col = 'yellow'
+		'look':
+			col = 'yellow'
+		'self_target':
+			col = 'yellow'
+		'un_self_target':
+			col = 'yellow'
+			
+	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
+	return x
+	
+
 		
 func receive_room(room):
 		
@@ -302,9 +335,9 @@ func receive_character_sheet(_sheet):
 func show_room():
 	#chatbox.text = ''
 	var exits = ROOM['exits']
-	chatbox.text += '[b]%s[/b]\n' % [ROOM['name']]
+	var label = '<%s>\n' % [ROOM['name']]
 	var desc = ROOM['description']
-	desc = desc + '\n'
+	desc = label + desc + '\n'
 	receive_flavoured_message(desc)
 	
 func send(text: String):

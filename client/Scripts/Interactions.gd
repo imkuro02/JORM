@@ -36,7 +36,7 @@ func create_interaction(data, activate_now = false):
 		interactions = ['Unequip','Inspect']
 		
 	if 'loot' == data['tag']:
-		interactions = ['Grab','Inspect']
+		interactions = ['Inspect']
 		
 	if 'target' == data['tag']:
 		interactions = ['Untarget']
@@ -44,6 +44,10 @@ func create_interaction(data, activate_now = false):
 	if 'skill' == data['tag']:
 		interactions = ['Use Skill','Skill Description']
 		
+	if 'clear_chat' == data['tag']:
+		activate_now = true
+		interactions = ['Clear']
+
 	if 'look' == data['tag']:
 		activate_now = true
 		interactions = ['Look']
@@ -92,6 +96,8 @@ func _on_rich_text_label_meta_clicked(meta):
 		
 	var p = null
 	match action:
+		'Clear':
+			MAIN.chat_window.chatbox.text = ''
 		'Look':
 			MAIN.chat_window.show_room()
 		'Go':
@@ -123,7 +129,7 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Skill Description':
 			var text = ''
 			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]
-			MAIN.chat_window.receive_simple_message(text)
+			MAIN.chat_window.receive_flavoured_message(text)
 		'Inspect':
 			print('fdsafsda')
 			var text = ''
@@ -137,7 +143,7 @@ func _on_rich_text_label_meta_clicked(meta):
 					text += '[cell]%s: [/cell][cell]%s [/cell]\n' % [TRANS[stat_name],stat]
 				text += '[/table]'
 			'''
-			MAIN.chat_window.receive_simple_message(text)
+			MAIN.chat_window.receive_flavoured_message(text)
 			
 	if p != null:
 		MAIN.send_packet(p)

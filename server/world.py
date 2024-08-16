@@ -177,7 +177,7 @@ class Map:
         self.factory = factory
         self.rooms = {}
 
-        village = Room(self, 'Village',   'The Village , you see a path leading to the Forest , and a mlokk or smth leading to the Sewers below.')
+        village = Room(self, 'Village',   'The Village, you see a path leading to the Forest. and a gate to the Sewers.')
         forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here')
         sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village ')
 

@@ -75,7 +75,7 @@ class Actor:
 
         # Print crit or not :p
         if crit:
-            self.broadcast(f'{self.name} used {skill["name"]} , its Critical!')
+            self.broadcast(f'{self.name} used {skill["name"]}, its Critical!')
         else:
             self.broadcast(f'{self.name} used {skill["name"]}')
        

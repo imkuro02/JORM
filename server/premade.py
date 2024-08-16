@@ -17,7 +17,7 @@ translations = {
     'wis':'Wisdom',
     'cha':'Charisma',
     
-    'crit_chance':'Critical Chance',
+    'crit_chance':'Crit Chance',
     'dodge_chance':'Dodge Chance',
     'physic_block':'Physic Block',
     'magic_block':'Magic Block',
