@@ -86,7 +86,7 @@ func interactive_chatbox_update():
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
 
 func chatbox_trim_update():
-	if len(chatbox.text) >= 90_000:
+	if len(chatbox.text) >= 30_000:
 		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
 
 func refresh_players():
