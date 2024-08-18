@@ -3,3 +3,5 @@ openssl req -new -x509 -key server.key -out server.crt -days 365
 
 https://fantasylandscapes.itch.io/pixel-art-landscapes
 https://screamingbrainstudios.itch.io/tiny-texture-pack-2
+
+https://www.reddit.com/r/godot/comments/17ltxjp/webrtc_peertopeer_multiplayer_how_do_i_have_a/

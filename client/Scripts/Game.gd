@@ -13,7 +13,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var inv_search = $LeftPanel/VSplitContainer/Inventory/LineEdit
 @onready var skills = $RightPanel/VBoxContainer/Skills
 @onready var combat_panel = $CombatPanel/Combat
-var background_manager
+@onready var background_manager = $BackgroundManager
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -35,7 +35,7 @@ func _ready():
 		]
 		
 	MAIN = get_tree().root.get_node('Main')
-	background_manager = MAIN.get_node('BackgroundManager')
+
 	
 var chat_message_queue = []
 var text_appended = false

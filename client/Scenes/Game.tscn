@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=6 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
 [ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_ri2kw"]
+[ext_resource type="PackedScene" uid="uid://6btcj7krioeu" path="res://Scenes/BackgroundManager.tscn" id="2_y4kab"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
 
 [node name="Chat" type="Control"]
@@ -16,6 +17,9 @@ script = ExtResource("1_olyvw")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
+
+[node name="BackgroundManager" parent="." instance=ExtResource("2_y4kab")]
+layout_mode = 1
 
 [node name="TextureRect" type="NinePatchRect" parent="."]
 visible = false

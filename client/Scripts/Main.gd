@@ -12,6 +12,8 @@ var draggable_ui_chat = preload("res://Scenes/DraggableUI.tscn")
 var login_window
 var chat_window
 
+var screen_transition = preload("res://Scenes/Transition.tscn")
+
 var SERVER_TIME = 0
 
 
@@ -51,8 +53,16 @@ func LOGIN(p):
 	match p.action:
 		"Ok":
 			state = Callable(self, 'PLAY')
-			remove_window(login_window)
+			
 			chat_window = add_window(CHAT_WINDOW)
+			chat_window.visible = false
+			
+			var trans = screen_transition.instantiate()
+			add_child(trans)
+			await trans._fade_in()
+			remove_window(login_window)
+			chat_window.visible=true
+			await trans._fade_out()
 		"Deny":
 			pass
 		"ServerTime":
@@ -92,11 +102,21 @@ func PLAY(p):
 			
 		"Disconnect":
 			socket.close()
-			state = Callable(self, 'LOGIN')
-			remove_window(chat_window)
-			login_window = add_window(LOGIN_WINDOW)
 			
+			
+			state = Callable(self, 'LOGIN')
+			
+			
+			login_window = add_window(LOGIN_WINDOW)
+			login_window.visible = false
+			var trans = screen_transition.instantiate()
+			add_child(trans)
+			await trans._fade_in()
+			remove_window(chat_window)
+			login_window.visible = true
 			connect_to_server()
+			await trans._fade_out()
+			
 			
 			
 
