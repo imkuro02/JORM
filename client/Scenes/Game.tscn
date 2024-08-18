@@ -42,13 +42,12 @@ patch_margin_bottom = 32
 use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.285
 anchor_top = 0.173
-anchor_right = 0.715
+anchor_right = 1.0
 anchor_bottom = 0.988
-offset_left = -0.320038
-offset_top = -0.104004
-offset_right = 0.319946
+offset_left = 328.0
+offset_top = -0.104012
+offset_right = -328.0
 offset_bottom = -0.223999
 grow_horizontal = 2
 grow_vertical = 2
@@ -151,29 +150,25 @@ anchor_bottom = 1.0
 offset_left = -320.0
 metadata/_edit_group_ = true
 
-[node name="VSplitContainer" type="VSplitContainer" parent="RightPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RightPanel"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Skills" type="RichTextLabel" parent="RightPanel/VSplitContainer"]
+[node name="Skills" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
 use_parent_material = true
-clip_contents = false
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 text = "Skills"
 fit_content = true
-autowrap_mode = 0
+autowrap_mode = 2
 meta_underlined = false
 
-[node name="Others" type="RichTextLabel" parent="RightPanel/VSplitContainer"]
+[node name="Others" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
 visible = false
 use_parent_material = true
 layout_mode = 2
@@ -182,6 +177,11 @@ bbcode_enabled = true
 text = "Others"
 autowrap_mode = 0
 meta_underlined = false
+
+[node name="Label" type="Label" parent="RightPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add any skill to AutoUse to use it whenever it is off cooldown"
+autowrap_mode = 2
 
 [node name="CombatPanel" type="Control" parent="."]
 layout_mode = 1
@@ -259,8 +259,8 @@ layout_mode = 2
 [connection signal="meta_clicked" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
 [connection signal="meta_hover_ended" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
 [connection signal="meta_hover_started" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
-[connection signal="meta_clicked" from="RightPanel/VSplitContainer/Skills" to="." method="_on_others_meta_clicked"]
-[connection signal="meta_clicked" from="RightPanel/VSplitContainer/Others" to="." method="_on_others_meta_clicked"]
+[connection signal="meta_clicked" from="RightPanel/VBoxContainer/Skills" to="." method="_on_others_meta_clicked"]
+[connection signal="meta_clicked" from="RightPanel/VBoxContainer/Others" to="." method="_on_others_meta_clicked"]
 [connection signal="pressed" from="Settings/Logout" to="." method="_on_logout_pressed"]
 [connection signal="value_changed" from="Settings/Font Size" to="." method="_on_font_size_value_changed"]
 [connection signal="value_changed" from="Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]

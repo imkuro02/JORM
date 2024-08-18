@@ -54,6 +54,7 @@ class Player(Actor):
             for skill in self.protocol.factory.premade['items'][e]['skills']:
                 if skill not in self.skills:
                     self.skills.append(skill)
+
         #print(self.skills)
         if self.target == None:
             _target_name = 'None'
@@ -79,6 +80,7 @@ class Player(Actor):
 
         if target not in self.room.players and target not in self.room.enemies:
             self.target = None
+            self.broadcast('Can\'t find Target!', self)
             return 'Can\'t find Target!'
 
         if target in self.room.players:

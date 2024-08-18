@@ -43,7 +43,7 @@ class Enemy(Actor):
         self.tag = 'enemy'
         self.id = 'No ID'
         self.ticks_passed = 0
-        self.target = self
+        self.target = None
         
         self.stats = utils.dc(stats)
         self.skills = utils.dc(skills)
@@ -96,7 +96,7 @@ class Enemy(Actor):
             }
 
     def die(self):
-        _killer = None
+        _killer = {'name':'what the fuck this is a bug'}
         _damage = 0
         for player in self.player_damages:
             # untarget if dead
@@ -111,8 +111,16 @@ class Enemy(Actor):
 
 
 
+        
         if _killer in self.room.players:
             _killer = self.room.players[_killer]
+        else:
+            self.broadcast(f'{self.name} Died...')
+            self.room.remove_enemy(self)
+            self.room = None
+            return
+
+
 
         self.broadcast(f'{self.name} Died at the hands of {_killer.name}')
         self.roll_loot(_killer)
@@ -136,7 +144,7 @@ class Enemy(Actor):
                 if self.room.players[player].target == self:
                     self.target = self.room.players[player]
 
-            if self.target != self:
+            if self.target != None and self.target.room == self.room:
                 self.use_skill(random.choice(self.skills))
 
 

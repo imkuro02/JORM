@@ -88,6 +88,9 @@ class Room:
         # ad the enemy to self.enemies and set the room for the enemy
         self.enemies[_enemy.name] = _enemy
         _enemy.room = self
+        for _player in self.players:
+            self.players[_player].room_update()
+        _enemy.broadcast(f'{_enemy.name} appears!')
 
     def remove_enemy(self,e):
         #self.enemies[player.name].protocol.broadcast(p,exclude_self=True)
@@ -106,6 +109,7 @@ class Room:
     def remove_player(self,player):
         p = packet.FlavouredMessagePacket(f'{player.name} left.')
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
+        
             
         del self.players[player.name]
 
