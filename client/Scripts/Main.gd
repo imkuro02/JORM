@@ -109,13 +109,15 @@ func PLAY(p):
 			
 			login_window = add_window(LOGIN_WINDOW)
 			login_window.visible = false
+			connect_to_server()
 			var trans = screen_transition.instantiate()
 			add_child(trans)
 			await trans._fade_in()
 			remove_window(chat_window)
 			login_window.visible = true
-			connect_to_server()
+			
 			await trans._fade_out()
+			
 			
 			
 			
