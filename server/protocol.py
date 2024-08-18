@@ -60,6 +60,10 @@ class ServerProtocol(WebSocketServerProtocol):
         if p.action == packet.Action.UseSkill:
             if sender == self:
                 self._actor.use_skill(p.payloads[0])
+
+        if p.action == packet.Action.UseItem:
+            if sender == self:
+                self._actor.use_item(p.payloads[0])
                 
         if p.action == packet.Action.Room:
             if sender == self:

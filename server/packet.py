@@ -17,6 +17,7 @@ class Action(enum.Enum):
     Unequip = enum.auto()
     Drop = enum.auto()
     UseSkill = enum.auto()
+    UseItem = enum.auto()
 
     FlavouredMessage = enum.auto()
 
@@ -99,6 +100,10 @@ class DropPacket(Packet):
 class UseSkillPacket(Packet):
     def __init__(self, skill_id: str):
         super().__init__(Action.UseSkill, skill_id)
+
+class UseItemPacket(Packet):
+    def __init__(self, item_id: str):
+        super().__init__(Action.UseItem, item_id)
 
 #
 class RoomPacket(Packet):

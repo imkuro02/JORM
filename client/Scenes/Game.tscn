@@ -83,6 +83,7 @@ hint_underlined = false
 [node name="LineEdit" type="LineEdit" parent="Chatbox"]
 texture_filter = 1
 layout_mode = 2
+placeholder_text = "Say Something"
 
 [node name="LeftPanel" type="Panel" parent="."]
 self_modulate = Color(0.611765, 0.611765, 0.611765, 1)

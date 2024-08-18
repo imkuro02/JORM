@@ -28,7 +28,7 @@ func create_interaction(data, activate_now = false):
 		if 'slot' in ITEMS[data['object']]:
 			interactions = ['Equip','Inspect','Drop','Drop all']
 		elif 'use_script' in ITEMS[data['object']]:
-			interactions = ['Use','Inspect','Drop', 'Drop all']
+			interactions = ['Consume','Inspect','Drop', 'Drop all']
 		else:
 			interactions = ['Inspect','Drop', 'Drop all']
 		
@@ -126,6 +126,8 @@ func _on_rich_text_label_meta_clicked(meta):
 			MAIN.audio.play('message')
 		'Use Skill':
 			p = Packet.new('UseSkill',[object])
+		'Consume':
+			p = Packet.new('UseItem',[object])
 		'Toggle AutoUse':
 			if object in MAIN.chat_window.autouse_skills:
 				MAIN.chat_window.autouse_skills.erase(object)

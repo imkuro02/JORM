@@ -32,6 +32,20 @@ class Actor:
         cooldown = cooldown * self.room.map.factory.tickrate
         self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
 
+    def use_item(self,item_id):
+        if item_id not in self.room.map.factory.premade['items']:
+            self.broadcast('That item does not exist', self)
+            return
+
+        item = self.room.map.factory.premade['items'][item_id]
+
+        if item_id not in self.inventory:
+            self.broadcast(f'You don\'t have {item["name"]}')
+
+        self.broadcast(f'{self.name} used {item["name"]}')
+
+        self.remove_item(item_id,1)
+
     def use_skill(self,skill_id):
         # CONDITIONS AND EARLY RETURNS
         if skill_id not in self.skills:
