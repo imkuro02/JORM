@@ -71,6 +71,12 @@ class Player(Actor):
             }
 
     def die(self):
+        self.broadcast(f'{self.name} has died!')
+        self.room.move_player(self, 'Small Town')
+        self.stats['hp'] = self.stats['max_hp']
+        self.stats['mp'] = self.stats['max_mp']
+        #self.broadcast(f'{self.name} has died!',self)
+        #self.broadcast(f'{self.name} ressurected!')
         pass
         
     def set_target(self,target):

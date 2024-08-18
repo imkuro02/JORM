@@ -118,21 +118,24 @@ class Room:
         if new_room not in self.exits:
             return 'not a valid destination'
 
+        '''
         followers = []
         for p in self.players:
             if self.players[p].target == self.players[p]:
                 continue
             if self.players[p].target == player:
                 followers.append(self.players[p])
-
+        '''
         
 
 
         self.remove_player(player)
         self.exits[new_room].add_player(player)
 
+        '''
         for p in followers:
             self.move_player(p,new_room)
+        '''
 
     
     def get_players(self):

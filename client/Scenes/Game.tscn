@@ -172,20 +172,20 @@ fit_content = true
 autowrap_mode = 2
 meta_underlined = false
 
+[node name="Label" type="Label" parent="RightPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add any skill to AutoUse to use it whenever it is off cooldown"
+autowrap_mode = 2
+
 [node name="Others" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
-visible = false
 use_parent_material = true
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 text = "Others"
+fit_content = true
 autowrap_mode = 0
 meta_underlined = false
-
-[node name="Label" type="Label" parent="RightPanel/VBoxContainer"]
-layout_mode = 2
-text = "Add any skill to AutoUse to use it whenever it is off cooldown"
-autowrap_mode = 2
 
 [node name="CombatPanel" type="Control" parent="."]
 layout_mode = 1
