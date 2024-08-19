@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://7a34mwhsph6g"]
+
+[ext_resource type="Script" path="res://Scripts/CharacterSheet.gd" id="1_eislr"]
+
+[node name="CharacterSheet" type="Panel"]
+self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 320.0
+script = ExtResource("1_eislr")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_vertical = 2
+
+[node name="CharacterSheet" type="Panel" parent="VSplitContainer"]
+self_modulate = Color(1, 1, 1, 0)
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VSplitContainer/CharacterSheet"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+
+[node name="Inventory" type="VBoxContainer" parent="VSplitContainer"]
+use_parent_material = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_group_ = true
+
+[node name="LineEdit" type="LineEdit" parent="VSplitContainer/Inventory"]
+layout_mode = 2
+focus_mode = 1
+placeholder_text = "Search Filter"
+
+[node name="Inventory" type="RichTextLabel" parent="VSplitContainer/Inventory"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Upgrade costs:
+[table=2]
+[cell][color=yellow]500 food [/color][/cell]
+[cell][color=yellow]5000 gold[/color][/cell]
+[cell]10 f[/cell]
+[cell]20 ore[/cell]
+[/table]"
+meta_underlined = false
+hint_underlined = false
+
+[connection signal="meta_clicked" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
+[connection signal="meta_hover_ended" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
+[connection signal="meta_hover_started" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]

@@ -7,13 +7,12 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var commands = $Chatbox/Commands
 @onready var settings = $Settings
 @onready var others = $RightPanel/VBoxContainer/Others
-@onready var ch = $LeftPanel/VSplitContainer/CharacterSheet
-@onready var inv = $LeftPanel/VSplitContainer/Inventory
-@onready var inv_text = $LeftPanel/VSplitContainer/Inventory/Inventory
-@onready var inv_search = $LeftPanel/VSplitContainer/Inventory/LineEdit
+
 @onready var skills = $RightPanel/VBoxContainer/Skills
 @onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager
+
+@onready var character_sheet = $CharacterSheet
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -35,6 +34,7 @@ func _ready():
 		]
 		
 	MAIN = get_tree().root.get_node('Main')
+	character_sheet.GAME = self
 
 	
 var chat_message_queue = []
@@ -123,6 +123,8 @@ func refresh_players():
 			others.text += interactable('enemy',id,name)
 		others.text += '\n'
 		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+		
+	
 
 func _process(_delta):
 	# print server time delay
@@ -136,7 +138,6 @@ func _process(_delta):
 	
 
 func interaction(data):
-	hovered_item = null # just reset hovered item real quick
 	var w = interactions_popup.instantiate()
 	add_child(w)
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
@@ -232,8 +233,10 @@ func receive_room(room):
 	return
 
 func receive_character_sheet(_sheet):
-	var ITEMS = MAIN.PREMADE['items']
+	character_sheet.receive_character_sheet(_sheet)
+
 	var SKILLS = MAIN.PREMADE['skills']
+
 	sheet = _sheet
 	
 	combat_panel.get_node("Self").set_sheet(sheet)
@@ -247,101 +250,6 @@ func receive_character_sheet(_sheet):
 		target_sheet = null
 
 	combat_panel.get_node("Target").set_sheet(target_sheet)
-	
-	var stats = ch.get_node('RichTextLabel')
-	stats.text = ''
-	stats.text += '[table=3]'
-	for trans in MAIN.PREMADE['translations']:
-		#if trans in ['hp','mp']:
-		#	continue
-		''' HORRIBLE TERRIBLE ITEM COMPARE CODE'''
-		var hovered_item_stat_number = 0
-		var hovered_item_stat_number_display = ''
-		if hovered_item != null:
-			var _i = ITEMS[hovered_item]
-			if 'slot' in _i:
-				if trans in _i['stats']:
-					hovered_item_stat_number = int(_i['stats'][trans])
-					for e in sheet['equipment']:
-						if ITEMS[e]['slot'] == _i['slot']:
-							if ITEMS[e] == _i:
-								hovered_item_stat_number = int(_i['stats'][trans]) * -1
-							else:
-								hovered_item_stat_number = int(_i['stats'][trans] - ITEMS[e]['stats'][trans]) 
-								
-					if hovered_item_stat_number == 0:
-						hovered_item_stat_number_display = '[color=gray][/color]' 
-					if hovered_item_stat_number > 0:
-						hovered_item_stat_number_display = '[color=green]+%s[/color]' % hovered_item_stat_number
-					if hovered_item_stat_number < 0:
-						hovered_item_stat_number_display = '[color=red]%s[/color]' % hovered_item_stat_number
-
-		var translated_name = MAIN.PREMADE['translations'][trans]
-		var stat_number = sheet['stats'][trans]
-		stats.text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number_display]	
-		'''OH GOD'''
-	stats.text += '[/table]'
-	
-	inv_text.text = ''
-	inv_text.text += '[center]Equipment[/center]\n'
-	
-	sheet['equipment'].sort()
-	sheet['skills'].sort()
-
-	for i in sheet['equipment']:
-		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
-			continue
-		#inv_text.text += '[cell]%s:   [/cell][cell]%s[/cell]\n' % [ITEMS[i]['slot'].capitalize(), interactable('equipment',i,ITEMS[i]['name'])]
-		inv_text.text += '%s\n' % [interactable('equipment',i,ITEMS[i]['name'])]
-
-	inv_text.text += '[center]Inventory[/center]\n'
-
-	inv_text.text += '[table=2]' 
-	var inventory_items_to_sort = []
-	var inventory_items_unsorted = {}
-	for i in sheet['inventory']:
-		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
-			continue
-	
-		var quantity = sheet['inventory'][i]
-		if quantity > 1:
-			quantity = ' (%s)' % [quantity]
-		else:
-			quantity = ''
-		
-		inventory_items_to_sort.append(ITEMS[i]['name'])
-		inventory_items_unsorted[ITEMS[i]['name']] = {'id':i,'name':ITEMS[i]['name'],'quantity':quantity,'equipable': 'stats' in ITEMS[i], 'consumable': 'use_script' in ITEMS[i]}
-	inventory_items_to_sort.sort()
-	
-	for item in inventory_items_to_sort:
-		if item in inventory_items_unsorted:
-			if not inventory_items_unsorted[item]['equipable']: continue
-			#print(item,_un['id'])
-			inv_text.text += '[cell]%s[/cell][cell]%s[/cell]\n' % [
-				interactable('inventory',
-					inventory_items_unsorted[item]['id'],
-					inventory_items_unsorted[item]['name']),
-					inventory_items_unsorted[item]['quantity']]
-	for item in inventory_items_to_sort:
-		if item in inventory_items_unsorted:
-			if not inventory_items_unsorted[item]['consumable']: continue
-			#print(item,_un['id'])
-			inv_text.text += '[cell]%s[/cell][cell]%s[/cell]\n' % [
-				interactable('inventory',
-					inventory_items_unsorted[item]['id'],
-					inventory_items_unsorted[item]['name']),
-					inventory_items_unsorted[item]['quantity']]
-	for item in inventory_items_to_sort:
-		if item in inventory_items_unsorted:
-			if inventory_items_unsorted[item]['equipable'] or inventory_items_unsorted[item]['consumable']: continue
-			#print(item,_un['id'])
-			inv_text.text += '[cell]%s[/cell][cell]%s[/cell]\n' % [
-				interactable('inventory',
-					inventory_items_unsorted[item]['id'],
-					inventory_items_unsorted[item]['name']),
-					inventory_items_unsorted[item]['quantity']]
-		
-	inv_text.text += '[/table]'
 	
 	''' SKILLS '''
 	skills.text = '[table=4]'
@@ -362,11 +270,12 @@ func receive_character_sheet(_sheet):
 		]
 	skills.text += '[/table]'
 	
+	''' AutoUse '''
 	for skill in autouse_skills:
 		if skill not in sheet['skills']:
 			autouse_skills.erase(skill)
-			
-	if target_sheet != null:
+	
+	if $RightPanel/VBoxContainer/AutoUse.button_pressed == true:
 		for skill in autouse_skills:
 			if prev_autouse < MAIN.SERVER_TIME - 30:
 				if skill not in sheet['skill_cooldowns']:
@@ -375,6 +284,8 @@ func receive_character_sheet(_sheet):
 				
 	if prev_autouse < MAIN.SERVER_TIME - 30:
 		prev_autouse = MAIN.SERVER_TIME
+	''' AutoUse '''
+	''' SKILLS '''
 	
 func show_room(clear = false):
 	if clear: 
@@ -386,10 +297,10 @@ func show_room(clear = false):
 	var desc = ROOM['description']
 	desc = label + desc + '\n'
 	#receive_flavoured_message(desc)
+	'''
 	for exit in exits:
 		desc += 'Go to: ' + interactable('exit',exit,exit) + '\n'
-		
-	
+
 	for player in ROOM['players']:
 		desc += interactable('player',player,player)+'\n'
 		
@@ -397,7 +308,10 @@ func show_room(clear = false):
 		desc += interactable('enemy',enemy,enemy)+'\n'
 		
 	desc += 'Is here..\n'
-		
+	'''
+	for exit in ROOM['exits']:
+		desc += '[' + interactable('exit',exit,exit) + '] '
+	desc += '\n'
 	chatbox.text += desc
 	
 func send(text: String):
@@ -426,9 +340,6 @@ func _on_logout_pressed():
 	var p: Packet = Packet.new('Disconnect')
 	MAIN.send_packet(p)
 
-func _on_inventory_meta_clicked(meta):
-	interaction(meta)
-
 func _on_chatbox_meta_clicked(meta):
 	interaction(meta)
 
@@ -441,13 +352,4 @@ func _on_font_size_value_changed(value):
 func _on_audio_volume_value_changed(value):
 	MAIN.audio.set_volume(value)
 
-var hovered_item = null
-func _on_inventory_meta_hover_started(meta):
-	var json = JSON.new()
-	var data = json.parse_string(meta)
-	hovered_item = data['object']
-	pass # Replace with function body.
 
-func _on_inventory_meta_hover_ended(meta):
-	hovered_item = null
-	pass # Replace with function body.

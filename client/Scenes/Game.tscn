@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=7 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
 [ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_ri2kw"]
 [ext_resource type="PackedScene" uid="uid://6btcj7krioeu" path="res://Scenes/BackgroundManager.tscn" id="2_y4kab"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
+[ext_resource type="PackedScene" uid="uid://7a34mwhsph6g" path="res://Scenes/CharacterSheet.tscn" id="6_lsjfb"]
 
 [node name="Chat" type="Control"]
 layout_mode = 3
@@ -42,152 +43,6 @@ patch_margin_top = 32
 patch_margin_right = 32
 patch_margin_bottom = 32
 
-[node name="Chatbox" type="VBoxContainer" parent="."]
-use_parent_material = true
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.173
-anchor_right = 1.0
-anchor_bottom = 0.988
-offset_left = 328.0
-offset_top = -0.104012
-offset_right = -328.0
-offset_bottom = -0.223999
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_4mtw6")
-metadata/_edit_group_ = true
-
-[node name="Chatbox" type="RichTextLabel" parent="Chatbox"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-bbcode_enabled = true
-scroll_following = true
-meta_underlined = false
-hint_underlined = false
-
-[node name="Commands" type="RichTextLabel" parent="Chatbox"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-bbcode_enabled = true
-fit_content = true
-scroll_following = true
-meta_underlined = false
-hint_underlined = false
-
-[node name="LineEdit" type="LineEdit" parent="Chatbox"]
-texture_filter = 1
-layout_mode = 2
-placeholder_text = "Say Something"
-
-[node name="LeftPanel" type="Panel" parent="."]
-self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
-layout_mode = 1
-anchors_preset = -1
-anchor_bottom = 1.0
-offset_right = 320.0
-
-[node name="VSplitContainer" type="VSplitContainer" parent="LeftPanel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_vertical = 2
-
-[node name="CharacterSheet" type="Panel" parent="LeftPanel/VSplitContainer"]
-self_modulate = Color(1, 1, 1, 0)
-use_parent_material = true
-layout_mode = 2
-size_flags_vertical = 3
-metadata/_edit_group_ = true
-
-[node name="RichTextLabel" type="RichTextLabel" parent="LeftPanel/VSplitContainer/CharacterSheet"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-bbcode_enabled = true
-
-[node name="Inventory" type="VBoxContainer" parent="LeftPanel/VSplitContainer"]
-use_parent_material = true
-layout_mode = 2
-size_flags_vertical = 3
-metadata/_edit_group_ = true
-
-[node name="LineEdit" type="LineEdit" parent="LeftPanel/VSplitContainer/Inventory"]
-layout_mode = 2
-focus_mode = 1
-placeholder_text = "Search Filter"
-
-[node name="Inventory" type="RichTextLabel" parent="LeftPanel/VSplitContainer/Inventory"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "Upgrade costs:
-[table=2]
-[cell][color=yellow]500 food [/color][/cell]
-[cell][color=yellow]5000 gold[/color][/cell]
-[cell]10 f[/cell]
-[cell]20 ore[/cell]
-[/table]"
-meta_underlined = false
-hint_underlined = false
-
-[node name="RightPanel" type="Panel" parent="."]
-self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -320.0
-metadata/_edit_group_ = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="RightPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Skills" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
-use_parent_material = true
-layout_mode = 2
-size_flags_horizontal = 3
-bbcode_enabled = true
-text = "Skills"
-fit_content = true
-autowrap_mode = 2
-meta_underlined = false
-
-[node name="Label" type="Label" parent="RightPanel/VBoxContainer"]
-layout_mode = 2
-text = "Add any skill to AutoUse to use it whenever it is off cooldown"
-autowrap_mode = 2
-
-[node name="Others" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
-use_parent_material = true
-layout_mode = 2
-size_flags_horizontal = 3
-bbcode_enabled = true
-text = "Others"
-fit_content = true
-autowrap_mode = 0
-meta_underlined = false
-
 [node name="CombatPanel" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 10
@@ -214,6 +69,101 @@ layout_mode = 2
 
 [node name="Target" parent="CombatPanel/Combat" instance=ExtResource("4_q2jlj")]
 layout_mode = 2
+
+[node name="CharacterSheet" parent="." instance=ExtResource("6_lsjfb")]
+layout_mode = 1
+
+[node name="Chatbox" type="VBoxContainer" parent="."]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.173
+anchor_right = 1.0
+anchor_bottom = 0.988
+offset_left = 328.0
+offset_top = -0.104012
+offset_right = -328.0
+offset_bottom = -0.223999
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_4mtw6")
+metadata/_edit_group_ = true
+
+[node name="Chatbox" type="RichTextLabel" parent="Chatbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+meta_underlined = false
+hint_underlined = false
+
+[node name="Commands" type="RichTextLabel" parent="Chatbox"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_following = true
+meta_underlined = false
+hint_underlined = false
+
+[node name="LineEdit" type="LineEdit" parent="Chatbox"]
+texture_filter = 1
+layout_mode = 2
+placeholder_text = "Say Something"
+
+[node name="RightPanel" type="Panel" parent="."]
+self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AutoUse" type="CheckBox" parent="RightPanel/VBoxContainer"]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+focus_mode = 0
+text = "AutoUse"
+flat = true
+
+[node name="Skills" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
+use_parent_material = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Skills"
+fit_content = true
+autowrap_mode = 2
+meta_underlined = false
+
+[node name="Label" type="Label" parent="RightPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add any skill to AutoUse to use it whenever it is off cooldown"
+autowrap_mode = 2
+
+[node name="Others" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
+use_parent_material = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Others"
+fit_content = true
+autowrap_mode = 0
+meta_underlined = false
 
 [node name="Settings" type="VBoxContainer" parent="."]
 use_parent_material = true
@@ -261,9 +211,6 @@ layout_mode = 2
 
 [connection signal="meta_clicked" from="Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
-[connection signal="meta_clicked" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
-[connection signal="meta_hover_ended" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
-[connection signal="meta_hover_started" from="LeftPanel/VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Others" to="." method="_on_others_meta_clicked"]
 [connection signal="pressed" from="Settings/Logout" to="." method="_on_logout_pressed"]
