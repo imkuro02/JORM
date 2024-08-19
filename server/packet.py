@@ -7,6 +7,7 @@ class Action(enum.Enum):
     Register = enum.auto()
     Ok = enum.auto()
     Deny = enum.auto()
+    SystemMessage = enum.auto()
     Disconnect = enum.auto()
 
     ServerTime = enum.auto()
@@ -67,6 +68,10 @@ class DenyPacket(Packet):
     def __init__(self, reason: str):
         super().__init__(Action.Deny, reason)
     
+class SystemMessagePacket(Packet):
+    def __init__(self, title: str = 'no title', message: str = 'no message'):
+        super().__init__(Action.SystemMessage, title, message)
+
 class DisconnectPacket(Packet):
     def __init__(self, reason: str = None):
         super().__init__(Action.Disconnect, reason)

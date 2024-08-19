@@ -12,9 +12,6 @@ var GAME
 func _ready():
 	MAIN = get_tree().root.get_node('Main')
 
-func interactable():
-	pass
-	
 func receive_character_sheet(_sheet):
 	var sheet = _sheet
 	

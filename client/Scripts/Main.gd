@@ -13,6 +13,7 @@ var login_window
 var chat_window
 
 var screen_transition = preload("res://Scenes/Transition.tscn")
+var system_message = preload("res://Scenes/SystemMessage.tscn")
 
 var SERVER_TIME = 0
 
@@ -51,6 +52,10 @@ func remove_window(window):
 func LOGIN(p):
 	var _payloads = p.payloads
 	match p.action:
+		"SystemMessage":
+			var w = system_message.instantiate()
+			w.message(_payloads[0],_payloads[1])
+			add_child(w)
 		"Ok":
 			state = Callable(self, 'PLAY')
 			

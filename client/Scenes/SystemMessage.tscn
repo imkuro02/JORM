@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3 uid="uid://bct11fuqmrwth"]
+
+[ext_resource type="Script" path="res://Scripts/SystemMessage.gd" id="1_k8afq"]
+[ext_resource type="Texture2D" uid="uid://bdcp2uqvvqn80" path="res://Textures/128x128/Metal/Metal_18-128x128.png" id="2_tur1d"]
+
+[node name="SystemMessage" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 384.0
+offset_top = 192.0
+offset_right = -384.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k8afq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.458824, 0.458824, 0.458824, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -128.0
+offset_right = 192.0
+offset_bottom = 128.0
+texture = ExtResource("2_tur1d")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 88.0
+offset_top = -120.0
+offset_right = 184.0
+offset_bottom = -72.0
+grow_horizontal = 0
+text = "CLOSE"
+
+[node name="Message" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -64.0
+offset_right = 184.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "MESSAGE"
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -120.0
+offset_right = 80.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Title
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+uppercase = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

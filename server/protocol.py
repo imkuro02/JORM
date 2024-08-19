@@ -132,10 +132,17 @@ class ServerProtocol(WebSocketServerProtocol):
 
     def LOGIN(self, sender: 'ServerProtocol', p: packet.Packet):
         if p.action == packet.Action.Register:
+            
             self.send_client(packet.DenyPacket('Registered'))
+            
             username = p.payloads[0]
             password = p.payloads[1]
+            if self.factory.database.load_player(username) != None:
+                self.send_client(packet.SystemMessagePacket('Register','Username Taken'))
+                return
+            
             self.factory.database.create_account(username,password)
+            self.send_client(packet.SystemMessagePacket('Register','Registration succesful'))
 
         if p.action == packet.Action.Login:
             username = p.payloads[0]
@@ -143,23 +150,23 @@ class ServerProtocol(WebSocketServerProtocol):
             account = self.factory.database.get_account(username,password)
 
             if len(account) != 1:
-                print('account not found, need to register first')
+                self.send_client(packet.SystemMessagePacket('Login','Login failed, Wrong username or password.'))
                 return
 
             for client in self.factory.clients:
                 if client._actor != None:
                     if client._actor.name == username:
-                        print('Already logged in')
+                        self.send_client(packet.SystemMessagePacket('Login','Login failed, account already logged in.'))
                         return
 
             player = self.factory.database.load_player(username)
             self.new_player(username)
 
             if player == None:
-                print('player not found')
+                #print('player not found')
                 self.factory.database.save_player(self._actor)
             else:
-                print('player found')
+                #print('player found')
                 self._actor.inventory = player['inventory']
                 self._actor.equipment = player['equipment']
                 self._actor.stats = player['stats']
