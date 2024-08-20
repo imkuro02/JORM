@@ -72,6 +72,7 @@ layout_mode = 2
 
 [node name="CharacterSheet" parent="." instance=ExtResource("6_lsjfb")]
 layout_mode = 1
+grow_vertical = 2
 
 [node name="Chatbox" type="VBoxContainer" parent="."]
 use_parent_material = true

@@ -153,12 +153,22 @@ class Actor:
         if self.stats['mp'] > self.stats['max_mp']:
             self.stats['mp'] = self.stats['max_mp']
 
+    def dodge_check(self):
+        roll = random.randrange(1,100)
+        return bool(roll <= self.stats['dodge_chance'])
+
     def take_physic_damage(self, dmg, damager, skill = None):
+
+        if self.dodge_check():
+            self.broadcast(f'{self.name} dodged {skill}')
+            return
+
         dmg -= self.stats['physic_block']
         dmg = int(dmg)
 
         if dmg <= 0:
-            dmg = 0    
+            self.broadcast(f'{self.name} blocked physic damage from {skill}')
+            return
 
         self.take_damage(dmg, damager)
 
@@ -171,11 +181,16 @@ class Actor:
         return dmg
 
     def take_magic_damage(self, dmg, damager, skill = None):
+        if self.dodge_check():
+            self.broadcast(f'{self.name} dodged {skill}')
+            return
+
         dmg -= self.stats['magic_block']
         dmg = int(dmg)
         
         if dmg <= 0:
-            dmg = 0    
+            self.broadcast(f'{self.name} blocked magic damage from {skill}')
+            return
 
         self.take_damage(dmg, damager)
 
