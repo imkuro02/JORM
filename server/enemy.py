@@ -6,13 +6,6 @@ import utils
 
 from actor import Actor
 
-class Loot:
-    def __init__(self, item_index = 'coins', drop_chance = 100, quantity_min = 1, quantity_max = 1):
-        self.item_index = item_index
-        self.drop_chance = drop_chance
-        self.quantity_min = quantity_min
-        self.quantity_max = quantity_max
-
 ENEMY_STATS = {
     'hp':       10,
     'mp':       10,
@@ -55,29 +48,27 @@ class Enemy(Actor):
 
         self.roaming_text = ['Groans...','Roams around.','Farts.']
         self.chance_to_roam = 100
-    
-    def add_loot(self, loot: Loot):
-        self.loot_table.append(loot)
 
     def roll_loot(self, owner):
         all_loot = {}
         for i in self.loot_table:
 
-            if i.item_index not in self.room.map.factory.premade['items']:
-                print(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i.item_index}" but this does not exist!!!')
-                self.broadcast(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i.item_index}" but this does not exist!!!')
+            if i not in self.room.map.factory.premade['items']:
+                print(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i}" but this does not exist!!!')
+                self.broadcast(f'ERROR: "{self.name}" in room "{self.room.name}" tried to drop item "{i}" but this does not exist!!!')
                 return
 
             drop_chance = random.randrange(0,1_000_000)/1_000_000
-            if drop_chance > i.drop_chance:
+
+            if drop_chance > self.loot_table[i]['drop_chance']:
                 continue
 
-            if i.quantity_max - i.quantity_min > 1:
-                quantity = random.randrange(i.quantity_min,i.quantity_max)
+            if self.loot_table[i]['quantity_max'] - self.loot_table[i]['quantity_min'] > 1:
+                quantity = random.randrange(self.loot_table[i]['quantity_min'],self.loot_table[i]['quantity_max'])
             else:
                 quantity = 1
-            owner.add_item(i.item_index,quantity)
-            all_loot[self.room.map.factory.premade['items'][i.item_index]["name"]] = quantity
+            owner.add_item(i,quantity)
+            all_loot[self.room.map.factory.premade['items'][i]["name"]] = quantity
 
         if len(all_loot) <= 0:
             return

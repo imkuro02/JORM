@@ -1,0 +1,141 @@
+template:
+  name: Ragged Hood
+  use_script: potion0
+  level_req: 0
+  slot: head
+  stats:
+    max_hp:         0
+    max_mp:         0
+    str:            0
+    dex:            0
+    con:            0
+    int:            0
+    wis:            0
+    cha:            0
+    physic_damage:  0
+    magic_damage:   0
+    physic_block:   0
+    magic_block:    0
+    crit_chance:    0
+    dodge_chance:   0
+  skills:
+  - slash
+  description: Description
+
+equipable:
+  name: Sword
+  level_req: 0
+  slot: weapon
+  stats:
+    max_hp:         0
+    max_mp:         0
+    str:            0
+    dex:            0
+    con:            0
+    int:            0
+    wis:            0
+    cha:            0
+    physic_damage:  0
+    magic_damage:   0
+    physic_block:   0
+    magic_block:    0
+    crit_chance:    0
+    dodge_chance:   0
+  skills:
+  - slash
+  description: Description
+
+consumable:
+  name: Potion
+  use_script: potion0
+  description: Description
+
+misc:
+  name: Misc Item
+  description: Description
+
+basic_head:
+  parent: equipable
+  name: Ragged Hood
+  slot: head
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_chest:
+  parent: equipable
+  name: Dirty Shirt
+  slot: chest
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_belt:
+  parent: equipable
+  name: Leather Belt
+  slot: belt
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_pants:
+  parent: equipable
+  name: Worn Trousers
+  slot: legs
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_boots:
+  parent: equipable
+  name: Traveles Sandals
+  slot: feet
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_accessory:
+  parent: equipable
+  name: Mothers Necklace
+  slot: accessory
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_sword:
+  parent: equipable
+  name: Training Sword
+  slot: weapon
+  stats:
+    physic_damage: 10
+  skills:
+  - slash
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_shield:
+  parent: equipable
+  name: Training Shield
+  slot: offhand
+  stats:
+    physic_block: 10
+    magic_block: 5
+  skills:
+  - guard
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+basic_wand:
+  parent: equipable
+  name: Training Wand
+  slot: weapon
+  stats:
+    int: 1
+    wis: 1
+    magic_damage: 10
+  skills:
+  - firebolt
+  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+
+money:
+  parent: misc
+  name: Dabloon
+  description: Dabloons! shiny!
+
+rock:
+  parent: misc
+  name: Rock
+  description: A gray rock..
+
+potion0:
+  parent: consumable
+  name: Red Potion
+  description: Glug Glug!
+  use_script: potion0
+

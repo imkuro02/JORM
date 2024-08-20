@@ -1,0 +1,125 @@
+template:
+  name: Template
+  stats:
+    max_hp:         1000
+    max_mp:         1000
+    str:            10
+    dex:            10
+    con:            10
+    int:            10
+    wis:            10
+    cha:            10
+    physic_damage:  20
+    magic_damage:   20
+    physic_block:   10
+    magic_block:    10
+    crit_chance:    10
+    dodge_chance:   10
+  skills:
+    - spit
+    - push
+    - guard
+    - slash
+    
+  loot_table:
+    money:
+      drop_chance:  0.1
+      quantity_min: 1
+      quantity_max: 10
+    gamer_katana:
+      drop_chance:  0.1
+      quantity_min: 1
+      quantity_max: 1
+    rock:
+      drop_chance:  1
+      quantity_min: 1
+      quantity_max: 1
+  roaming_text:
+    - farts violently
+    - something funny
+    - something witty
+
+slime:
+  name: Slime
+  stats:
+    max_hp:         10
+    max_mp:         10
+    str:            10
+    dex:            10
+    con:            10
+    int:            10
+    wis:            10
+    cha:            10
+    physic_damage:  20
+    magic_damage:   20
+    physic_block:   10
+    magic_block:    10
+    crit_chance:    10
+    dodge_chance:   10
+  skills:
+    - spit
+    - push
+  loot_table:
+    money:
+      drop_chance:  1
+      quantity_min: 1
+      quantity_max: 10
+
+skeleton:
+  name: Skeleton
+  stats:
+    max_hp:         100
+    max_mp:         100
+    str:            10
+    dex:            10
+    con:            10
+    int:            10
+    wis:            10
+    cha:            10
+    physic_damage:  20
+    magic_damage:   20
+    physic_block:   10
+    magic_block:    10
+    crit_chance:    10
+    dodge_chance:   10
+  skills:
+    - spit
+    - push
+  loot_table:
+    money:
+      drop_chance:  1
+      quantity_min: 1
+      quantity_max: 10
+
+gamer:
+  name: Gamer
+  stats:
+    max_hp:         100
+    max_mp:         100
+    str:            10
+    dex:            10
+    con:            10
+    int:            10
+    wis:            10
+    cha:            10
+    physic_damage:  20
+    magic_damage:   20
+    physic_block:   10
+    magic_block:    10
+    crit_chance:    10
+    dodge_chance:   10
+  skills:
+    - spit
+    - push
+  loot_table:
+    money:
+      drop_chance:  0.1
+      quantity_min: 1
+      quantity_max: 10
+    gamer_katana:
+      drop_chance:  0.1
+      quantity_min: 1
+      quantity_max: 1
+  roaming_text:
+    - farts violently
+    - calls you a "!@#$%^&*" 

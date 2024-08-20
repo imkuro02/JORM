@@ -81,99 +81,30 @@ def create_all_skill_sets():
 
     return skills
 
+import yaml
 def create_all_items():
-    all_skills = create_all_skill_sets()
-
-    # Load the ODS file
-    ods_file = ezodf.opendoc('items.ods')
-
-    # Access the first sheet
-    sheet = ods_file.sheets[0]
-
-    # Convert rows generator to a list
-    rows = list(sheet.rows())
-
-    # Read the first row to get column labels
-    labels = [cell.value for cell in rows[0]]
-
-    # Initialize an empty dictionary to store items
-    items_dict = {}
-
-    # Iterate over the rows starting from the second row
-    for row in rows[1:]:
-        # Extract the cell values from the row
-        row_values = [cell.value for cell in row]
-        
-        # Assume the first column is the ID
-        item_id = row_values[0]
-        
-        # Create a dictionary for the current item
-        item_dict = dict(zip(labels, row_values))
-        
-        # Store the item in the items_dict using the item_id as the key
-        items_dict[item_id] = item_dict
-
-    # Print the resulting dictionary
     items = {}
-    for item_id, item in items_dict.items():
-        if item['id'] == None:
-            continue
-        name = item['name']
-        description = item['description']
-        #print(item)
-        level_req = int(item['level_req'])
-        skills = item['skills']
+    with open('premade/items.yaml', 'r') as file:
+        items = yaml.safe_load(file)
 
-        if skills != None:
-            skills = all_skills[skills]
-        else:
-            skills = []
+    for item in items:
+        if 'parent' in items[item]:
+            template = dc(items['template'])
+            to_copy = items[item]
 
-        stats = {
-            'max_hp': int(item['max_hp']),
-            'max_mp': int(item['max_mp']),
+            #if 'skills' in to_copy:
+            #    to_copy['skills'] = template['skills']
             
-            'crit_chance': int(item['crit_chance']),
-            'dodge_chance': int(item['dodge_chance']),
-            
-            'physic_block': int(item['physic_block']),
-            'magic_block': int(item['magic_block']),
-            
-            'physic_damage': int(item['physic_damage']),
-            'magic_damage': int(item['magic_damage']),
-            
-            'str': int(item['str']),
-            'dex': int(item['dex']),
-            'con': int(item['con']),
-            'int': int(item['int']),
-            'wis': int(item['wis']),
-            'cha': int(item['cha'])
-        }
+            if 'equipable' == to_copy['parent']:
+                if 'stats' in to_copy:
+                    template['stats'].update(to_copy['stats'])
+                to_copy['stats'] = template['stats']
+                
+            items[item] = to_copy
 
-        slot = item['slot']
-        use_script = item['use_script']
-
-        new_item = {
-            'name': name,
-            'description': description,
-            'slot': slot,
-            'skills': skills,
-            'level_req': level_req,
-            'stats': stats,
-            'use_script': use_script
-        }
-
-        if use_script == None: 
-            del new_item['use_script']
-        if slot == None: 
-            del new_item['skills']
-            del new_item['slot']
-            del new_item['stats']
-            del new_item['level_req']
-
-        items[item_id] = new_item
-        
     return items
+
+
 
 def get_premade():
     return {

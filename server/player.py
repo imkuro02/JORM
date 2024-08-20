@@ -51,6 +51,8 @@ class Player(Actor):
     def character_sheet(self):
         self.skills = []
         for e in self.equipment:
+            if 'skills' not in self.protocol.factory.premade['items'][e]:
+                continue
             for skill in self.protocol.factory.premade['items'][e]['skills']:
                 if skill not in self.skills:
                     self.skills.append(skill)
@@ -137,6 +139,7 @@ class Player(Actor):
                 #return f'You have an item already equipped in slot: {ITEMS[equiped_item]["slot"]}'
         
         for s in ITEMS[item_id]['stats']:
+            
             self.stats[s] += ITEMS[item_id]['stats'][s]
 
         self.equipment.append(item_id)

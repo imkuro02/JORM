@@ -3,6 +3,7 @@ import packet
 import enemy
 import utils
 import random
+import yaml
 
 class Room:
     def __init__(self, map, name: str, description: str):
@@ -38,44 +39,21 @@ class Room:
             _enemy = enemy.Enemy(name)
             _enemy.id = enemy_id
 
-            # add name prefix and customize stats
-            match enemy_id:
-                case 'skeleton':
-                    _enemy.name += ' The Skeleton'
-                    _enemy.skills = ['slash']
-                    _enemy.stats['max_hp'] = 50
-                    _enemy.stats['magic_damage'] = 20
-                    _enemy.stats['physic_damage'] = 20
-                    _enemy.stats['physic_block'] = 10
-                    _enemy.stats['magic_block'] = 10
-                    _enemy.loot_table = [
-                        enemy.Loot(item_index = 'money', drop_chance = .5, quantity_min = 10, quantity_max = 20),
-                        enemy.Loot(item_index = 'rock', drop_chance = .25, quantity_min = 1, quantity_max = 3)
-                    ]
-                case 'slime':
-                    _enemy.name += ' The Slime'
-                    _enemy.skills = ['spit','push']
-                    _enemy.stats['max_hp'] = 20
-                    _enemy.stats['magic_damage'] = 20
-                    _enemy.stats['physic_damage'] = 20
-                    _enemy.stats['physic_block'] = 10
-                    _enemy.stats['magic_block'] = 10
-                    _enemy.loot_table = [
-                        enemy.Loot(item_index = 'potion0', drop_chance = 1, quantity_min = 1, quantity_max = 10)
-                    ]
-                case 'gamer':
-                    _enemy.name += ' The Gamer'
-                    _enemy.skills = ['spit','slash']
-                    _enemy.roaming_text = ['farts violently',' calls you a "!@#$%^&*" ']
-                    _enemy.stats['max_hp'] = 100
-                    _enemy.stats['magic_damage'] = 25
-                    _enemy.stats['physic_damage'] = 25
-                    _enemy.stats['physic_block'] = 10
-                    _enemy.stats['magic_block'] = 10
-                    _enemy.loot_table = [
-                        enemy.Loot(item_index = 'money', drop_chance = .5, quantity_min = 1, quantity_max = 10),
-                        enemy.Loot(item_index = 'gamer_katana', drop_chance = .1, quantity_min = 1, quantity_max = 1)
-                    ]
+            enemies = {}
+            with open('premade/enemies.yaml', 'r') as file:
+                enemies = yaml.safe_load(file)
+
+            if enemy_id in enemies:
+                _enemy.id = enemy_id
+                _enemy.name = f'{name} The {enemies[enemy_id]["name"]}'
+                if 'skills' in enemies[enemy_id]: 
+                     _enemy.skills = enemies[enemy_id]['skills']
+                if 'stats' in enemies[enemy_id]: 
+                    _enemy.stats.update(enemies[enemy_id]['stats'])
+                if 'loot_table' in enemies[enemy_id]: 
+                    _enemy.loot_table = enemies[enemy_id]['loot_table']
+                if 'roaming_text' in enemies[enemy_id]: 
+                    _enemy.roaming_text = enemies[enemy_id]['roaming_text']
             
             # if name is not already taken do not retry and the initialization and continue
             if name not in self.enemies:
