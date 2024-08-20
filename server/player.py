@@ -14,20 +14,20 @@ PLAYER_STATS = {
     'exp':      0,
     'points':   0,
 
-    'crit_chance':  5,
-    'dodge_chance': 5,
-    'physic_block': 0,
-    'magic_block':  0,
+    'crit_chance':  10,
+    'dodge_chance': 10,
+    'physic_block': 10,
+    'magic_block':  10,
 
     'physic_damage': 10,
     'magic_damage': 10,
 
-    'str':      0,
-    'dex':      0,
-    'con':      0,
-    'int':      0,
-    'wis':      0,
-    'cha':      0
+    'str':      10,
+    'dex':      10,
+    'con':      10,
+    'int':      10,
+    'wis':      10,
+    'cha':      10
 }
 
 class Player(Actor):
@@ -57,7 +57,7 @@ class Player(Actor):
 
         #print(self.skills)
         if self.target == None:
-            _target_name = 'None'
+            _target_name = None
         else:
             _target_name = self.target.name
         return {
@@ -72,12 +72,9 @@ class Player(Actor):
 
     def die(self):
         self.broadcast(f'{self.name} has died!')
-        self.room.move_player(self, 'Small Town')
         self.stats['hp'] = self.stats['max_hp']
         self.stats['mp'] = self.stats['max_mp']
-        #self.broadcast(f'{self.name} has died!',self)
-        #self.broadcast(f'{self.name} ressurected!')
-        pass
+        self.room.move_player(self, 'Small Town', forced = True)
         
     def set_target(self,target):
         if target == None:

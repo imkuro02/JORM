@@ -44,7 +44,7 @@ def create_all_skills():
         skill_dict[skill_id] = skill_dict
         _skills[skill_id] = {}
         _skills[skill_id]['name'] = skill_dict['name']
-        _skills[skill_id]['script'] = skill_dict['script']
+        #_skills[skill_id]['script'] = skill_dict['script']
         _skills[skill_id]['target'] = skill_dict['target']
         _skills[skill_id]['mp_cost'] = int(skill_dict['mp_cost'])
         _skills[skill_id]['hp_cost'] = int(skill_dict['hp_cost'])

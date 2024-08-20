@@ -141,7 +141,7 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Inspect':
 			print('fdsafsda')
 			var text = ''
-			text += '%s\n%s\n' % [ITEMS[object]['name'],ITEMS[object]['description']]
+			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
 			'''
 			if 'slot' in ITEMS[object]:
 				text += '\n.....\n[table=2]'

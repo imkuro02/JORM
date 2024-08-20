@@ -99,43 +99,46 @@ class Actor:
                 continue
             self.set_cooldown(i,6)
 
-        # check if skill has a default damage script or a custom script
-        match skill['script']:
-            case 'physic_damage':
+
+        match skill_id:
+            case 'stab':
                 self.set_cooldown(skill_id,9)
-                roll = random.randrange(1,self.stats['physic_damage'])
+                roll = self.stats['physic_damage']
+                if crit: 
+                    roll = roll * 3
+                else:
+                    roll = int(roll/2)
+                self.target.take_physic_damage(roll,self,skill['name'])
+            case 'slash':
+                self.set_cooldown(skill_id,9)
+                roll = self.stats['physic_damage']
                 if crit: 
                     roll = roll * 2
                 self.target.take_physic_damage(roll,self,skill['name'])
-            case 'magic_damage':
+            case 'spit':
                 self.set_cooldown(skill_id,9)
-                roll = random.randrange(1,self.stats['magic_damage'])
+                roll = self.stats['magic_damage']
                 if crit: 
                     roll = roll * 2
                 self.target.take_magic_damage(roll,self,skill['name'])
-
-            # if skill has a custom script
-            case 'custom':
-                # check its id to see what to do
-                match skill_id:
-                    case 'firebolt':
-                        self.set_cooldown(skill_id,9)
-                        roll = random.randrange(1,self.stats['magic_damage'])
-                        if crit: 
-                            roll = roll * 2
-                            self.take_magic_damage(roll,self,skill['name'])
-                        self.target.take_magic_damage(roll,self,skill['name'])
-                    case 'push':
-                        self.set_cooldown(skill_id,9)
-                        roll = random.randrange(1,self.stats['physic_damage'])
-                        if crit: 
-                            roll = roll * 2
-                        self.broadcast(f'{self.target.name} lost {int(roll)} MP!')
-                        self.target.drain_mp(mp = roll)
-                    case 'guard':
-                        self.set_cooldown(skill_id,20)
-                        self.regen(hp=10+self.stats['con'],mp=0)
-                        self.broadcast(f'GRRRR!')
+            case 'firebolt':
+                self.set_cooldown(skill_id,9)
+                roll = self.stats['magic_damage']
+                if crit: 
+                    roll = roll * 2
+                    self.take_magic_damage(roll,self,skill['name'])
+                self.target.take_magic_damage(roll,self,skill['name'])
+            case 'push':
+                self.set_cooldown(skill_id,9)
+                roll = self.stats['physic_damage']
+                if crit: 
+                    roll = roll * 2
+                self.broadcast(f'{self.target.name} lost {int(roll)} MP!')
+                self.target.drain_mp(mp = roll)
+            case 'guard':
+                self.set_cooldown(skill_id,20)
+                self.regen(hp=10+self.stats['con'],mp=0)
+                self.broadcast(f'GRRRR!')
         return
 
     def regen(self, hp = 0, mp = 0):

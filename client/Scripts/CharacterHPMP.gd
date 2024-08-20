@@ -30,7 +30,7 @@ func set_sheet(_sheet):
 		get_node("MP_BAR/Label").text = '-' 
 		return
 		
-	get_node("Name").text = 'None'
+	#get_node("Name").text = 'None'
 	
 	get_node("HP_BAR").max_value = sheet['stats']['max_hp']
 	get_node("MP_BAR").max_value = sheet['stats']['max_mp']

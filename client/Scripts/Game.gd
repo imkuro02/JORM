@@ -63,22 +63,23 @@ func interactive_chatbox_update():
 			meta_contents.append(str) # Get the content between [meta] and [/meta]
 
 		for content in meta_contents:
-			if sheet['target'] in content:
-				chatbox.text = chatbox.text.replace(content,interactable('target',sheet['target'],sheet['target']))
-			else:
-				for enemy in ROOM['enemies']:
-					if enemy in content: 
-						chatbox.text = chatbox.text.replace(content,interactable('enemy',enemy,enemy))
-				for player in ROOM['players']:
-					if player in content: 
-						chatbox.text = chatbox.text.replace(content,interactable('player',player,player))
-						
+			if sheet['target'] != null:
+				if sheet['target'] in content:
+					chatbox.text = chatbox.text.replace(content,interactable('target',sheet['target'],sheet['target']))
+				else:
+					for enemy in ROOM['enemies']:
+						if enemy in content: 
+							chatbox.text = chatbox.text.replace(content,interactable('enemy',enemy,enemy))
+					for player in ROOM['players']:
+						if player in content: 
+							chatbox.text = chatbox.text.replace(content,interactable('player',player,player))
+							
 			if ('"tag":"target"' in content) and (sheet['target'] not in content):
 				regex.compile(r"\"label\":\"(.*?)\"")
 				var label_result = regex.search_all(content)
 				label_result = label_result[0].get_string(1)
 				chatbox.text = chatbox.text.replace(content,interactable('enemy',label_result,label_result))
-				
+					
 		#print(Time.get_ticks_usec() - time)
 		
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
@@ -133,7 +134,9 @@ func _process(_delta):
 	refresh_players()
 	chatbox_trim_update()
 	chatbox_update()
-	interactive_chatbox_update()
+	# currently borked, not sure if worth fixing
+	# it crashes when sheet['target'] is null, cuz then u cant look up if its in the content or not
+	#interactive_chatbox_update()
 	
 	
 
@@ -240,16 +243,17 @@ func receive_character_sheet(_sheet):
 	sheet = _sheet
 	
 	combat_panel.get_node("Self").set_sheet(sheet)
-	
-	var target_sheet 
-	if sheet['target'] in ROOM['players']:
-		target_sheet = ROOM['players'][sheet['target']]
-	elif sheet['target'] in ROOM['enemies']:
-		target_sheet = ROOM['enemies'][sheet['target']]
-	else:
-		target_sheet = null
 
-	combat_panel.get_node("Target").set_sheet(target_sheet)
+	#print(sheet['target'])
+	if sheet['target'] == null:
+		combat_panel.get_node("Target").set_sheet(null)
+	if sheet['target'] in ROOM['players']:
+		var target_sheet = ROOM['players'][sheet['target']]
+		combat_panel.get_node("Target").set_sheet(target_sheet)
+	elif sheet['target'] in ROOM['enemies']:
+		var target_sheet = ROOM['enemies'][sheet['target']]
+		combat_panel.get_node("Target").set_sheet(target_sheet)
+
 	
 	''' SKILLS '''
 	skills.text = '[table=4]'
@@ -289,7 +293,7 @@ func receive_character_sheet(_sheet):
 	
 func show_room(clear = false):
 	if clear: 
-		chatbox.text = ''
+		chatbox.text = '[bgcolor="black"]'
 		
 	background_manager.new_room(ROOM['name'])
 	var exits = ROOM['exits']

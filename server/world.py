@@ -42,8 +42,12 @@ class Room:
             match enemy_id:
                 case 'skeleton':
                     _enemy.name += ' The Skeleton'
-                    _enemy.skills = ['slash','guard']
-                    _enemy.stats['max_hp'] = 10
+                    _enemy.skills = ['slash']
+                    _enemy.stats['max_hp'] = 50
+                    _enemy.stats['magic_damage'] = 20
+                    _enemy.stats['physic_damage'] = 20
+                    _enemy.stats['physic_block'] = 10
+                    _enemy.stats['magic_block'] = 10
                     _enemy.loot_table = [
                         enemy.Loot(item_index = 'money', drop_chance = .5, quantity_min = 10, quantity_max = 20),
                         enemy.Loot(item_index = 'rock', drop_chance = .25, quantity_min = 1, quantity_max = 3)
@@ -51,17 +55,21 @@ class Room:
                 case 'slime':
                     _enemy.name += ' The Slime'
                     _enemy.skills = ['spit','push']
-                    _enemy.stats['max_hp'] = 15
-                    _enemy.stats['magic_damage'] = 10
-                    _enemy.stats['physic_damage'] = 10
+                    _enemy.stats['max_hp'] = 20
+                    _enemy.stats['magic_damage'] = 20
+                    _enemy.stats['physic_damage'] = 20
+                    _enemy.stats['physic_block'] = 10
+                    _enemy.stats['magic_block'] = 10
                     _enemy.loot_table = [
                         enemy.Loot(item_index = 'potion0', drop_chance = 1, quantity_min = 1, quantity_max = 10)
                     ]
                 case 'gamer':
                     _enemy.name += ' The Gamer'
-                    _enemy.skills = ['spit','push']
+                    _enemy.skills = ['spit','slash']
                     _enemy.roaming_text = ['farts violently',' calls you a "!@#$%^&*" ']
-                    _enemy.stats['max_hp'] = 20
+                    _enemy.stats['max_hp'] = 100
+                    _enemy.stats['magic_damage'] = 25
+                    _enemy.stats['physic_damage'] = 25
                     _enemy.stats['physic_block'] = 10
                     _enemy.stats['magic_block'] = 10
                     _enemy.loot_table = [
@@ -113,9 +121,9 @@ class Room:
             
         del self.players[player.name]
 
-    def move_player(self,player,new_room):
+    def move_player(self, player, new_room, forced = False):
         
-        if new_room not in self.exits:
+        if new_room not in self.exits and not forced:
             return 'not a valid destination'
 
         '''
@@ -130,7 +138,8 @@ class Room:
 
 
         self.remove_player(player)
-        self.exits[new_room].add_player(player)
+        self.map.rooms[new_room].add_player(player)
+ 
 
         '''
         for p in followers:
