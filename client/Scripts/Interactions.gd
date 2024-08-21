@@ -47,10 +47,6 @@ func create_interaction(data, activate_now = false):
 	if 'clear_chat' == data['tag']:
 		activate_now = true
 		interactions = ['Clear']
-
-	if 'look' == data['tag']:
-		activate_now = true
-		interactions = ['Look']
 	
 	if 'self_target' == data['tag']:
 		activate_now = true
@@ -97,9 +93,8 @@ func _on_rich_text_label_meta_clicked(meta):
 	var p = null
 	match action:
 		'Clear':
-			MAIN.chat_window.chatbox.text = ''
-		'Look':
-			MAIN.chat_window.show_room()
+			#MAIN.chat_window.chatbox.text = ''
+			MAIN.chat_window.chatbox_clear()
 		'Go':
 			p = Packet.new('Go',[object])
 			MAIN.audio.play('go')

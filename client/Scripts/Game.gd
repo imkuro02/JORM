@@ -2,6 +2,7 @@ extends Control
 
 const Packet = preload("res://Scripts/Packet.gd")
 
+#@onready var chatbox_container = $Chatbox/ChatboxContainer
 @onready var chatbox = $Chatbox/Chatbox
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
@@ -26,8 +27,7 @@ var autouse_skills = []
 var prev_autouse = 0
 
 func _ready():
-	commands.text = '%s | %s | %s | %s' % [
-		interactable('look',0,'Look'),
+	commands.text = '%s | %s | %s' % [
 		interactable('self_target',0,'Self Target'),
 		interactable('un_self_target',0,'Untarget'),
 		interactable('clear_chat',0,'Clear')
@@ -35,11 +35,27 @@ func _ready():
 		
 	MAIN = get_tree().root.get_node('Main')
 	character_sheet.GAME = self
+	chatbox_clear()
 
 	
 var chat_message_queue = []
 var text_appended = false
+
+func chatbox_clear():
+	var empty = ''''''
+	chatbox.text = empty
+	
 func chatbox_update():
+	# autooscroll only if at bottom already
+	var scrollbar = chatbox.get_v_scroll_bar()
+	if scrollbar.visible:
+		chatbox.scroll_following = scrollbar.value == abs(scrollbar.size.y - scrollbar.max_value)
+	#print('%s vs %s / %s' % [scrollbar.value, scrollbar.size , abs(scrollbar.size.y - scrollbar.max_value)])
+	
+	#var scrollbar = chatbox_container.get_v_scroll_bar()
+	#if scrollbar.value < scrollbar.max_value:
+	#		scrollbar.value = scrollbar.max_value
+		
 	if int(MAIN.SERVER_TIME) % 5 == 0:
 		if not text_appended:
 			if len(chat_message_queue) >= 1:
@@ -47,8 +63,14 @@ func chatbox_update():
 				chat_message_queue.pop_at(0)
 				text_appended = true
 				MAIN.audio.play('message')
+				
+		
+				
 	else:
 		text_appended = false
+		
+	
+	
 
 func interactive_chatbox_update():
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
@@ -134,6 +156,7 @@ func _process(_delta):
 	refresh_players()
 	chatbox_trim_update()
 	chatbox_update()
+
 	# currently borked, not sure if worth fixing
 	# it crashes when sheet['target'] is null, cuz then u cant look up if its in the content or not
 	#interactive_chatbox_update()
@@ -144,16 +167,6 @@ func interaction(data):
 	var w = interactions_popup.instantiate()
 	add_child(w)
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
-
-func receive_simple_message(text: String):
-	MAIN.audio.play('message')
-	chatbox.text += '%s\n' % [text]
-	
-
-func receive_chat(sender: String, text: String):
-	MAIN.audio.play('message')
-	var msg = '%s Says %s\n' % [interactable('player',sender,sender),text]
-	chatbox.text += msg
 
 func receive_flavoured_message(text):
 	var time = Time.get_ticks_usec()
@@ -180,13 +193,14 @@ func receive_flavoured_message(text):
 					''+interactable(pattern['type'],key,pattern['data'][key]['name'])+fix)
 			
 	# exits dont have a names field
-	for i in _exits:
-		for fix in acceptable_fixes:
-			text = text.replace(''+i+fix, ''+interactable('exit', i, i )+fix)
+	#for i in _exits:
+	#	for fix in acceptable_fixes:
+	#		text = text.replace(''+i+fix, ''+interactable('exit', i, i )+fix)
 	
 	text = text.strip_edges(true, false)
 	text = text + '\n'
 	text = text.strip_edges(true, false)
+	text = '[bgcolor="black"]' + text + '[/bgcolor]'
 	chat_message_queue.append(text)
 	#print(Time.get_ticks_usec() - time)
 
@@ -205,7 +219,6 @@ func interactable(tag, object, label):
 		'skill': 'LIGHT_GOLDENROD',
 		'loot': 'GOLDENROD',
 		'clear_chat': 'yellow',
-		'look': 'yellow',
 		'self_target': 'yellow',
 		'un_self_target': 'yellow'
 	}
@@ -218,22 +231,17 @@ func interactable(tag, object, label):
 
 		
 func receive_room(room):
-		
 	if 'name' not in ROOM:
-		#chatbox.text = ''
 		ROOM = room
-		show_room(true)
 		return
 		
 	if ROOM['name'] != room['name']:
-		#chatbox.text = ''
 		ROOM = room
-		show_room(true)
 		return
 		
 	ROOM = room
-		
-	return
+	show_room()
+
 
 func receive_character_sheet(_sheet):
 	character_sheet.receive_character_sheet(_sheet)
@@ -291,32 +299,19 @@ func receive_character_sheet(_sheet):
 	''' AutoUse '''
 	''' SKILLS '''
 	
-func show_room(clear = false):
-	if clear: 
-		chatbox.text = '[bgcolor="black"]'
-		
+func show_room():
 	background_manager.new_room(ROOM['name'])
 	var exits = ROOM['exits']
 	var label = '[center][color="GOLD"]%s[/color][/center]\n' % [ROOM['name']]
-	var desc = ROOM['description']
-	desc = label + desc + '\n'
-	#receive_flavoured_message(desc)
-	'''
-	for exit in exits:
-		desc += 'Go to: ' + interactable('exit',exit,exit) + '\n'
-
-	for player in ROOM['players']:
-		desc += interactable('player',player,player)+'\n'
-		
-	for enemy in ROOM['enemies']:
-		desc += interactable('enemy',enemy,enemy)+'\n'
-		
-	desc += 'Is here..\n'
-	'''
+	var desc = ''
+	if $RightPanel/VBoxContainer/RoomDescriptions.button_pressed:
+		desc = ROOM['description'] + '\n'
+	desc = label + desc 
+	
 	for exit in ROOM['exits']:
 		desc += '[' + interactable('exit',exit,exit) + '] '
 	desc += '\n'
-	chatbox.text += desc
+	$Chatbox/RoomDescription.text = '[bgcolor=black]' + desc
 	
 func send(text: String):
 	if len(text) > 0:
@@ -357,3 +352,7 @@ func _on_audio_volume_value_changed(value):
 	MAIN.audio.set_volume(value)
 
 
+
+
+func _on_room_meta_clicked(meta):
+	interaction(meta)

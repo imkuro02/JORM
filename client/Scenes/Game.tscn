@@ -90,7 +90,16 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_4mtw6")
-metadata/_edit_group_ = true
+theme_override_constants/separation = 0
+
+[node name="RoomDescription" type="RichTextLabel" parent="Chatbox"]
+layout_mode = 2
+theme_override_constants/line_separation = 6
+bbcode_enabled = true
+text = "test
+test"
+fit_content = true
+meta_underlined = false
 
 [node name="Chatbox" type="RichTextLabel" parent="Chatbox"]
 layout_mode = 2
@@ -98,9 +107,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/line_separation = 6
 bbcode_enabled = true
+text = "test"
 scroll_following = true
 meta_underlined = false
-hint_underlined = false
 
 [node name="Commands" type="RichTextLabel" parent="Chatbox"]
 texture_filter = 1
@@ -140,6 +149,14 @@ self_modulate = Color(1, 1, 0, 1)
 layout_mode = 2
 focus_mode = 0
 text = "AutoUse"
+flat = true
+
+[node name="RoomDescriptions" type="CheckBox" parent="RightPanel/VBoxContainer"]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+focus_mode = 0
+button_pressed = true
+text = "Room Descriptions"
 flat = true
 
 [node name="Skills" type="RichTextLabel" parent="RightPanel/VBoxContainer"]
@@ -211,7 +228,7 @@ step = 0.2
 [node name="Delay" type="Label" parent="Settings"]
 layout_mode = 2
 
-[connection signal="meta_clicked" from="Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
+[connection signal="meta_clicked" from="Chatbox/RoomDescription" to="." method="_on_room_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Others" to="." method="_on_others_meta_clicked"]

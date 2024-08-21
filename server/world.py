@@ -91,6 +91,7 @@ class Room:
 
         p = packet.FlavouredMessagePacket(f'{player.name} entered.')
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
+        self.players[player.name].protocol.onPacket(self,packet.FlavouredMessagePacket(f'Arrived at {self.name}'))
 
     def remove_player(self,player):
         p = packet.FlavouredMessagePacket(f'{player.name} left.')
