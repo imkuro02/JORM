@@ -200,7 +200,7 @@ func receive_flavoured_message(text):
 	text = text.strip_edges(true, false)
 	text = text + '\n'
 	text = text.strip_edges(true, false)
-	text = '[bgcolor="black"]' + text + '[/bgcolor]'
+	#text = '[bgcolor="black"]' + text + '[/bgcolor]'
 	chat_message_queue.append(text)
 	#print(Time.get_ticks_usec() - time)
 
@@ -311,7 +311,7 @@ func show_room():
 	for exit in ROOM['exits']:
 		desc += '[' + interactable('exit',exit,exit) + '] '
 	desc += '\n'
-	$Chatbox/RoomDescription.text = '[bgcolor=black]' + desc
+	$Chatbox/RoomDescription.text =  desc
 	
 func send(text: String):
 	if len(text) > 0:

@@ -25,7 +25,7 @@ bg_forest1 = ExtResource("5_w4nn6")
 bg_ruins = ExtResource("6_cwdo7")
 
 [node name="Background" type="TextureRect" parent="."]
-modulate = Color(0.290196, 0.290196, 0.290196, 1)
+modulate = Color(0.196078, 0.196078, 0.196078, 1)
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15

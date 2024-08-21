@@ -94,9 +94,8 @@ theme_override_constants/separation = 0
 
 [node name="RoomDescription" type="RichTextLabel" parent="Chatbox"]
 layout_mode = 2
-theme_override_constants/line_separation = 6
 bbcode_enabled = true
-text = "test
+text = "[bgcolor=red]test
 test"
 fit_content = true
 meta_underlined = false
@@ -105,9 +104,8 @@ meta_underlined = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/line_separation = 6
 bbcode_enabled = true
-text = "test"
+text = "[bgcolor=blue]test"
 scroll_following = true
 meta_underlined = false
 
@@ -229,6 +227,7 @@ step = 0.2
 layout_mode = 2
 
 [connection signal="meta_clicked" from="Chatbox/RoomDescription" to="." method="_on_room_meta_clicked"]
+[connection signal="meta_clicked" from="Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Skills" to="." method="_on_others_meta_clicked"]
 [connection signal="meta_clicked" from="RightPanel/VBoxContainer/Others" to="." method="_on_others_meta_clicked"]

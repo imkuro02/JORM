@@ -123,6 +123,19 @@ basic_wand:
   - firebolt
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
 
+gamer_katana:
+  parent: equipable
+  name: Plastic Katana
+  slot: weapon
+  stats:
+    cha: -1
+    dodge_chance: 5
+    crit_chance: 10
+    physic_damage: 5
+  skills:
+    - slash
+    - stab
+
 money:
   parent: misc
   name: Dabloon

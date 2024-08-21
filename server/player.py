@@ -43,9 +43,6 @@ class Player(Actor):
         self.skill_cooldowns = {}
 
         self.target = None
-
-        self.ticks_passed = 0
-
         self.premade = self.protocol.factory.premade
     
     def character_sheet(self):
@@ -176,17 +173,14 @@ class Player(Actor):
     def tick(self):
         super().tick()
         
-        if self.ticks_passed % (30*10) == 0:
+        if self.protocol.factory.server_time % (30*60) == 0:
             self.regen(hp = self.stats['con'])
             self.regen(mp = self.stats['int'])
 
-        if self.ticks_passed % 3 == 0:
+        if self.protocol.factory.server_time % 3 == 0:
            self.room_update()
 
-        self.ticks_passed += 1
 
-        if self.ticks_passed >= 30*10:
-            self.ticks_passed = 0
         
         
 
