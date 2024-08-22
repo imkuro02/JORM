@@ -7,9 +7,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
 @onready var settings = $Settings
-@onready var others = $RightPanel/VBoxContainer/Others
 
-@onready var skills = $RightPanel/VBoxContainer/Skills
 @onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager
 
@@ -23,8 +21,7 @@ var sheet
 var MAIN 
 var ROOM = {}
 
-var autouse_skills = []
-var prev_autouse = 0
+
 
 func _ready():
 	commands.text = '%s | %s | %s' % [
@@ -111,41 +108,14 @@ func chatbox_trim_update():
 		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
 
 func refresh_players():
-	others.text = ''
-	
-	if ROOM == null:
-		return
-		
 	if sheet == null:
 		return
 		
-	#others.text += 'Players:\n'
-	for player in ROOM['players']:
-		var character = ROOM['players'][player]
-		var id = player
-		var name = player
-		var hp = character['stats']['hp']
-		var max_hp = character['stats']['max_hp']
-		if sheet['target'] == id:
-			others.text += interactable('target',id,name)
-		else:
-			others.text += interactable('player',id,name)
-		others.text += '\n'
-		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+	if ROOM == null:
+		return
+		
+	character_sheet.receive_others(sheet['target'], ROOM['players'], ROOM['enemies'])
 	
-	#others.text += 'Enemies:\n'
-	for enemy in ROOM['enemies']:
-		var character = ROOM['enemies'][enemy]
-		var id = enemy
-		var name = enemy
-		var hp = character['stats']['hp']
-		var max_hp = character['stats']['max_hp']
-		if sheet['target'] == id:
-			others.text += interactable('target',id,name)
-		else:
-			others.text += interactable('enemy',id,name)
-		others.text += '\n'
-		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
 		
 	
 
@@ -263,48 +233,14 @@ func receive_character_sheet(_sheet):
 		combat_panel.get_node("Target").set_sheet(target_sheet)
 
 	
-	''' SKILLS '''
-	skills.text = '[table=4]'
-	for skill in sheet['skills']:
-		var cooldown = ''
-		var autouse = ''
-
-		if skill in sheet['skill_cooldowns']:
-			cooldown = '(%ss)' % [int(abs(MAIN.SERVER_TIME - sheet['skill_cooldowns'][skill])/30)+1]
-			
-		if skill in autouse_skills:
-			autouse = '(Auto)'
-		skills.text += '[cell]%s [/cell][cell][color="aqua"]%s [/color][/cell][cell] %s[/cell][cell]%s[/cell] \n' % [
-			interactable('skill',skill,SKILLS[skill]['name']),
-			SKILLS[skill]['mp_cost'],
-			cooldown,
-			autouse
-		]
-	skills.text += '[/table]'
 	
-	''' AutoUse '''
-	for skill in autouse_skills:
-		if skill not in sheet['skills']:
-			autouse_skills.erase(skill)
-	
-	if $RightPanel/VBoxContainer/AutoUse.button_pressed == true:
-		for skill in autouse_skills:
-			if prev_autouse < MAIN.SERVER_TIME - 30:
-				if skill not in sheet['skill_cooldowns']:
-					var p = Packet.new('UseSkill',[skill])
-					MAIN.send_packet(p)
-				
-	if prev_autouse < MAIN.SERVER_TIME - 30:
-		prev_autouse = MAIN.SERVER_TIME
-	''' AutoUse '''
-	''' SKILLS '''
 	
 func show_room():
 	background_manager.new_room(ROOM['name'])
 	var exits = ROOM['exits']
 	var label = '[center][color="GOLD"]%s[/color][/center]\n' % [ROOM['name']]
 	var desc = ''
-	if $RightPanel/VBoxContainer/RoomDescriptions.button_pressed:
+	if $Chatbox/RoomDescriptions.button_pressed:
 		desc = ROOM['description'] + '\n'
 	desc = label + desc 
 	
@@ -342,17 +278,11 @@ func _on_logout_pressed():
 func _on_chatbox_meta_clicked(meta):
 	interaction(meta)
 
-func _on_others_meta_clicked(meta):
-	interaction(meta)
-	
 func _on_font_size_value_changed(value):
 	MAIN.theme.default_font_size = int(value)
 
 func _on_audio_volume_value_changed(value):
 	MAIN.audio.set_volume(value)
-
-
-
 
 func _on_room_meta_clicked(meta):
 	interaction(meta)

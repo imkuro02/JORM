@@ -228,7 +228,13 @@ class ServerProtocol(WebSocketServerProtocol):
             #self.broadcast(p,exclude_self=True)
             if self._actor != None:
                 self.factory.database.save_player(self._actor)
-                self._actor.room.remove_player(self._actor)
+                self._actor.logoff()
+                
+                #self._actor.room.remove_player(self._actor)
+
+                
+                
+                
 
 
         self.factory.remove_protocol(self)

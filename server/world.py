@@ -95,10 +95,12 @@ class Room:
 
     def remove_player(self,player):
         p = packet.FlavouredMessagePacket(f'{player.name} left.')
-        self.players[player.name].protocol.broadcast(p,exclude_self=True)
+        if player in self.players:
+            self.players[player.name].protocol.broadcast(p,exclude_self=True)
         
             
         del self.players[player.name]
+
 
     def move_player(self, player, new_room, forced = False):
         

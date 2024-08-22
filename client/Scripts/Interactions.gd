@@ -124,11 +124,11 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Consume':
 			p = Packet.new('UseItem',[object])
 		'Toggle AutoUse':
-			if object in MAIN.chat_window.autouse_skills:
-				MAIN.chat_window.autouse_skills.erase(object)
+			if object in MAIN.chat_window.character_sheet.autouse_skills:
+				MAIN.chat_window.character_sheet.autouse_skills.erase(object)
 			else:
-				MAIN.chat_window.autouse_skills.append(object)
-			print(MAIN.chat_window.autouse_skills)
+				MAIN.chat_window.character_sheet.autouse_skills.append(object)
+			#print(MAIN.chat_window.character_sheet.autouse_skills)
 		'Skill Description':
 			var text = ''
 			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]

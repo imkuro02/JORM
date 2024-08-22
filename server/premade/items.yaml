@@ -95,7 +95,7 @@ basic_sword:
   name: Training Sword
   slot: weapon
   stats:
-    physic_damage: 10
+    physic_damage: 3
   skills:
   - slash
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -105,8 +105,8 @@ basic_shield:
   name: Training Shield
   slot: offhand
   stats:
-    physic_block: 10
-    magic_block: 5
+    physic_block: 2
+    magic_block: 1
   skills:
   - guard
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -118,7 +118,7 @@ basic_wand:
   stats:
     int: 1
     wis: 1
-    magic_damage: 10
+    magic_damage: 4
   skills:
   - firebolt
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -131,7 +131,7 @@ gamer_katana:
     cha: -1
     dodge_chance: 5
     crit_chance: 10
-    physic_damage: 5
+    physic_damage: 2
   skills:
     - slash
     - stab

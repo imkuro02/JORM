@@ -7,27 +7,27 @@ import utils
 from actor import Actor
 
 PLAYER_STATS = {
-    'hp':       100,
-    'mp':       100,
-    'max_hp':   100,
-    'max_mp':   100,
+    'hp':       20,
+    'mp':       20,
+    'max_hp':   20,
+    'max_mp':   20,
     'exp':      0,
     'points':   0,
 
-    'crit_chance':  10,
-    'dodge_chance': 10,
-    'physic_block': 10,
-    'magic_block':  10,
+    'crit_chance':  0,
+    'dodge_chance': 0,
+    'physic_block': 0,
+    'magic_block':  0,
 
-    'physic_damage': 10,
-    'magic_damage': 10,
+    'physic_damage': 0,
+    'magic_damage': 0,
 
-    'str':      10,
-    'dex':      10,
-    'con':      10,
-    'int':      10,
-    'wis':      10,
-    'cha':      10
+    'str':      0,
+    'dex':      0,
+    'con':      0,
+    'int':      0,
+    'wis':      0,
+    'cha':      0
 }
 
 class Player(Actor):
@@ -68,6 +68,17 @@ class Player(Actor):
             'skills':           self.skills,
             'skill_cooldowns':  self.skill_cooldowns
             }
+
+    def logoff(self):
+        #self.broadcast(f'{self.name} has died!')
+        #for enemy in self.room.enemies:
+        #    if self.room.enemies[enemy].target == self:
+        #        self.room.enemies[enemy].target = None
+        #for player in self.room.players:
+        #    if self.room.players[player].target == self:
+        #        self.room.players[player].target = None
+        del self.room.players[self.name]
+        self.room = None
 
     def die(self):
         self.broadcast(f'{self.name} has died!')
@@ -174,11 +185,14 @@ class Player(Actor):
         super().tick()
         
         if self.protocol.factory.server_time % (30*60) == 0:
-            self.regen(hp = self.stats['con'])
-            self.regen(mp = self.stats['int'])
+            self.regen(hp = self.stats['con'] + 1)
+            self.regen(mp = self.stats['int'] + 1)
 
         if self.protocol.factory.server_time % 3 == 0:
            self.room_update()
+
+        
+
 
 
         

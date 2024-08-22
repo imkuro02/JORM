@@ -1,18 +1,25 @@
 extends Panel
 
+const Packet = preload("res://Scripts/Packet.gd")
+
 @onready var ch = $VSplitContainer/CharacterSheet
 @onready var inv = $VSplitContainer/Inventory
+
 @onready var inv_text = inv.get_node('Inventory')
 @onready var inv_search = inv.get_node('LineEdit')
+
+@onready var combat = $VSplitContainer/Combat
+@onready var skills = $VSplitContainer/Combat/Skills
+@onready var others = $VSplitContainer/Combat/Others
+
+var autouse_skills = []
+var prev_autouse = 0
 
 var MAIN
 var hovered_item = null
 var GAME
 
 var state = 'sheet'
-
-@onready var button_sheet = $VSplitContainer/HBoxContainer/ButtonSheet
-@onready var button_inventory = $VSplitContainer/HBoxContainer/ButtonInventory
 
 
 func _ready():
@@ -21,12 +28,87 @@ func _ready():
 func _process(_delta):
 	ch.visible = state == 'sheet'
 	inv.visible = state == 'inventory'
+	combat.visible = state == 'combat'
+	
+func receive_others(target, players, enemies):
+	
+	others.text = ''
+		
+	#others.text += 'Players:\n'
+	for player in players:
+		var character = players[player]
+		var id = player
+		var name = player
+		var hp = character['stats']['hp']
+		var max_hp = character['stats']['max_hp']
+		if target == id:
+			others.text += GAME.interactable('target',id,name)
+		else:
+			others.text += GAME.interactable('player',id,name)
+		others.text += '\n'
+		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+	
+	#others.text += 'Enemies:\n'
+	for enemy in enemies:
+		var character = enemies[enemy]
+		var id = enemy
+		var name = enemy
+		var hp = character['stats']['hp']
+		var max_hp = character['stats']['max_hp']
+		if target == id:
+			others.text += GAME.interactable('target',id,name)
+		else:
+			others.text += GAME.interactable('enemy',id,name)
+		others.text += '\n'
+		#others.text += ''' [color=red] %s%%[/color]\n''' % [int((hp/max_hp)*100)]
+	pass
+	
+func receive_skills(_skills,_cooldowns):
+	var SKILLS = MAIN.PREMADE['skills']
+	''' SKILLS '''
+	skills.text = '[table=4]'
+	for skill in _skills:
+		var cooldown = ''
+		var autouse = ''
+
+		if skill in _cooldowns:
+			cooldown = '(%ss)' % [int(abs(MAIN.SERVER_TIME - _cooldowns[skill])/30)+1]
+			
+		if skill in autouse_skills:
+			autouse = '(A)'
+		skills.text += '[cell]%s [/cell][cell][color="aqua"]%s [/color][/cell][cell] %s[/cell][cell]%s[/cell] \n' % [
+			GAME.interactable('skill',skill,SKILLS[skill]['name']),
+			SKILLS[skill]['mp_cost'],
+			cooldown,
+			autouse
+		]
+	skills.text += '[/table]'
+	
+	''' AutoUse '''
+	for skill in autouse_skills:
+		if skill not in _skills:
+			#print(autouse_skills)
+			autouse_skills.erase(skill)
+			
+	
+	if $VSplitContainer/Combat/AutoUse.button_pressed == true:
+		for skill in autouse_skills:
+			if prev_autouse < MAIN.SERVER_TIME - 30:
+				if skill not in _cooldowns:
+					var p = Packet.new('UseSkill',[skill])
+					MAIN.send_packet(p)
+				
+	if prev_autouse < MAIN.SERVER_TIME - 30:
+		prev_autouse = MAIN.SERVER_TIME
+	''' AutoUse '''
+	''' SKILLS '''
 	
 func receive_character_sheet(_sheet):
 	var sheet = _sheet
 	
 	var ITEMS = MAIN.PREMADE['items']
-	var SKILLS = MAIN.PREMADE['skills']
+	
+	receive_skills(sheet['skills'],sheet['skill_cooldowns'])
 	
 	var stats = ch.get_node('RichTextLabel')
 	stats.text = ''
@@ -67,6 +149,8 @@ func receive_character_sheet(_sheet):
 	
 	sheet['equipment'].sort()
 	sheet['skills'].sort()
+	
+	
 
 	for i in sheet['equipment']:
 		if inv_search.text.to_lower() not in ITEMS[i]['name'].to_lower() and not inv_search.text.to_lower()=='':
@@ -142,3 +226,16 @@ func _on_button_sheet_button_down():
 
 func _on_button_inventory_button_down():
 	state = 'inventory'
+
+
+func _on_button_combat_button_down():
+	state = 'combat'
+
+func _on_skills_meta_clicked(meta):
+	GAME.interaction(meta)
+
+
+func _on_others_meta_clicked(meta):
+	GAME.interaction(meta)
+
+

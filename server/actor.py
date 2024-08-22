@@ -28,6 +28,13 @@ class Actor:
         for i in cooldowns_finished:
             del self.skill_cooldowns[i]
 
+        if self.target != None:
+            if self.target.room != self.room:
+                if self.target.name in self.room.players:
+                    self.target = self.room.players[self.target.name]
+                if self.target.name in self.room.enemies:
+                    self.target = self.room.enemies[self.target.name]
+
     def set_cooldown(self,skill_id,cooldown):
         cooldown = cooldown * self.room.map.factory.tickrate
         self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
@@ -64,7 +71,9 @@ class Actor:
                 self.broadcast(f'You are not targetting anyone', self)
                 return 
 
+            
             if self.target.room != self.room:
+
                 self.broadcast(f'{self.target.name} is not here', self)
                 return 
         

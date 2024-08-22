@@ -135,8 +135,9 @@ class Enemy(Actor):
                 if self.room.players[player].target == self:
                     self.target = self.room.players[player]
 
-            if self.target != None and self.target.room == self.room:
-                self.use_skill(random.choice(self.skills))
+
+            self.use_skill(random.choice(self.skills))
+
 
 
 

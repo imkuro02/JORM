@@ -1,18 +1,18 @@
 template:
   name: Template
   stats:
-    max_hp:         1000
-    max_mp:         1000
-    str:            10
-    dex:            10
-    con:            10
-    int:            10
-    wis:            10
-    cha:            10
-    physic_damage:  20
-    magic_damage:   20
-    physic_block:   10
-    magic_block:    10
+    max_hp:         100
+    max_mp:         100
+    str:            0
+    dex:            0
+    con:            0
+    int:            0
+    wis:            0
+    cha:            0
+    physic_damage:  0
+    magic_damage:   0
+    physic_block:   0
+    magic_block:    0
     crit_chance:    10
     dodge_chance:   10
   skills:
@@ -20,7 +20,6 @@ template:
     - push
     - guard
     - slash
-    
   loot_table:
     money:
       drop_chance:  0.1
@@ -42,23 +41,14 @@ template:
 slime:
   name: Slime
   stats:
-    max_hp:         10
-    max_mp:         10
-    str:            10
-    dex:            10
-    con:            10
-    int:            10
-    wis:            10
-    cha:            10
-    physic_damage:  20
-    magic_damage:   20
-    physic_block:   10
-    magic_block:    10
+    max_hp:         8
+    max_mp:         8
+    magic_damage:   4
+    physic_block:   1
+    magic_block:    0
     crit_chance:    10
-    dodge_chance:   10
   skills:
     - spit
-    - push
   loot_table:
     money:
       drop_chance:  1
@@ -68,23 +58,14 @@ slime:
 skeleton:
   name: Skeleton
   stats:
-    max_hp:         100
-    max_mp:         100
-    str:            10
-    dex:            10
-    con:            10
-    int:            10
-    wis:            10
-    cha:            10
-    physic_damage:  20
-    magic_damage:   20
-    physic_block:   10
-    magic_block:    10
+    max_hp:         15
+    max_mp:         15
+    physic_damage:  4
+    physic_block:   1
+    magic_block:    -5
     crit_chance:    10
-    dodge_chance:   10
   skills:
-    - spit
-    - push
+    - slash
   loot_table:
     money:
       drop_chance:  1
@@ -109,8 +90,6 @@ gamer:
     crit_chance:    60
     dodge_chance:   10
   skills:
-    - spit
-    - push
     - slash
     - stab
   loot_table:
