@@ -212,12 +212,12 @@ func interactable(tag, object, label):
 	var color_to_tags = {
 		'player': 'aqua',
 		'enemy': 'coral',
-		'inventory': 'LIGHT_STEEL_BLUE',
-		'equipment': 'LIGHT_STEEL_BLUE',
+		'inventory': 'LIGHT_SKY_BLUE',
+		'equipment': 'LIGHT_SKY_BLUE',
 		'target': 'RED',
 		'exit': 'green',
 		'skill': 'LIGHT_GOLDENROD',
-		'loot': 'GOLDENROD',
+		'loot': 'LIGHT_SKY_BLUE',
 		'clear_chat': 'yellow',
 		'self_target': 'yellow',
 		'un_self_target': 'yellow'

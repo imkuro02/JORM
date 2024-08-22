@@ -9,9 +9,19 @@ var MAIN
 var hovered_item = null
 var GAME
 
+var state = 'sheet'
+
+@onready var button_sheet = $VSplitContainer/HBoxContainer/ButtonSheet
+@onready var button_inventory = $VSplitContainer/HBoxContainer/ButtonInventory
+
+
 func _ready():
 	MAIN = get_tree().root.get_node('Main')
 
+func _process(_delta):
+	ch.visible = state == 'sheet'
+	inv.visible = state == 'inventory'
+	
 func receive_character_sheet(_sheet):
 	var sheet = _sheet
 	
@@ -125,3 +135,10 @@ func _on_inventory_meta_hover_ended(meta):
 	
 func _on_inventory_meta_clicked(meta):
 	GAME.interaction(meta)
+
+
+func _on_button_sheet_button_down():
+	state = 'sheet'
+
+func _on_button_inventory_button_down():
+	state = 'inventory'

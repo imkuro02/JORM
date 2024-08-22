@@ -7,9 +7,10 @@ self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 320.0
+grow_vertical = 2
 script = ExtResource("1_eislr")
 
-[node name="VSplitContainer" type="VSplitContainer" parent="."]
+[node name="VSplitContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -19,6 +20,21 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="ButtonSheet" type="Button" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Sheet"
+
+[node name="ButtonInventory" type="Button" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Inv"
 
 [node name="CharacterSheet" type="Panel" parent="VSplitContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -62,6 +78,8 @@ text = "Upgrade costs:
 meta_underlined = false
 hint_underlined = false
 
+[connection signal="button_down" from="VSplitContainer/HBoxContainer/ButtonSheet" to="." method="_on_button_sheet_button_down"]
+[connection signal="button_down" from="VSplitContainer/HBoxContainer/ButtonInventory" to="." method="_on_button_inventory_button_down"]
 [connection signal="meta_clicked" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_clicked"]
 [connection signal="meta_hover_ended" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_ended"]
 [connection signal="meta_hover_started" from="VSplitContainer/Inventory/Inventory" to="." method="_on_inventory_meta_hover_started"]

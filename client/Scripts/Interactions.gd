@@ -136,16 +136,58 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Inspect':
 			print('fdsafsda')
 			var text = ''
-			text += '%s\n%s' % [ITEMS[object]['name'],ITEMS[object]['description']]
-			'''
+			text += '%s\n%s\n' % [ITEMS[object]['name'],ITEMS[object]['description']]
+
+			var _sheet = MAIN.chat_window.sheet
+			var _equipment = _sheet['equipment']
+			
 			if 'slot' in ITEMS[object]:
-				text += '\n.....\n[table=2]'
 				var TRANS = MAIN.PREMADE['translations']
+				#text += '[table=3]'
+				text += '[table=5]'
+
 				for stat_name in ITEMS[object]['stats']:
-					var stat = ITEMS[object]['stats'][stat_name]
-					text += '[cell]%s: [/cell][cell]%s [/cell]\n' % [TRANS[stat_name],stat]
+					var self_compare = false
+					var _current_stat = _sheet['stats'][stat_name] 
+					var _item_stat = ITEMS[object]['stats'][stat_name]
+					var _equiped_stat = 0
+				
+					var _original_stat = _current_stat - _equiped_stat
+					var _new_stat = _original_stat + _item_stat
+					for e in _sheet['equipment']:
+						if ITEMS[e]['slot'] == ITEMS[object]['slot']:
+							_equiped_stat = ITEMS[e]['stats'][stat_name]
+							_original_stat = _current_stat - _equiped_stat
+							_new_stat = _original_stat + _item_stat
+							if e == object:
+								_new_stat = _original_stat 
+								
+
+
+					
+					
+					
+					if (_original_stat + _item_stat == _original_stat + _equiped_stat) and _item_stat == 0:
+						continue
+
+					if _new_stat > _original_stat + _equiped_stat:
+						_new_stat = '[color=green]%s[/color]'%[_new_stat]
+					else:
+						_new_stat = '[color=red]%s[/color]'%[_new_stat]
+					text += '[cell]%s [/cell][cell]%s [/cell][cell]-> [/cell][cell]%s [/cell][cell](%s)[/cell]' %[
+						TRANS[stat_name],
+						_original_stat + _equiped_stat,
+						_new_stat,
+						_item_stat
+					]
+
+
+						
 				text += '[/table]'
-			'''
+				
+					
+				
+		
 			MAIN.chat_window.receive_flavoured_message(text)
 			
 	if p != null:

@@ -1,5 +1,5 @@
 template:
-  name: Ragged Hood
+  name: Template Item
   use_script: potion0
   level_req: 0
   slot: head
@@ -23,7 +23,7 @@ template:
   description: Description
 
 equipable:
-  name: Sword
+  name: Template Weapon
   level_req: 0
   slot: weapon
   stats:
@@ -46,12 +46,12 @@ equipable:
   description: Description
 
 consumable:
-  name: Potion
+  name: Template Consumable
   use_script: potion0
   description: Description
 
 misc:
-  name: Misc Item
+  name: Template Misc 
   description: Description
 
 basic_head:
@@ -135,6 +135,7 @@ gamer_katana:
   skills:
     - slash
     - stab
+  description: Made in china.
 
 money:
   parent: misc
