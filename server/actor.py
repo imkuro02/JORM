@@ -130,7 +130,8 @@ class Actor:
                 self.target.take_magic_damage(roll,self,skill['name'])
             case 'push':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['physic_damage']
+                roll = self.stats['physic_damage'] - self.target.stats['physic_block']
+                if roll <= 0: roll = 1
                 if crit: 
                     roll = roll * 2
                 self.broadcast(f'{self.target.name} lost {int(roll)} MP!')

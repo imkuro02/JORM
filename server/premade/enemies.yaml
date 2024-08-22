@@ -106,11 +106,13 @@ gamer:
     magic_damage:   20
     physic_block:   10
     magic_block:    10
-    crit_chance:    10
+    crit_chance:    60
     dodge_chance:   10
   skills:
     - spit
     - push
+    - slash
+    - stab
   loot_table:
     money:
       drop_chance:  0.1
