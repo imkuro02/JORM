@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://7a34mwhsph6g"]
+[gd_scene load_steps=5 format=3 uid="uid://7a34mwhsph6g"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterSheet.gd" id="1_eislr"]
+[ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="2_vkjr8"]
+[ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="3_d6yck"]
+[ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="4_dxrxi"]
 
 [node name="CharacterSheet" type="Panel"]
 self_modulate = Color(0.611765, 0.611765, 0.611765, 1)
@@ -29,18 +32,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Sheet"
+icon = ExtResource("2_vkjr8")
 
 [node name="ButtonInventory" type="Button" parent="VSplitContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Inv"
+icon = ExtResource("3_d6yck")
 
 [node name="ButtonCombat" type="Button" parent="VSplitContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Combat"
+icon = ExtResource("4_dxrxi")
 
 [node name="CharacterSheet" type="Panel" parent="VSplitContainer"]
 self_modulate = Color(1, 1, 1, 0)

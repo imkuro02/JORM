@@ -5,3 +5,4 @@ https://fantasylandscapes.itch.io/pixel-art-landscapes
 https://screamingbrainstudios.itch.io/tiny-texture-pack-2
 
 https://www.reddit.com/r/godot/comments/17ltxjp/webrtc_peertopeer_multiplayer_how_do_i_have_a/
+https://pixel-boy.itch.io/icon-godot-node
