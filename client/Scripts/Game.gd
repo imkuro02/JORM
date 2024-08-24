@@ -138,7 +138,15 @@ func interaction(data):
 	add_child(w)
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
 
-func receive_flavoured_message(text):
+func receive_flavoured_message(text,anim = null):
+	if anim != null:
+		match anim:
+			'death': 
+				#$CanvasLayer/OverlayShader.material.set_shader_parameter("intensity", 1)
+				MAIN.audio.play('church_bell')
+				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
+				
+			
 	var time = Time.get_ticks_usec()
 	var _players = ROOM['players']
 	var _enemies = ROOM['enemies']

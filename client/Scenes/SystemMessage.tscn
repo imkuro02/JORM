@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bct11fuqmrwth"]
 
 [ext_resource type="Script" path="res://Scripts/SystemMessage.gd" id="1_k8afq"]
-[ext_resource type="Texture2D" uid="uid://bdcp2uqvvqn80" path="res://Textures/128x128/Metal/Metal_18-128x128.png" id="2_tur1d"]
+[ext_resource type="Texture2D" uid="uid://bdcp2uqvvqn80" path="res://Images/Textures/128x128/Metal/Metal_18-128x128.png" id="2_qyvp5"]
 
 [node name="SystemMessage" type="Control"]
 layout_mode = 3
@@ -28,7 +28,7 @@ offset_left = -192.0
 offset_top = -128.0
 offset_right = 192.0
 offset_bottom = 128.0
-texture = ExtResource("2_tur1d")
+texture = ExtResource("2_qyvp5")
 expand_mode = 1
 stretch_mode = 1
 

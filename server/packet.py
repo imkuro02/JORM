@@ -124,8 +124,8 @@ class TargetPacket(Packet):
         super().__init__(Action.Target, target)
 
 class FlavouredMessagePacket(Packet):
-    def __init__(self,message):
-        super().__init__(Action.FlavouredMessage, message)
+    def __init__(self, message, animation = None):
+        super().__init__(Action.FlavouredMessage, message, animation)
 
 #
 class PartyRequestPacket(Packet):

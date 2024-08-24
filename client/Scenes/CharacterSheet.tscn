@@ -110,11 +110,6 @@ fit_content = true
 autowrap_mode = 2
 meta_underlined = false
 
-[node name="Label" type="Label" parent="VSplitContainer/Combat"]
-layout_mode = 2
-text = "Add any skill to AutoUse to use it whenever it is off cooldown"
-autowrap_mode = 2
-
 [node name="Others" type="RichTextLabel" parent="VSplitContainer/Combat"]
 use_parent_material = true
 layout_mode = 2

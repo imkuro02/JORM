@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6odvlamvd46f"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterHPMP.gd" id="1_ntqee"]
-[ext_resource type="Texture2D" uid="uid://cxnd770ujvts5" path="res://Textures/128x128/Stone/Stone_20-128x128.png" id="2_p52a0"]
-[ext_resource type="Texture2D" uid="uid://dh3wfo7ma8br" path="res://Textures/128x128/Stone/Stone_19-128x128.png" id="3_h0gpm"]
+[ext_resource type="Texture2D" uid="uid://cxnd770ujvts5" path="res://Images/Textures/128x128/Stone/Stone_20-128x128.png" id="2_p52a0"]
+[ext_resource type="Texture2D" uid="uid://dh3wfo7ma8br" path="res://Images/Textures/128x128/Stone/Stone_19-128x128.png" id="3_h0gpm"]
 
 [node name="Self" type="GridContainer"]
 size_flags_horizontal = 3
