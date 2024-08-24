@@ -39,7 +39,7 @@ var chat_message_queue = []
 var text_appended = false
 
 func chatbox_clear():
-	var empty = ''''''
+	var empty = ''
 	chatbox.text = empty
 	
 func chatbox_update():
@@ -248,14 +248,14 @@ func show_room():
 	var exits = ROOM['exits']
 	var label = '[center][color="GOLD"]%s[/color][/center]\n' % [ROOM['name']]
 	var desc = ''
-	if $Chatbox/RoomDescriptions.button_pressed:
+	if $Chatbox/RoomDescription/RoomDescriptions.button_pressed:
 		desc = ROOM['description'] + '\n'
 	desc = label + desc 
 	
 	for exit in ROOM['exits']:
 		desc += '[' + interactable('exit',exit,exit) + '] '
 	desc += '\n'
-	$Chatbox/RoomDescription.text =  desc
+	$Chatbox/RoomDescription.text = desc
 	
 func send(text: String):
 	if len(text) > 0:

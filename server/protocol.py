@@ -28,6 +28,19 @@ class ServerProtocol(WebSocketServerProtocol):
                             cmd, item_id, quantity = message.split()
                             self._actor.add_item(item_id, int(quantity))
                             return
+
+
+                        if 'sethp' in message:
+                            cmd, stat = message.split()
+                            self._actor.stats['hp'] = int(stat)
+                            return
+
+                        if 'setmp' in message:
+                            cmd, stat = message.split()
+                            self._actor.stats['mp'] = int(stat)
+                            return
+
+                        
                 except Exception as e:
                     pass
             

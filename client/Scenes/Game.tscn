@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=13 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
 [ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_ri2kw"]
 [ext_resource type="PackedScene" uid="uid://6btcj7krioeu" path="res://Scenes/BackgroundManager.tscn" id="2_y4kab"]
+[ext_resource type="Texture2D" uid="uid://dh5q270j0shhq" path="res://Backgrounds/backgrounds-freebie/beach version (1)/beach version (1) pixelation 1/beach version (1) variant 00.png" id="3_rglky"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
 [ext_resource type="PackedScene" uid="uid://7a34mwhsph6g" path="res://Scenes/CharacterSheet.tscn" id="6_lsjfb"]
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
@@ -11,6 +12,21 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyq73"]
 shader = ExtResource("7_4rcej")
 shader_parameter/intensity = 0.0
+
+[sub_resource type="Animation" id="Animation_qo8pu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/intensity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_xowc0"]
 resource_name = "death"
@@ -26,21 +42,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [1.0, 1.0, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_qo8pu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/intensity")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_16sor"]
@@ -59,7 +60,9 @@ grow_vertical = 2
 script = ExtResource("1_olyvw")
 
 [node name="BackgroundManager" parent="." instance=ExtResource("2_y4kab")]
+self_modulate = Color(0.176471, 0.176471, 0.176471, 1)
 layout_mode = 1
+texture = ExtResource("3_rglky")
 
 [node name="TextureRect" type="NinePatchRect" parent="."]
 visible = false
@@ -71,10 +74,10 @@ anchor_left = 0.451
 anchor_top = 0.025
 anchor_right = 0.722
 anchor_bottom = 0.198
-offset_left = 0.447937
+offset_left = 0.447998
 offset_top = -0.200001
-offset_right = 0.25592
-offset_bottom = -0.304016
+offset_right = -119.744
+offset_bottom = 191.696
 texture = ExtResource("2_ri2kw")
 region_rect = Rect2(0, 0, 128, 128)
 patch_margin_left = 32
@@ -87,17 +90,16 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 320.0
-offset_right = -320.0
-offset_bottom = 120.0
+offset_bottom = 104.0
 grow_horizontal = 2
 
 [node name="Combat" type="HBoxContainer" parent="CombatPanel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.625
+anchor_right = 1.0
 offset_left = 8.0
 offset_top = 7.0
-offset_right = -8.00006
+offset_right = -8.0
 offset_bottom = 103.0
 metadata/_edit_group_ = true
 
@@ -125,21 +127,27 @@ size_flags_vertical = 3
 theme = ExtResource("1_4mtw6")
 theme_override_constants/separation = 0
 
-[node name="RoomDescriptions" type="CheckBox" parent="Chatbox"]
-self_modulate = Color(1, 1, 0, 1)
-layout_mode = 2
-focus_mode = 0
-button_pressed = true
-text = "Room Descriptions"
-flat = true
-
 [node name="RoomDescription" type="RichTextLabel" parent="Chatbox"]
 layout_mode = 2
 bbcode_enabled = true
 text = "[bgcolor=red]test
-test"
+test
+
+fdsa
+fdsa
+"
 fit_content = true
 meta_underlined = false
+
+[node name="RoomDescriptions" type="CheckBox" parent="Chatbox/RoomDescription"]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+offset_right = 816.0
+offset_bottom = 40.0
+focus_mode = 0
+button_pressed = true
+text = "Room Descriptions"
+flat = true
 
 [node name="Chatbox" type="RichTextLabel" parent="Chatbox"]
 layout_mode = 2

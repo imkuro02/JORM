@@ -20,5 +20,5 @@ func new_room(room_name):
 	}
 	if room_name in backgrounds:
 		bg = backgrounds[room_name]
-	$Background.texture = bg
+	$".".texture = bg
 		

@@ -83,8 +83,8 @@ class Player(Actor):
     def die(self):
         self.broadcast(f'{self.name} has died!')
         self.protocol.onPacket(self.protocol,packet.FlavouredMessagePacket('You are dead...','death'))
-        self.stats['hp'] = 1 #self.stats['max_hp']
-        self.stats['mp'] = 1 #self.stats['max_mp']
+        self.stats['hp'] = 0 #self.stats['max_hp']
+        self.stats['mp'] = 0 #self.stats['max_mp']
         self.room.move_player(self, 'Small Town', forced = True)
         
     def set_target(self,target):

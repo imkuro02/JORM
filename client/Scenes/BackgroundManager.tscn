@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://6btcj7krioeu"]
+[gd_scene load_steps=7 format=3 uid="uid://6btcj7krioeu"]
 
 [ext_resource type="Script" path="res://Scripts/BackgroundManager.gd" id="1_o0ab2"]
 [ext_resource type="Texture2D" uid="uid://sluvjryb45rr" path="res://Backgrounds/backgrounds-freebie/city version (1)/city version (1) pixelation 1/city version (1) variant 00.png" id="2_gt06u"]
@@ -6,11 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bjrh35km0ifxh" path="res://Backgrounds/backgrounds-freebie/plains version (1)/plains version (1) pixelation 1/plains version (1) variant 00.png" id="4_2qhh3"]
 [ext_resource type="Texture2D" uid="uid://clw6jqo0oh74u" path="res://Backgrounds/backgrounds-freebie/forest version (1)/forest version (1) pixelation 1/forest version (1) variant 08.png" id="5_w4nn6"]
 [ext_resource type="Texture2D" uid="uid://b7jy3ag4kko8h" path="res://Backgrounds/backgrounds-freebie/ruins version  (1)/ruins version  (1) pixelation 1/ruins version  (1) variant 00.png" id="6_cwdo7"]
-[ext_resource type="Texture2D" uid="uid://d4kxaqpsqmepw" path="res://Backgrounds/backgrounds-freebie/canyon version (1)/canyon version (1) pixelation 1/canyon version (1) variant 04.png" id="7_iicgl"]
-[ext_resource type="Texture2D" uid="uid://b7nu1l1syqr83" path="res://Backgrounds/backgrounds-freebie/forest version (1)/forest version (1) pixelation 1/forest version (1) variant 00.png" id="8_ync5m"]
 
-[node name="BackgroundManager" type="Control"]
-layout_mode = 3
+[node name="BackgroundManager" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,35 +20,3 @@ bg_city1 = ExtResource("3_c2ek1")
 bg_forest = ExtResource("4_2qhh3")
 bg_forest1 = ExtResource("5_w4nn6")
 bg_ruins = ExtResource("6_cwdo7")
-
-[node name="Background" type="TextureRect" parent="."]
-modulate = Color(0.196078, 0.196078, 0.196078, 1)
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -128.0
-offset_bottom = -72.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.125, 1.125)
-texture = ExtResource("7_iicgl")
-expand_mode = 1
-
-[node name="BackgroundFade" type="TextureRect" parent="."]
-visible = false
-modulate = Color(0.290196, 0.290196, 0.290196, 1)
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -128.0
-offset_bottom = -72.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.125, 1.125)
-texture = ExtResource("8_ync5m")
-expand_mode = 1
-stretch_mode = 1
