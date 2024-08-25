@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dh5q270j0shhq" path="res://Backgrounds/backgrounds-freebie/beach version (1)/beach version (1) pixelation 1/beach version (1) variant 00.png" id="3_rglky"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
-[ext_resource type="PackedScene" uid="uid://7a34mwhsph6g" path="res://Scenes/CharacterSheet2.tscn" id="7_qqlhk"]
+[ext_resource type="PackedScene" uid="uid://84aw0w2vpuvb" path="res://Scenes/CharacterSheet2.tscn" id="7_qqlhk"]
 [ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="8_57ij2"]
 [ext_resource type="Script" path="res://Scripts/SidePanel.gd" id="8_r5nkx"]
 [ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="9_ff8cu"]
@@ -123,11 +123,10 @@ layout_mode = 2
 use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.173
 anchor_right = 1.0
 anchor_bottom = 0.988
 offset_left = 344.0
-offset_top = -0.103996
+offset_top = 112.0
 offset_right = -8.0
 offset_bottom = -0.223999
 grow_horizontal = 2
@@ -217,7 +216,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 icon = ExtResource("8_57ij2")
-flat = true
 icon_alignment = 1
 expand_icon = true
 
@@ -227,7 +225,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 icon = ExtResource("9_ff8cu")
-flat = true
 icon_alignment = 1
 expand_icon = true
 
@@ -237,7 +234,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 icon = ExtResource("10_mblbx")
-flat = true
 icon_alignment = 1
 expand_icon = true
 
@@ -247,7 +243,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 icon = ExtResource("12_odao8")
-flat = true
 icon_alignment = 1
 expand_icon = true
 
@@ -257,7 +252,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 icon = ExtResource("11_j6cfo")
-flat = true
 icon_alignment = 1
 expand_icon = true
 

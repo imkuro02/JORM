@@ -20,6 +20,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	for i in get_node('VBoxContainer/Buttons').get_children():
-		if i.button_pressed == true: state = i.name
+		if i.button_pressed == true: 
+			state = i.name
 	for i in get_node('VBoxContainer/States').get_children():
 		i.visible = i.name == state
+
