@@ -42,7 +42,7 @@ func create_interaction(data, activate_now = false):
 		interactions = ['Untarget']
 		
 	if 'skill' == data['tag']:
-		interactions = ['Use Skill','Skill Description','Toggle AutoUse']
+		interactions = ['Use Skill','Skill Description']
 		
 	if 'clear_chat' == data['tag']:
 		activate_now = true
@@ -123,12 +123,6 @@ func _on_rich_text_label_meta_clicked(meta):
 			p = Packet.new('UseSkill',[object])
 		'Consume':
 			p = Packet.new('UseItem',[object])
-		'Toggle AutoUse':
-			if object in MAIN.chat_window.character_sheet.autouse_skills:
-				MAIN.chat_window.character_sheet.autouse_skills.erase(object)
-			else:
-				MAIN.chat_window.character_sheet.autouse_skills.append(object)
-			#print(MAIN.chat_window.character_sheet.autouse_skills)
 		'Skill Description':
 			var text = ''
 			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]

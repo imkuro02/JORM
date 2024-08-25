@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=23 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
@@ -6,8 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://6btcj7krioeu" path="res://Scenes/BackgroundManager.tscn" id="2_y4kab"]
 [ext_resource type="Texture2D" uid="uid://dh5q270j0shhq" path="res://Backgrounds/backgrounds-freebie/beach version (1)/beach version (1) pixelation 1/beach version (1) variant 00.png" id="3_rglky"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
-[ext_resource type="PackedScene" uid="uid://7a34mwhsph6g" path="res://Scenes/CharacterSheet.tscn" id="6_lsjfb"]
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
+[ext_resource type="PackedScene" uid="uid://7a34mwhsph6g" path="res://Scenes/CharacterSheet2.tscn" id="7_qqlhk"]
+[ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="8_57ij2"]
+[ext_resource type="Script" path="res://Scripts/SidePanel.gd" id="8_r5nkx"]
+[ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="9_ff8cu"]
+[ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="10_mblbx"]
+[ext_resource type="Texture2D" uid="uid://b7dha66uvbiak" path="res://Images/node/icon_save.png" id="11_j6cfo"]
+[ext_resource type="Texture2D" uid="uid://cnn8fpwbobysc" path="res://Images/node/icon_door.png" id="12_odao8"]
+[ext_resource type="Script" path="res://Scripts/CharacterSheet.gd" id="13_t0s1c"]
+[ext_resource type="Script" path="res://Scripts/CharacterSheetInventory.gd" id="14_yu7pp"]
+[ext_resource type="Script" path="res://Scripts/CharacterSheetSkills.gd" id="16_ifw8x"]
+[ext_resource type="Script" path="res://Scripts/RoomOthers.gd" id="17_aex8m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyq73"]
 shader = ExtResource("7_4rcej")
@@ -89,7 +99,7 @@ patch_margin_bottom = 32
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 320.0
+offset_left = 336.0
 offset_bottom = 104.0
 grow_horizontal = 2
 
@@ -116,7 +126,7 @@ anchors_preset = -1
 anchor_top = 0.173
 anchor_right = 1.0
 anchor_bottom = 0.988
-offset_left = 328.0
+offset_left = 344.0
 offset_top = -0.103996
 offset_right = -8.0
 offset_bottom = -0.223999
@@ -173,51 +183,174 @@ texture_filter = 1
 layout_mode = 2
 placeholder_text = "Say Something"
 
-[node name="CharacterSheet" parent="." instance=ExtResource("6_lsjfb")]
+[node name="CharacterSheet" parent="." instance=ExtResource("7_qqlhk")]
+visible = false
 layout_mode = 1
 
-[node name="Settings" type="VBoxContainer" parent="."]
-use_parent_material = true
-clip_contents = true
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 336.0
+script = ExtResource("8_r5nkx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -312.0
-offset_top = -176.0
+offset_left = 8.0
+offset_top = 8.0
 offset_right = -8.0
 offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
-metadata/_edit_group_ = true
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Logout" type="Button" parent="Settings"]
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Sheet" type="Button" parent="Panel/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("8_57ij2")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Inventory" type="Button" parent="Panel/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("9_ff8cu")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Skills" type="Button" parent="Panel/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("10_mblbx")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Others" type="Button" parent="Panel/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("12_odao8")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Settings" type="Button" parent="Panel/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("11_j6cfo")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="States" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Sheet" type="RichTextLabel" parent="Panel/VBoxContainer/States"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "CHARACTER SHEET"
+script = ExtResource("13_t0s1c")
+
+[node name="Inventory" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("14_yu7pp")
+GAME = NodePath("../../../..")
+
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/States/Inventory"]
+visible = false
+layout_mode = 2
+placeholder_text = "Search for an item"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Inventory"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "INVENTORY"
+meta_underlined = false
+hint_underlined = false
+
+[node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("16_ifw8x")
+GAME = NodePath("../../../..")
+
+[node name="CheckBox" type="CheckBox" parent="Panel/VBoxContainer/States/Skills"]
+visible = false
+layout_mode = 2
+focus_mode = 0
+text = "AutoUse"
+flat = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Skills"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Skills"
+meta_underlined = false
+hint_underlined = false
+
+[node name="Others" type="RichTextLabel" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "OTHERS"
+meta_underlined = false
+script = ExtResource("17_aex8m")
+GAME = NodePath("../../../..")
+
+[node name="Settings" type="VBoxContainer" parent="Panel/VBoxContainer/States"]
+use_parent_material = true
+clip_contents = true
+layout_mode = 2
+
+[node name="Logout" type="Button" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 text = "Logout"
 
-[node name="Label" type="Label" parent="Settings"]
+[node name="Label" type="Label" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 text = "Font Size"
 
-[node name="Font Size" type="HSlider" parent="Settings"]
+[node name="Font Size" type="HSlider" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 min_value = 12.0
 max_value = 32.0
 value = 16.0
 
-[node name="Label2" type="Label" parent="Settings"]
+[node name="Label2" type="Label" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 text = "Volume"
 
-[node name="Audio Volume" type="HSlider" parent="Settings"]
+[node name="Audio Volume" type="HSlider" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 min_value = -80.0
 max_value = 0.0
 step = 0.2
 
-[node name="Delay" type="Label" parent="Settings"]
+[node name="Delay" type="Label" parent="Panel/VBoxContainer/States/Settings"]
 layout_mode = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -239,6 +372,6 @@ libraries = {
 [connection signal="meta_clicked" from="Chatbox/RoomDescription" to="." method="_on_room_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
-[connection signal="pressed" from="Settings/Logout" to="." method="_on_logout_pressed"]
-[connection signal="value_changed" from="Settings/Font Size" to="." method="_on_font_size_value_changed"]
-[connection signal="value_changed" from="Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]
+[connection signal="pressed" from="Panel/VBoxContainer/States/Settings/Logout" to="." method="_on_logout_pressed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/States/Settings/Font Size" to="." method="_on_font_size_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/States/Settings/Audio Volume" to="." method="_on_audio_volume_value_changed"]

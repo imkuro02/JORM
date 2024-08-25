@@ -6,7 +6,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var chatbox = $Chatbox/Chatbox
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
-@onready var settings = $Settings
+@onready var settings = $Panel/VBoxContainer/States/Settings
 
 @onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager

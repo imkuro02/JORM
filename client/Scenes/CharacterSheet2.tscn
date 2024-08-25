@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://7a34mwhsph6g"]
 
-[ext_resource type="Script" path="res://Scripts/CharacterSheet.gd" id="1_eislr"]
+[ext_resource type="Script" path="res://Scripts/CharacterSheet2.gd" id="1_eislr"]
 [ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="2_vkjr8"]
 [ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="3_d6yck"]
 [ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="4_dxrxi"]

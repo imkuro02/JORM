@@ -16,9 +16,11 @@ var screen_transition = preload("res://Scenes/Transition.tscn")
 var system_message = preload("res://Scenes/SystemMessage.tscn")
 
 var SERVER_TIME = 0
-
+var ROOM
 
 var PREMADE: Dictionary
+
+var CHARACTERSHEET = null
 
 func _ready():
 	audio = AUDIO.instantiate()
@@ -94,10 +96,13 @@ func PLAY(p):
 			
 		"CharacterSheet":
 			chat_window.receive_character_sheet(_payloads[0])
+			CHARACTERSHEET = _payloads[0]
+			
 			
 		"Room":
-			var room = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
-			chat_window.receive_room(room)
+			ROOM = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
+			chat_window.receive_room(ROOM)
+			
 		"FlavouredMessage":
 			var text = _payloads[0]
 			var anim = _payloads[1]
