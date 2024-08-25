@@ -35,6 +35,7 @@ class Player(Actor):
         self.protocol = protocol
         self.name = name
         self.stats = utils.dc(stats)
+        self.status_effects = {}
         self.equipment = utils.dc(equipment)
         self.inventory = utils.dc(inventory)
         self.room = room

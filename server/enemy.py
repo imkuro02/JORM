@@ -39,6 +39,7 @@ class Enemy(Actor):
         self.target = None
         
         self.stats = utils.dc(stats)
+        self.status_effects = {}
         self.skills = utils.dc(skills)
         self.loot_table = utils.dc(loot_table)
 

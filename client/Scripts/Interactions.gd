@@ -44,6 +44,9 @@ func create_interaction(data, activate_now = false):
 	if 'skill' == data['tag']:
 		interactions = ['Use Skill','Skill Description']
 		
+	if 'status' == data['tag']:
+		interactions = ['Status Description']
+		
 	if 'clear_chat' == data['tag']:
 		activate_now = true
 		interactions = ['Clear']
@@ -80,6 +83,7 @@ func _on_rich_text_label_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	var SKILLS = MAIN.PREMADE['skills']
+	var STATUSES = MAIN.PREMADE['statuses']
 	
 	var json = JSON.new()
 	var data = json.parse_string(meta)
@@ -126,6 +130,10 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Skill Description':
 			var text = ''
 			text += '%s\n%s\n' % [SKILLS[object]['name'],SKILLS[object]['description']]
+			MAIN.chat_window.receive_flavoured_message(text)
+		'Status Description':
+			var text = ''
+			text += '%s\n' % [STATUSES[object]['description']]
 			MAIN.chat_window.receive_flavoured_message(text)
 		'Inspect':
 			print('fdsafsda')

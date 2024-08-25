@@ -105,14 +105,21 @@ def create_all_items():
     return items
 
 
+def create_all_statuses():
+    statuses = {}
+    with open('premade/statuses.yaml', 'r') as file:
+        statuses = yaml.safe_load(file)
+
+    return statuses
 
 def get_premade():
     return {
         'items': create_all_items(),
         'translations': translations,
-        'skills': create_all_skills()
+        'skills': create_all_skills(),
+        'statuses': create_all_statuses()
     }
 
 if __name__ == '__main__':
     p = get_premade()
-    print(p['skills'])
+    print(p['statuses'])

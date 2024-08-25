@@ -35,9 +35,25 @@ class Actor:
                 if self.target.name in self.room.enemies:
                     self.target = self.room.enemies[self.target.name]
 
+        statuses_to_remove = []
+        for status in self.status_effects:
+            self.status_effects[status] -= 1
+            if self.status_effects[status] <= 0:
+                statuses_to_remove.append(status)
+
+        for status in statuses_to_remove:
+            del self.status_effects[status]
+
     def set_cooldown(self,skill_id,cooldown):
         cooldown = cooldown * self.room.map.factory.tickrate
         self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
+
+    def has_status_effect(self, status_effect_id):
+        status = self.room.map.factory.premade['statuses'][status_effect_id]
+        if 'potion_sickness' in self.status_effects:
+            self.broadcast(f'You have {status["name"]} for {int(self.status_effects[status_effect_id]/30)} seconds.',self)
+            return True
+        return False
 
     def use_item(self,item_id):
         if item_id not in self.room.map.factory.premade['items']:
@@ -49,8 +65,23 @@ class Actor:
         if item_id not in self.inventory:
             self.broadcast(f'You don\'t have {item["name"]}')
 
-        self.broadcast(f'{self.name} used {item["name"]}')
+        
+       
 
+        match item['use_script']:
+            case 'restore_hp_10':
+                if self.has_status_effect('potion_sickness'): 
+                    return
+                self.regen(hp=10)
+                self.status_effects['potion_sickness'] = 60*10
+            case 'restore_mp_10':
+                if self.has_status_effect('potion_sickness'): 
+                    return
+                self.regen(mp=10)
+                self.status_effects['potion_sickness'] = 60*10
+
+
+        self.broadcast(f'{self.name} used {item["name"]}')
         self.remove_item(item_id,1)
 
     def use_skill(self,skill_id):

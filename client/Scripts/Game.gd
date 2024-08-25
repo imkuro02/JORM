@@ -152,6 +152,7 @@ func receive_flavoured_message(text,anim = null):
 	var _enemies = ROOM['enemies']
 	var _skills  = MAIN.PREMADE['skills']
 	var _items   = MAIN.PREMADE['items']
+	var _statuses   = MAIN.PREMADE['statuses']
 	var _exits   = ROOM['exits']
 	
 	# Define the pattern types
@@ -160,7 +161,8 @@ func receive_flavoured_message(text,anim = null):
 		{'type': 'loot', 'data': _items},
 		{'type': 'enemy', 'data': _enemies},
 		{'type': 'player', 'data': _players},
-		{'type': 'skill', 'data': _skills}
+		{'type': 'skill', 'data': _skills},
+		{'type': 'status', 'data': _statuses}
 	]
 	var acceptable_fixes = [',','.','\n',' ','?','!']
 	for pattern in patterns:
@@ -195,6 +197,7 @@ func interactable(tag, object, label):
 		'target': 'RED',
 		'exit': 'green',
 		'skill': 'LIGHT_GOLDENROD',
+		'status': 'LIGHT_GREEN',
 		'loot': 'LIGHT_SKY_BLUE',
 		'clear_chat': 'yellow',
 		'self_target': 'yellow',
