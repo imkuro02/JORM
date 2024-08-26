@@ -11,7 +11,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager
 
-@onready var character_sheet = $CharacterSheet
+#@onready var character_sheet = $CharacterSheet
 
 var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
@@ -31,7 +31,7 @@ func _ready():
 		]
 		
 	MAIN = get_tree().root.get_node('Main')
-	character_sheet.GAME = self
+	#character_sheet.GAME = self
 	chatbox_clear()
 
 	
@@ -114,7 +114,7 @@ func refresh_players():
 	if ROOM == null:
 		return
 		
-	character_sheet.receive_others(sheet['target'], ROOM['players'], ROOM['enemies'])
+	#character_sheet.receive_others(sheet['target'], ROOM['players'], ROOM['enemies'])
 	
 		
 	
@@ -225,7 +225,7 @@ func receive_room(room):
 
 
 func receive_character_sheet(_sheet):
-	character_sheet.receive_character_sheet(_sheet)
+	#character_sheet.receive_character_sheet(_sheet)
 
 	var SKILLS = MAIN.PREMADE['skills']
 
@@ -234,6 +234,7 @@ func receive_character_sheet(_sheet):
 	combat_panel.get_node("Self").set_sheet(sheet)
 
 	#print(sheet['target'])
+	
 	if sheet['target'] == null:
 		combat_panel.get_node("Target").set_sheet(null)
 	if sheet['target'] in ROOM['players']:
@@ -242,7 +243,6 @@ func receive_character_sheet(_sheet):
 	elif sheet['target'] in ROOM['enemies']:
 		var target_sheet = ROOM['enemies'][sheet['target']]
 		combat_panel.get_node("Target").set_sheet(target_sheet)
-
 	
 	
 	

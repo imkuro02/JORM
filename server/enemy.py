@@ -80,7 +80,7 @@ class Enemy(Actor):
         self.broadcast(loot_text, owner)
 
 
-    def character_sheet(self):
+    def character_sheet(self, short = False):
         # return the character sheet 
         return {
             'name':         self.name,

@@ -46,7 +46,14 @@ class Player(Actor):
         self.target = None
         self.premade = self.protocol.factory.premade
     
-    def character_sheet(self):
+    
+    def character_sheet(self, short = False):
+        if short:
+            return {
+                'name':         self.name,
+                'stats':        self.stats,
+                }
+
         self.skills = []
         for e in self.equipment:
             if 'skills' not in self.protocol.factory.premade['items'][e]:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=22 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dh5q270j0shhq" path="res://Backgrounds/backgrounds-freebie/beach version (1)/beach version (1) pixelation 1/beach version (1) variant 00.png" id="3_rglky"]
 [ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
-[ext_resource type="PackedScene" uid="uid://84aw0w2vpuvb" path="res://Scenes/CharacterSheet2.tscn" id="7_qqlhk"]
 [ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="8_57ij2"]
 [ext_resource type="Script" path="res://Scripts/SidePanel.gd" id="8_r5nkx"]
 [ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="9_ff8cu"]
@@ -181,10 +180,6 @@ hint_underlined = false
 texture_filter = 1
 layout_mode = 2
 placeholder_text = "Say Something"
-
-[node name="CharacterSheet" parent="." instance=ExtResource("7_qqlhk")]
-visible = false
-layout_mode = 1
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
