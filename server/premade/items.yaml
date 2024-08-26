@@ -6,18 +6,11 @@ template:
   stats:
     max_hp:         0
     max_mp:         0
-    str:            0
-    dex:            0
-    con:            0
-    int:            0
-    wis:            0
-    cha:            0
-    physic_damage:  0
-    magic_damage:   0
-    physic_block:   0
-    magic_block:    0
-    crit_chance:    0
-    dodge_chance:   0
+    str: 0
+    agi: 0
+    int: 0
+    crit_chance:  0
+    dodge_chance: 0
   skills:
   - slash
   description: Description
@@ -29,18 +22,11 @@ equipable:
   stats:
     max_hp:         0
     max_mp:         0
-    str:            0
-    dex:            0
-    con:            0
-    int:            0
-    wis:            0
-    cha:            0
-    physic_damage:  0
-    magic_damage:   0
-    physic_block:   0
-    magic_block:    0
-    crit_chance:    0
-    dodge_chance:   0
+    str: 0
+    agi: 0
+    int: 0
+    crit_chance:  0
+    dodge_chance: 0
   skills:
   - slash
   description: Description
@@ -95,7 +81,7 @@ basic_sword:
   name: Training Sword
   slot: weapon
   stats:
-    physic_damage: 3
+    str: 3
   skills:
   - slash
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -105,8 +91,8 @@ basic_shield:
   name: Training Shield
   slot: offhand
   stats:
-    physic_block: 2
-    magic_block: 1
+    str: 2
+    agi: -1
   skills:
   - guard
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -116,9 +102,7 @@ basic_wand:
   name: Training Wand
   slot: weapon
   stats:
-    int: 1
-    wis: 1
-    magic_damage: 4
+    int: 4
   skills:
   - firebolt
   description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
@@ -128,10 +112,9 @@ gamer_katana:
   name: Plastic Katana
   slot: weapon
   stats:
-    cha: -1
+    int: -1
     dodge_chance: 5
     crit_chance: 10
-    physic_damage: 2
   skills:
     - slash
     - stab

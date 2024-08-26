@@ -14,20 +14,12 @@ PLAYER_STATS = {
     'exp':      0,
     'points':   0,
 
-    'crit_chance':  0,
-    'dodge_chance': 0,
-    'physic_block': 0,
-    'magic_block':  0,
-
-    'physic_damage': 0,
-    'magic_damage': 0,
-
-    'str':      0,
-    'dex':      0,
-    'con':      0,
-    'int':      0,
-    'wis':      0,
-    'cha':      0
+    'str': 2,
+    'agi': 2,
+    'int': 2,
+    
+    'crit_chance':  5,
+    'dodge_chance': 5,
 }
 
 class Player(Actor):
@@ -194,7 +186,7 @@ class Player(Actor):
         super().tick()
         
         if self.protocol.factory.server_time % (30*60) == 0:
-            self.regen(hp = self.stats['con'] + 1)
+            self.regen(hp = self.stats['str'] + 1)
             self.regen(mp = self.stats['int'] + 1)
 
         if self.protocol.factory.server_time % 3 == 0:

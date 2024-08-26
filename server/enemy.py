@@ -14,18 +14,12 @@ ENEMY_STATS = {
 
     'crit_chance':  10,
     'dodge_chance': 10,
-    'physic_block': 0,
-    'magic_block':  0,
-
-    'physic_damage': 10,
-    'magic_damage': 10,
-
-    'str':      10,
-    'dex':      10,
-    'con':      10,
-    'int':      10,
-    'wis':      10,
-    'cha':      10
+    'str': 2,
+    'agi': 2,
+    'int': 2,
+    
+    'crit_chance':  5,
+    'dodge_chance': 5,
 }
 
 class Enemy(Actor):
@@ -146,12 +140,15 @@ class Enemy(Actor):
         if self.ticks_passed >= 30*3:
             self.ticks_passed = 0
 
-    def take_damage(self, dmg, source):
-        self.stats['hp'] -= dmg
+    def take_damage(self, damage, stat, source, skill = None):
+        
+    
         if source.name in self.player_damages:
-            self.player_damages[source.name] += dmg
+            self.player_damages[source.name] += damage
         else:
-            self.player_damages[source.name] = dmg
+            self.player_damages[source.name] = damage
+
+        super().take_damage(damage, stat, source, skill)
 
         
         

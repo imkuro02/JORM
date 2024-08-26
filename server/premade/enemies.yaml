@@ -3,18 +3,12 @@ template:
   stats:
     max_hp:         100
     max_mp:         100
-    str:            0
-    dex:            0
-    con:            0
-    int:            0
-    wis:            0
-    cha:            0
-    physic_damage:  0
-    magic_damage:   0
-    physic_block:   0
-    magic_block:    0
-    crit_chance:    10
-    dodge_chance:   10
+    str: 2
+    agi: 2
+    int: 2
+    crit_chance:  5
+    dodge_chance': 5
+
   skills:
     - spit
     - push
@@ -43,10 +37,7 @@ slime:
   stats:
     max_hp:         8
     max_mp:         8
-    magic_damage:   4
-    physic_block:   1
-    magic_block:    0
-    crit_chance:    10
+    agi: 6
   skills:
     - spit
   loot_table:
@@ -60,10 +51,6 @@ skeleton:
   stats:
     max_hp:         15
     max_mp:         15
-    physic_damage:  4
-    physic_block:   1
-    magic_block:    -5
-    crit_chance:    10
   skills:
     - slash
   loot_table:
@@ -77,18 +64,6 @@ gamer:
   stats:
     max_hp:         100
     max_mp:         100
-    str:            10
-    dex:            10
-    con:            10
-    int:            10
-    wis:            10
-    cha:            10
-    physic_damage:  20
-    magic_damage:   20
-    physic_block:   10
-    magic_block:    10
-    crit_chance:    60
-    dodge_chance:   10
   skills:
     - slash
     - stab

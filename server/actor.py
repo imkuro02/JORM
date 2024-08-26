@@ -143,34 +143,34 @@ class Actor:
         match skill_id:
             case 'stab':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['physic_damage']
+                roll = self.stats['agi'] 
                 if crit: 
                     roll = roll * 3
                 else:
                     roll = int(roll/2)
-                self.target.take_physic_damage(roll,self,skill['name'])
+                self.target.take_damage(roll,'agi',self,skill['name'])
             case 'slash':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['physic_damage']
+                roll = self.stats['str'] 
                 if crit: 
                     roll = roll * 2
-                self.target.take_physic_damage(roll,self,skill['name'])
+                self.target.take_damage(roll,'str',self,skill['name'])
             case 'spit':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['magic_damage']
+                roll = self.stats['str'] 
                 if crit: 
                     roll = roll * 2
-                self.target.take_magic_damage(roll,self,skill['name'])
+                self.target.take_damage(roll,'agi',self,skill['name'])
             case 'firebolt':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['magic_damage']
+                roll = self.stats['str'] 
                 if crit: 
                     roll = roll * 2
-                    self.take_magic_damage(roll,self,skill['name'])
-                self.target.take_magic_damage(roll,self,skill['name'])
+                    self.target.take_damage(roll,'int',self,skill['name'])
+                self.target.take_damage(roll,'int',self,skill['name'])
             case 'push':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['physic_damage'] - self.target.stats['physic_block']
+                roll = self.stats['str'] 
                 if roll <= 0: roll = 1
                 if crit: 
                     roll = roll * 2
@@ -178,7 +178,7 @@ class Actor:
                 self.target.drain_mp(mp = roll)
             case 'guard':
                 self.set_cooldown(skill_id,20)
-                self.regen(hp=10+self.stats['con'],mp=0)
+                self.regen(hp=10+self.stats['str'],mp=0)
                 self.broadcast(f'GRRRR!')
         return
 
@@ -198,53 +198,37 @@ class Actor:
         roll = random.randrange(1,100)
         return bool(roll <= self.stats['dodge_chance'])
 
-    def take_physic_damage(self, dmg, damager, skill = None):
 
+
+    def take_damage(self, damage, stat, source, skill = None):
         if self.dodge_check():
             self.broadcast(f'{self.name} dodged {skill}')
             return
 
-        dmg -= self.stats['physic_block']
-        dmg = int(dmg)
+        match stat:
+            case 'str': damage += ( -self.stats['agi'] + self.stats['int'])
+        match stat:
+            case 'agi': damage += ( -self.stats['int'] + self.stats['str'])
+        match stat:
+            case 'int': damage += ( -self.stats['str'] + self.stats['agi'])
 
-        if dmg <= 0:
-            self.broadcast(f'{self.name} blocked physic damage from {skill}')
+        damage = int(damage)
+
+        if damage <= 0:
+            if skill != None:
+                self.broadcast(f'{self.name} blocked damage from {skill}')
+            else:
+                self.broadcast(f'{self.name} blocked damage')
             return
 
-        self.take_damage(dmg, damager)
+        if skill != None:
+            self.broadcast(f'{self.name} took damage {damage} from {skill}')
+        else:
+            self.broadcast(f'{self.name} took damage {damage} ')
 
-        self.broadcast(f'{self.name} took {dmg} damage from {skill}')
-
-
+        self.stats['hp'] -= damage
         if self.stats['hp'] <= 0:
             self.die()
-
-        return dmg
-
-    def take_magic_damage(self, dmg, damager, skill = None):
-        if self.dodge_check():
-            self.broadcast(f'{self.name} dodged {skill}')
-            return
-
-        dmg -= self.stats['magic_block']
-        dmg = int(dmg)
-        
-        if dmg <= 0:
-            self.broadcast(f'{self.name} blocked magic damage from {skill}')
-            return
-
-        self.take_damage(dmg, damager)
-
-        
-        self.broadcast(f'{self.name} took {dmg} magic damage from {skill}')
-
-        if self.stats['hp'] <= 0:
-            self.die()
-
-        return dmg
-
-    def take_damage(self, dmg, source):
-        self.stats['hp'] -= dmg
 
     def drain_mp(self, mp):
         self.stats['mp'] -= mp

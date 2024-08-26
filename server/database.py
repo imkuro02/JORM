@@ -27,17 +27,10 @@ class DataBase:
             crit_chance REAL DEFAULT 0,
             dodge_chance REAL DEFAULT 0,
 
-            slash_block REAL DEFAULT 0,
-            magic_block REAL DEFAULT 0,
-            physic_damage INTEGER DEFAULT 0,
-            magic_damage INTEGER DEFAULT 0,
-
             str INTEGER DEFAULT 0,
-            dex INTEGER DEFAULT 0,
-            con INTEGER DEFAULT 0,
+            agi INTEGER DEFAULT 0,
             int INTEGER DEFAULT 0,
-            wis INTEGER DEFAULT 0,
-            cha INTEGER DEFAULT 0,
+
             FOREIGN KEY(username) REFERENCES users(username)
         )
         ''')
@@ -84,8 +77,8 @@ class DataBase:
         self.cursor.execute('''
             INSERT INTO actors (
                 hp, mp, max_hp, max_mp, exp, points, crit_chance, dodge_chance,
-                physic_block, magic_block, physic_damage, magic_damage, str, dex, con, int, wis, cha, username
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                str, agi, int, username
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(username) DO UPDATE SET
                 hp = excluded.hp,
                 mp = excluded.mp,
@@ -95,16 +88,10 @@ class DataBase:
                 points = excluded.points,
                 crit_chance = excluded.crit_chance,
                 dodge_chance = excluded.dodge_chance,
-                physic_block = excluded.physic_block,
-                magic_block = excluded.magic_block,
-                physic_damage = excluded.physic_damage,
-                magic_damage = excluded.magic_damage,
                 str = excluded.str,
-                dex = excluded.dex,
-                con = excluded.con,
-                int = excluded.int,
-                wis = excluded.wis,
-                cha = excluded.cha
+                agi = excluded.agi,
+                int = excluded.int
+
             ''', _actor)
         
         
@@ -135,7 +122,7 @@ class DataBase:
         for item in _inventory:
             inventory[item[1]] = item[2]
 
-        stat_names = '''username, hp, mp, max_hp, max_mp, exp, points, crit_chance, dodge_chance, physic_block, magic_block, physic_damage, magic_damage, str, dex, con, int, wis, cha'''.split(', ')
+        stat_names = '''username, hp, mp, max_hp, max_mp, exp, points, crit_chance, dodge_chance, str, agi, int'''.split(', ')
         stats =  dict(zip(stat_names, _stats[0]))
         del stats['username']
 

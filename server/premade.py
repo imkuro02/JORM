@@ -11,20 +11,12 @@ translations = {
     'mp':'Mana',
 
     'str':'Strength',
-    'dex':'Dexterity',
-    'con':'Constitution',
+    'agi':'Agility',
     'int':'Intelligence',
-    'wis':'Wisdom',
-    'cha':'Charisma',
     
     'crit_chance':'Crit Chance',
     'dodge_chance':'Dodge Chance',
     
-    'physic_block':'Physic Block',
-    'magic_block':'Magic Block',
-
-    'physic_damage': 'Physic Damage',
-    'magic_damage': 'Magic Damage'
 }
 
 def create_all_skills():
