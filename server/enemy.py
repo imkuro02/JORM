@@ -154,5 +154,5 @@ class Enemy(Actor):
         
 
 if __name__ == '__main__':
-    e = new('skeleton')
+    e = new('goblin_shaman')
     print(e.name,e.stats,e.skills)

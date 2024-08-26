@@ -50,31 +50,34 @@ basic_chest:
   parent: equipable
   name: Dirty Shirt
   slot: chest
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: A dirty shirt
 
 basic_belt:
   parent: equipable
   name: Leather Belt
   slot: belt
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: A Leather belt
 
 basic_pants:
   parent: equipable
   name: Worn Trousers
   slot: legs
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: A pair of worn trousers
 
 basic_boots:
   parent: equipable
   name: Traveles Sandals
   slot: feet
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: A pair of old sandals
 
 basic_accessory:
   parent: equipable
   name: Mothers Necklace
   slot: accessory
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: Your mothers necklace
+  stats:
+    max_hp: 10
+    max_mp: 10
 
 basic_sword:
   parent: equipable
@@ -84,18 +87,19 @@ basic_sword:
     str: 3
   skills:
   - slash
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  - stab 
+  description: A toy sword
 
 basic_shield:
   parent: equipable
   name: Training Shield
   slot: offhand
   stats:
-    str: 2
+    str: 1
     agi: -1
   skills:
   - guard
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  description: Its just a pan lid?
 
 basic_wand:
   parent: equipable
@@ -105,13 +109,48 @@ basic_wand:
     int: 4
   skills:
   - firebolt
-  description: A ragged dirty hood, good for adventuring, terrible for picking up elf femboys at the tavern.
+  - heal_light_wounds
+  description: A twig with a matchstick taped to it
+
+first_aid_kit:
+  parent: equipable
+  name: First Aid Kit
+  slot: offhand
+  stats:
+    int: 0
+    str: 0
+    agi: 0
+  skills:
+  - first_aid
+  description: A first aid kit for tending to allies, or foes, anyone really..
+
+basic_dagger:
+  parent: equipable
+  name: Training Dagger
+  slot: weapon
+  stats:
+    agi: 3
+  skills:
+  - stab
+  description: A short stealthy blade
+
+basic_parry_dagger:
+  parent: equipable
+  name: Parry Dagger
+  slot: offhand
+  stats:
+    agi: 1
+    dodge_chance: 5
+  description: A dagger for parrying
 
 gamer_katana:
   parent: equipable
   name: Plastic Katana
   slot: weapon
   stats:
+    max_hp: -5
+    str: 2
+    agi: 2
     int: -1
     dodge_chance: 5
     crit_chance: 10

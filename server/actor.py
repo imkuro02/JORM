@@ -96,6 +96,7 @@ class Actor:
         
         skill = self.room.map.factory.premade['skills'][skill_id]
 
+        #print(self.name, self.target)
         # check if skill needs a target
         if skill['target'] != 'none':
             if self.target == None:
@@ -104,7 +105,6 @@ class Actor:
 
             
             if self.target.room != self.room:
-
                 self.broadcast(f'{self.target.name} is not here', self)
                 return 
         
@@ -141,13 +141,21 @@ class Actor:
 
 
         match skill_id:
+            case 'heal_light_wounds':
+                self.set_cooldown(skill_id,20)
+                roll = self.stats['int'] + 6
+                self.target.regen(hp=roll)
+                self.broadcast(f'{self.name} heals {self.target.name} for {roll}')
+            case 'first_aid':
+                self.set_cooldown(skill_id,9)
+                roll = 6
+                self.target.regen(hp=roll)
+                self.broadcast(f'{self.name} heals {self.target.name} for {roll}')
             case 'stab':
                 self.set_cooldown(skill_id,9)
                 roll = self.stats['agi'] 
                 if crit: 
                     roll = roll * 3
-                else:
-                    roll = int(roll/2)
                 self.target.take_damage(roll,'agi',self,skill['name'])
             case 'slash':
                 self.set_cooldown(skill_id,9)
@@ -157,16 +165,16 @@ class Actor:
                 self.target.take_damage(roll,'str',self,skill['name'])
             case 'spit':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['agi'] 
+                roll = self.stats['int'] 
                 if crit: 
                     roll = roll * 2
-                self.target.take_damage(roll,'agi',self,skill['name'])
+                self.target.take_damage(roll,'int',self,skill['name'])
             case 'firebolt':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['str'] 
+                roll = self.stats['int'] 
                 if crit: 
                     roll = roll * 2
-                    self.target.take_damage(roll,'int',self,skill['name'])
+                    self.take_damage(roll,'int',self,skill['name'])
                 self.target.take_damage(roll,'int',self,skill['name'])
             case 'push':
                 self.set_cooldown(skill_id,9)
@@ -206,11 +214,12 @@ class Actor:
             return
 
         match stat:
-            case 'str': damage += ( -self.stats['agi'] )
+            case 'str': damage -= self.stats['agi'] 
         match stat:
-            case 'agi': damage += ( -self.stats['int'] )
+            case 'agi': damage -= self.stats['int'] 
         match stat:
-            case 'int': damage += ( -self.stats['str'] )
+            case 'int': damage -= self.stats['str'] 
+
         damage = int(damage)
 
         if damage <= 0:
@@ -221,9 +230,9 @@ class Actor:
             return
 
         if skill != None:
-            self.broadcast(f'{self.name} took damage {damage} from {skill}')
+            self.broadcast(f'{self.name} took {damage} damage from {skill}')
         else:
-            self.broadcast(f'{self.name} took damage {damage} ')
+            self.broadcast(f'{self.name} took {damage} damage')
 
         self.stats['hp'] -= damage
         if self.stats['hp'] <= 0:

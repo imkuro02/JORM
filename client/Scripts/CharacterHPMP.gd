@@ -44,6 +44,7 @@ func set_sheet(_sheet):
 func _process(_delta):
 	if sheet == null:
 		get_node("Name").text = 'No Target'
+		get_node("Stats").text = '[center][color=LIGHT_CORAL]-[/color]/[color=LAWN_GREEN]-[/color]/[color=LIGHT_SKY_BLUE]-[/color]'
 		
 		get_node("HP_BAR").max_value = 100
 		get_node("MP_BAR").max_value = 100
@@ -56,7 +57,7 @@ func _process(_delta):
 		return
 		
 	get_node("Name").text = sheet['name']
-	
+	get_node("Stats").text = '[center][color=LIGHT_CORAL]%s[/color]/[color=LAWN_GREEN]%s[/color]/[color=LIGHT_SKY_BLUE]%s[/color]' % [sheet['stats']['str'],sheet['stats']['agi'],sheet['stats']['int']]
 	get_node("HP_BAR").max_value = sheet['stats']['max_hp']
 	get_node("MP_BAR").max_value = sheet['stats']['max_mp']
 	

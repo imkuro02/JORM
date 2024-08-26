@@ -121,15 +121,17 @@ class ServerProtocol(WebSocketServerProtocol):
 
         # add basic gear
         basic_items = '''
-                basic_head
-                basic_chest
-                basic_belt
-                basic_pants
-                basic_boots
-                basic_accessory
-                basic_sword
-                basic_shield
-                basic_wand
+                basic_dagger
+                potion0
+                potion0
+                potion1
+                potion1
+                potion0
+                money
+                money
+                money
+                money
+                money
             '''.split()
 
         for i in basic_items:

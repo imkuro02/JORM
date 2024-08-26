@@ -15,6 +15,13 @@ layout_mode = 2
 text = "USERNAME USERNAME "
 horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Stats" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "stats"
+fit_content = true
 
 [node name="HSeparator" type="HSeparator" parent="."]
 self_modulate = Color(1, 1, 1, 0)

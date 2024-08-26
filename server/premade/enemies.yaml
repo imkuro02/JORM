@@ -32,25 +32,42 @@ template:
     - something funny
     - something witty
 
-slime:
-  name: Slime
+goblin:
+  name: Gobby
   stats:
     max_hp:         8
     max_mp:         8
-    agi: 3
+    str: 0
+    agi: 5
+    int: 0
   skills:
-    - spit
+    - stab
   loot_table:
     money:
       drop_chance:  1
       quantity_min: 1
       quantity_max: 10
+    basic_accessory:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_sword:
+      drop_chance: 0.25
+      quantity_min: 1
+      quantity_max: 1
+    basic_parry_dagger:
+      drop_chance: 0.25
+      quantity_min: 1
+      quantity_max: 1
 
-skeleton:
-  name: Skeleton
+hobgoblin:
+  name: Hobgoblin
   stats:
     max_hp:         15
     max_mp:         15
+    str: 5
+    agi: 0
+    int: 0 
   skills:
     - slash
   loot_table:
@@ -58,12 +75,60 @@ skeleton:
       drop_chance:  1
       quantity_min: 1
       quantity_max: 10
+    basic_shield:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_head:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_chest:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_chest:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_pants:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+    basic_boots:
+      drop_chance: 0.1
+      quantity_min: 1
+      quantity_max: 1
+
+goblin_shaman:
+  name: Gobby-Shaman
+  stats:
+    max_hp: 20
+    max_mp: 50
+    str:    0
+    agi:    2
+    int:    8
+  skills:
+    - firebolt
+    - spit
+  loot_table:
+    money:
+      drop_chance: 0.5
+      quantity_min: 1
+      quantity_max: 25
+    basic_wand:
+      drop_chance: 0.25
+      quantity_min: 1
+      quantity_max: 1
 
 gamer:
   name: Gamer
   stats:
-    max_hp:         100
-    max_mp:         100
+    max_hp:         50
+    max_mp:         50
+    str: 6
+    agi: 6
+    int: -2
   skills:
     - slash
     - stab
@@ -73,7 +138,7 @@ gamer:
       quantity_min: 1
       quantity_max: 10
     gamer_katana:
-      drop_chance:  0.1
+      drop_chance:  0.25
       quantity_min: 1
       quantity_max: 1
   roaming_text:

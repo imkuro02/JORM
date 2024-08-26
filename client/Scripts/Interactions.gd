@@ -136,7 +136,6 @@ func _on_rich_text_label_meta_clicked(meta):
 			text += '%s\n' % [STATUSES[object]['description']]
 			MAIN.chat_window.receive_flavoured_message(text)
 		'Inspect':
-			print('fdsafsda')
 			var text = ''
 			text += '%s\n%s\n' % [ITEMS[object]['name'],ITEMS[object]['description']]
 

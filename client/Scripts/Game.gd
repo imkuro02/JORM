@@ -192,6 +192,7 @@ func receive_flavoured_message(text,anim = null):
 	text = text.strip_edges(true, false)
 	text = text + '\n'
 	text = text.strip_edges(true, false)
+	text = '> '+text 
 	#text = '[bgcolor="black"]' + text + '[/bgcolor]'
 	chat_message_queue.append(text)
 	#print(Time.get_ticks_usec() - time)

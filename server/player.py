@@ -188,8 +188,8 @@ class Player(Actor):
         super().tick()
         
         if self.protocol.factory.server_time % (30*60) == 0:
-            self.regen(hp = self.stats['str'] + 1)
-            self.regen(mp = self.stats['int'] + 1)
+            self.regen(hp = 1)
+            self.regen(mp = 1)
 
         if self.protocol.factory.server_time % 3 == 0:
            self.room_update()

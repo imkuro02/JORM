@@ -179,10 +179,10 @@ class Map:
         self.rooms = {}
 
         smalltown =                 Room(self, 'Small Town',                 'Welcome to Small Town! its a.. well.. a small town, the Small Town Gate is just west of here, need to pass through the Small Town Ruins to get to it.')
-        smalltown_ruins =           Room(self, 'Small Town Ruins',           'Small Town Ruins, some Slimes seek refuge here, you can see Small Town Gate from here.')
-        smalltown_gate =            Room(self, 'Small Town Gate',            'The gateway to Small Town, need to pass through the Small Town Ruins first though. There is a path leading to the Forest West Of Small Town')
-        forest_west_smalltown =     Room(self, 'Forest West Of Small Town',  'The forest, wilderness.. A path leads deeper into the Forest East Of Big Town, and another path leading straight to Small Town Gate.')
-        forest_east_bigtown =       Room(self, 'Forest East Of Big Town',    'the forest, wilderness.. A path leads deeper into the Forest West Of Small Town, and another path leading straight to Big Town Gate')
+        smalltown_ruins =           Room(self, 'Small Town Ruins',           'Small Town Ruins, Goblins are roaming the streets.')
+        smalltown_gate =            Room(self, 'Small Town Gate',            'The gateway to Small Town, altho half the city is in ruins, this gate still stands somewhat tall.')
+        forest_west_smalltown =     Room(self, 'Forest West Of Small Town',  'The forest, wilderness.. Watch out for Goblins and Hobgoblins!')
+        forest_east_bigtown =       Room(self, 'Forest East Of Big Town',    'The forest, wilderness.. Watch out for Goblins and Hobgoblins!')
         bigtown_gate =              Room(self, 'Big Town Gate',              'The Big Town Gate, guarded by gamers... a path leads away into the Forest East Of Big Town')
 
         smalltown.connect_room(smalltown_ruins)
@@ -203,39 +203,20 @@ class Map:
         self.add_room(forest_east_bigtown)
         self.add_room(bigtown_gate)
 
-        village = Room(self, 'Village',   'The Village, you see a path leading to the Forest. and a gate to the Sewers.')
-        forest  = Room(self, 'Forest',    'You find yourself deep in the Forest, there is a path leading to the Village here')
-        sewers  = Room(self, 'Sewers',    'Stinky stinky sewers, theres only one way; UP.. to the Village ')
-    
         
-        village.connect_room(forest)
-        village.connect_room(sewers)
-        sewers.connect_room(village)
-        forest.connect_room(village)
+        smalltown_ruins.add_enemy_spawn('goblin',3,15)
 
-        forest.add_enemy_spawn('skeleton',6,10)
-        sewers.add_enemy_spawn('slime',3,15)
-        sewers.add_enemy_spawn('gamer',1,60)
+        smalltown_gate.add_enemy_spawn('goblin',1,15)
 
-        smalltown_ruins.add_enemy_spawn('slime',3,15)
-        smalltown_ruins.add_enemy_spawn('skeleton',1,60)
-        forest_west_smalltown.add_enemy_spawn('slime',5,16)
-        forest_east_bigtown.add_enemy_spawn('gamer',1,15)
-        bigtown_gate.add_enemy_spawn('gamer',3,15)
+        forest_west_smalltown.add_enemy_spawn('goblin',3,15)
+        forest_west_smalltown.add_enemy_spawn('hobgoblin',1,15)
 
 
-        '''
-        forest.add_enemy('skeleton')
-        forest.add_enemy('slime')
-        '''
+        forest_east_bigtown.add_enemy_spawn('hobgoblin',3,15)
+        forest_east_bigtown.add_enemy_spawn('goblin_shaman',2,40)
 
+        forest_east_bigtown.add_enemy_spawn('gamer',2,40)
 
-
-     
-
-        self.add_room(village)
-        self.add_room(forest)
-        self.add_room(sewers)
 
     def add_room(self,room):
         self.rooms[room.name] = room
