@@ -129,7 +129,7 @@ class DataBase:
 
         equipment = [item[1] for item in _equipment]
         #print(stats, inventory, equipment)
-
+        print(stats)
         return {'stats': stats, 'inventory': inventory, 'equipment':equipment}
         
 

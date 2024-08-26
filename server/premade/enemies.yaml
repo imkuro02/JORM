@@ -37,7 +37,7 @@ slime:
   stats:
     max_hp:         8
     max_mp:         8
-    agi: 6
+    agi: 3
   skills:
     - spit
   loot_table:

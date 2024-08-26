@@ -157,7 +157,7 @@ class Actor:
                 self.target.take_damage(roll,'str',self,skill['name'])
             case 'spit':
                 self.set_cooldown(skill_id,9)
-                roll = self.stats['str'] 
+                roll = self.stats['agi'] 
                 if crit: 
                     roll = roll * 2
                 self.target.take_damage(roll,'agi',self,skill['name'])
@@ -206,12 +206,11 @@ class Actor:
             return
 
         match stat:
-            case 'str': damage += ( -self.stats['agi'] + self.stats['int'])
+            case 'str': damage += ( -self.stats['agi'] )
         match stat:
-            case 'agi': damage += ( -self.stats['int'] + self.stats['str'])
+            case 'agi': damage += ( -self.stats['int'] )
         match stat:
-            case 'int': damage += ( -self.stats['str'] + self.stats['agi'])
-
+            case 'int': damage += ( -self.stats['str'] )
         damage = int(damage)
 
         if damage <= 0:

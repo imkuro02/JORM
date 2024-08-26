@@ -14,12 +14,14 @@ PLAYER_STATS = {
     'exp':      0,
     'points':   0,
 
+    'crit_chance':  5,
+    'dodge_chance': 5,
+
     'str': 2,
     'agi': 2,
     'int': 2,
     
-    'crit_chance':  5,
-    'dodge_chance': 5,
+
 }
 
 class Player(Actor):
