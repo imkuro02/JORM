@@ -9,7 +9,9 @@ func _ready():
 	states = []
 	nodes = []
 	for i in get_node('VBoxContainer/Buttons').get_children():
-		states.append(i.name)
+		if i.visible:
+			states.append(i.name)
+		
 	for i in get_node('VBoxContainer/States').get_children():
 		nodes.append(i.name)
 	pass # Replace with function body.

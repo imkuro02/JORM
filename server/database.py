@@ -26,10 +26,12 @@ class DataBase:
             points INTEGER DEFAULT 0,
             crit_chance REAL DEFAULT 0,
             dodge_chance REAL DEFAULT 0,
-            physic_block REAL DEFAULT 0,
+
+            slash_block REAL DEFAULT 0,
             magic_block REAL DEFAULT 0,
             physic_damage INTEGER DEFAULT 0,
             magic_damage INTEGER DEFAULT 0,
+
             str INTEGER DEFAULT 0,
             dex INTEGER DEFAULT 0,
             con INTEGER DEFAULT 0,

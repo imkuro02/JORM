@@ -22,6 +22,8 @@ var PREMADE: Dictionary
 
 var CHARACTERSHEET = null
 
+
+
 func _ready():
 	audio = AUDIO.instantiate()
 	add_child(audio)
@@ -101,7 +103,7 @@ func PLAY(p):
 			
 		"Room":
 			ROOM = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
-			chat_window.receive_room(ROOM)
+			#chat_window.receive_room(ROOM)
 			
 		"FlavouredMessage":
 			var text = _payloads[0]

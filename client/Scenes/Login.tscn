@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://i78iqms242n0"]
+[gd_scene load_steps=6 format=3 uid="uid://i78iqms242n0"]
 
 [ext_resource type="Script" path="res://Scripts/Login.gd" id="1_t7q8n"]
 [ext_resource type="Texture2D" uid="uid://dmyxlaqh4hr37" path="res://Backgrounds/backgrounds-freebie/mountains version (1)/mountains version (1) pixelation 1/mountains version (1) variant 01.png" id="2_gqtxa"]
+[ext_resource type="Shader" path="res://Shaders/Sokpop.gdshader" id="3_5vwa4"]
+[ext_resource type="Texture2D" uid="uid://cgex8heb5r62l" path="res://Images/JORM.png" id="3_203jy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6nrc"]
+shader = ExtResource("3_5vwa4")
+shader_parameter/normal_offset = 1.5
+shader_parameter/time_influence = 3.0
+shader_parameter/y_div = 3.87
 
 [node name="Login" type="Control"]
 layout_mode = 3
@@ -22,6 +30,22 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gqtxa")
 expand_mode = 1
+
+[node name="Jorm" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_q6nrc")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.494
+anchor_right = 0.5
+anchor_bottom = 0.494
+offset_left = -95.9999
+offset_top = -320.112
+offset_right = 307.0
+offset_bottom = 82.888
+scale = Vector2(0.476562, 0.492188)
+texture = ExtResource("3_203jy")
+expand_mode = 4
 
 [node name="BGPanel" type="Panel" parent="."]
 layout_mode = 0

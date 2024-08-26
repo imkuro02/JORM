@@ -3,7 +3,7 @@ extends Control
 const Packet = preload("res://Scripts/Packet.gd")
 
 #@onready var chatbox_container = $Chatbox/ChatboxContainer
-@onready var chatbox = $Chatbox/Chatbox
+@onready var chatbox = $Chatbox/ScrollContainer/VBoxContainer/Chatbox
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
 @onready var settings = $Panel/VBoxContainer/States/Settings
@@ -21,7 +21,20 @@ var sheet
 var MAIN 
 var ROOM = {}
 
-
+var color_to_tags = {
+		'player': 'aqua',
+		'enemy': 'coral',
+		'inventory': 'LIGHT_SKY_BLUE',
+		'equipment': 'LIGHT_SKY_BLUE',
+		'target': 'RED',
+		'exit': 'green',
+		'skill': 'LIGHT_GOLDENROD',
+		'status': 'LIGHT_GREEN',
+		'loot': 'LIGHT_SKY_BLUE',
+		'clear_chat': 'yellow',
+		'self_target': 'yellow',
+		'un_self_target': 'yellow'
+	}
 
 func _ready():
 	commands.text = '%s | %s | %s' % [
@@ -42,12 +55,23 @@ func chatbox_clear():
 	var empty = ''
 	chatbox.text = empty
 	
+var prev_scroll_value = 0
 func chatbox_update():
 	# autooscroll only if at bottom already
-	var scrollbar = chatbox.get_v_scroll_bar()
+	#var scrollbar = chatbox.get_v_scroll_bar()
+	#if scrollbar.visible:
+	#	chatbox.scroll_following = scrollbar.value == abs(scrollbar.size.y - scrollbar.max_value)
+		
+	var scrollbar = $Chatbox/ScrollContainer.get_v_scroll_bar()
 	if scrollbar.visible:
-		chatbox.scroll_following = scrollbar.value == abs(scrollbar.size.y - scrollbar.max_value)
-	#print('%s vs %s / %s' % [scrollbar.value, scrollbar.size , abs(scrollbar.size.y - scrollbar.max_value)])
+		if scrollbar.value == prev_scroll_value or prev_scroll_value == 0:
+			scrollbar.value = scrollbar.max_value
+			
+		prev_scroll_value = abs(scrollbar.size.y - scrollbar.max_value)
+	else:
+		prev_scroll_value = 0
+
+		
 	
 	#var scrollbar = chatbox_container.get_v_scroll_bar()
 	#if scrollbar.value < scrollbar.max_value:
@@ -107,23 +131,10 @@ func chatbox_trim_update():
 	if len(chatbox.text) >= 30_000:
 		chatbox.text = chatbox.text.substr(1_000, chatbox.text.length() - 1_000)
 
-func refresh_players():
-	if sheet == null:
-		return
-		
-	if ROOM == null:
-		return
-		
-	#character_sheet.receive_others(sheet['target'], ROOM['players'], ROOM['enemies'])
-	
-		
-	
-
 func _process(_delta):
 	# print server time delay
 	settings.get_node('Delay').text = 'tick: %s' % [int(MAIN.SERVER_TIME)]
 	
-	refresh_players()
 	chatbox_trim_update()
 	chatbox_update()
 
@@ -139,6 +150,7 @@ func interaction(data):
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
 
 func receive_flavoured_message(text,anim = null):
+	var ROOM = MAIN.ROOM
 	if anim != null:
 		match anim:
 			'death': 
@@ -189,45 +201,19 @@ func receive_flavoured_message(text,anim = null):
 func interactable(tag, object, label):
 	var col = 'white'
 
-	var color_to_tags = {
-		'player': 'aqua',
-		'enemy': 'coral',
-		'inventory': 'LIGHT_SKY_BLUE',
-		'equipment': 'LIGHT_SKY_BLUE',
-		'target': 'RED',
-		'exit': 'green',
-		'skill': 'LIGHT_GOLDENROD',
-		'status': 'LIGHT_GREEN',
-		'loot': 'LIGHT_SKY_BLUE',
-		'clear_chat': 'yellow',
-		'self_target': 'yellow',
-		'un_self_target': 'yellow'
-	}
+	
 	if tag in color_to_tags:
 		col = color_to_tags[tag]
 		
 	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
 	return x
-	
-
-		
-func receive_room(room):
-	if 'name' not in ROOM:
-		ROOM = room
-		return
-		
-	if ROOM['name'] != room['name']:
-		ROOM = room
-		return
-		
-	ROOM = room
-	show_room()
-
 
 func receive_character_sheet(_sheet):
 	#character_sheet.receive_character_sheet(_sheet)
 
 	var SKILLS = MAIN.PREMADE['skills']
+	var ROOM = MAIN.ROOM
+	background_manager.new_room(ROOM['name'])
 
 	sheet = _sheet
 	
@@ -243,22 +229,6 @@ func receive_character_sheet(_sheet):
 	elif sheet['target'] in ROOM['enemies']:
 		var target_sheet = ROOM['enemies'][sheet['target']]
 		combat_panel.get_node("Target").set_sheet(target_sheet)
-	
-	
-	
-func show_room():
-	background_manager.new_room(ROOM['name'])
-	var exits = ROOM['exits']
-	var label = '[center][color="GOLD"]%s[/color][/center]\n' % [ROOM['name']]
-	var desc = ''
-	if $Chatbox/RoomDescription/RoomDescriptions.button_pressed:
-		desc = ROOM['description'] + '\n'
-	desc = label + desc 
-	
-	for exit in ROOM['exits']:
-		desc += '[' + interactable('exit',exit,exit) + '] '
-	desc += '\n'
-	$Chatbox/RoomDescription.text = desc
 	
 func send(text: String):
 	if len(text) > 0:

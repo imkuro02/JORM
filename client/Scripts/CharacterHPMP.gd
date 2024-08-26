@@ -43,7 +43,7 @@ func set_sheet(_sheet):
 	
 func _process(_delta):
 	if sheet == null:
-		get_node("Name").text = 'None'
+		get_node("Name").text = 'No Target'
 		
 		get_node("HP_BAR").max_value = 100
 		get_node("MP_BAR").max_value = 100
