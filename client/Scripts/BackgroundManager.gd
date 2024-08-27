@@ -8,6 +8,11 @@ extends Control
 @export var bg_ruins: Texture
 
 var bg 
+var MAIN
+
+func _ready():
+	MAIN = get_tree().root.get_node('Main')
+	
 func new_room(room_name):
 	bg = bg_basic
 	var backgrounds = {
@@ -22,3 +27,8 @@ func new_room(room_name):
 		bg = backgrounds[room_name]
 	$".".texture = bg
 		
+func _process(_delta):
+
+	if MAIN.ROOM == null:
+		return
+	new_room(MAIN.ROOM['name'])

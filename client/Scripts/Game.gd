@@ -19,7 +19,7 @@ var interactions_popup = preload("res://Scenes/Interactions.tscn")
 
 var sheet
 var MAIN 
-var ROOM = {}
+
 
 var color_to_tags = {
 		'player': 'aqua',
@@ -94,6 +94,7 @@ func chatbox_update():
 	
 
 func interactive_chatbox_update():
+	var ROOM = MAIN.ROOM
 	''' REPLACE ENTITY WITH TARGET AND VICE VERSA CODE'''
 	if sheet != null:
 		var time = Time.get_ticks_usec()
@@ -157,7 +158,8 @@ func receive_flavoured_message(text,anim = null):
 				#$CanvasLayer/OverlayShader.material.set_shader_parameter("intensity", 1)
 				MAIN.audio.play('church_bell')
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
-				
+			'new_room':
+				$Panel2/VBoxContainer/States/Others/AnimationPlayer.play('fade')
 			
 	var time = Time.get_ticks_usec()
 	var _players = ROOM['players']
@@ -214,7 +216,7 @@ func receive_character_sheet(_sheet):
 
 	var SKILLS = MAIN.PREMADE['skills']
 	var ROOM = MAIN.ROOM
-	background_manager.new_room(ROOM['name'])
+	
 
 	sheet = _sheet
 	
@@ -241,12 +243,6 @@ func _input(event: InputEvent):
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_ENTER:
-				if input.text == 'ROOM':
-					print(ROOM)
-					return
-				if input.text == 'SELF':
-					print(sheet)
-					return
 				send(input.text)
 				input.text = ""
 				input.grab_focus()

@@ -214,11 +214,11 @@ class Actor:
             return
 
         match stat:
-            case 'str': damage -= self.stats['agi'] 
+            case 'str': damage -= int(self.stats['agi']/2) 
         match stat:
-            case 'agi': damage -= self.stats['int'] 
+            case 'agi': damage -= int(self.stats['int']/2) 
         match stat:
-            case 'int': damage -= self.stats['str'] 
+            case 'int': damage -= int(self.stats['str']/2) 
 
         damage = int(damage)
 

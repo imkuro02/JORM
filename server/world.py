@@ -83,15 +83,20 @@ class Room:
         del self.enemies[e.name]
 
     def add_player(self,player):
+
+        
+
         self.players[player.name] = player
         player.room = self
+        self.players[player.name].protocol.onPacket(self,packet.FlavouredMessagePacket(f'Arrived at {self.name}','new_room'))
 
         for _player in self.players:
+            
             self.players[_player].room_update()
 
         p = packet.FlavouredMessagePacket(f'{player.name} entered.')
         self.players[player.name].protocol.broadcast(p,exclude_self=True)
-        self.players[player.name].protocol.onPacket(self,packet.FlavouredMessagePacket(f'Arrived at {self.name}'))
+        
 
     def remove_player(self,player):
         p = packet.FlavouredMessagePacket(f'{player.name} left.')
