@@ -9,9 +9,11 @@ class Actor:
             'stats': self.stats
         }
 
-    def broadcast(self, text, specific_player = None):
+    def broadcast(self, text, specific_player = None, exclude_self = False):
         p: packet = packet.FlavouredMessagePacket(text)
         for player in self.room.players:
+            if exclude_self and self.room.players[player] == self:
+                continue
             if specific_player == None:
                 self.room.players[player].protocol.onPacket(None,p)
             else:

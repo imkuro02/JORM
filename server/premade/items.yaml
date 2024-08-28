@@ -13,7 +13,7 @@ template:
     dodge_chance: 0
   skills:
   - slash
-  description: Description
+  description: NO Description
 
 equipable:
   name: Template Weapon
@@ -29,16 +29,16 @@ equipable:
     dodge_chance: 0
   skills:
   - slash
-  description: Description
+  description: NO Description
 
 consumable:
   name: Template Consumable
   use_script: potion0
-  description: Description
+  description: NO Description
 
 misc:
   name: Template Misc 
-  description: Description
+  description: NO Description
 
 basic_head:
   parent: equipable
@@ -74,7 +74,7 @@ basic_accessory:
   parent: equipable
   name: Mothers Necklace
   slot: accessory
-  description: Your mothers necklace
+  #description: Your mothers necklace
   stats:
     max_hp: 10
     max_mp: 10

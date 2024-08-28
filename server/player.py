@@ -191,7 +191,7 @@ class Player(Actor):
             self.regen(hp = 1)
             self.regen(mp = 1)
 
-        if self.protocol.factory.server_time % 3 == 0:
+        if self.protocol.factory.server_time % 10 == 0:
            self.room_update()
 
         

@@ -6,7 +6,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var chatbox = $Chatbox/ScrollContainer/VBoxContainer/Chatbox
 @onready var input = $Chatbox/LineEdit
 @onready var commands = $Chatbox/Commands
-@onready var settings = $Panel/VBoxContainer/States/Settings
+@onready var settings = $Panel2/VBoxContainer/States/Settings
 
 @onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager
@@ -159,7 +159,9 @@ func receive_flavoured_message(text,anim = null):
 				MAIN.audio.play('church_bell')
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
 			'new_room':
-				$Panel2/VBoxContainer/States/Others/AnimationPlayer.play('fade')
+				$AnimationPlayer.play('fade')
+	else:
+		MAIN.audio.play('message')
 			
 	var time = Time.get_ticks_usec()
 	var _players = ROOM['players']
@@ -196,7 +198,9 @@ func receive_flavoured_message(text,anim = null):
 	text = text.strip_edges(true, false)
 	text = '> '+text 
 	#text = '[bgcolor="black"]' + text + '[/bgcolor]'
-	chat_message_queue.append(text)
+	#chat_message_queue.append(text)
+	chatbox.text += text
+	
 	#print(Time.get_ticks_usec() - time)
 
 	

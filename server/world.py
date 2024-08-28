@@ -94,14 +94,13 @@ class Room:
             
             self.players[_player].room_update()
 
-        p = packet.FlavouredMessagePacket(f'{player.name} entered.')
-        self.players[player.name].protocol.broadcast(p,exclude_self=True)
+        #p = packet.FlavouredMessagePacket(f'{player.name} entered.')
+        self.players[player.name].broadcast(f'{player.name} entered.', exclude_self = True)
         
 
     def remove_player(self,player):
-        p = packet.FlavouredMessagePacket(f'{player.name} left.')
-        if player in self.players:
-            self.players[player.name].protocol.broadcast(p,exclude_self=True)
+        #p = packet.FlavouredMessagePacket(f'{player.name} left.')
+        self.players[player.name].broadcast(f'{player.name} left.', exclude_self = True)
         
             
         del self.players[player.name]

@@ -20,7 +20,7 @@ func set_volume(vol):
 func play(sound):
 	match sound:
 		'message':
-			message.pitch_scale = randf_range(0.8,1.2)
+			message.pitch_scale = randf_range(0.5,1)
 			message.play()
 		'equip':
 			equip.pitch_scale = randf_range(0.8,1.2)

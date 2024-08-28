@@ -87,6 +87,9 @@ def create_all_items():
 
             #if 'skills' in to_copy:
             #    to_copy['skills'] = template['skills']
+
+            if 'description' not in to_copy:
+                to_copy['description'] = template['description']
             
             if 'equipable' == to_copy['parent']:
                 if 'stats' in to_copy:

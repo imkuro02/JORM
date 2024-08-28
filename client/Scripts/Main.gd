@@ -56,10 +56,15 @@ func remove_window(window):
 func LOGIN(p):
 	var _payloads = p.payloads
 	match p.action:
+		"ServerTime":
+			print(SERVER_TIME - _payloads[0])
+			SERVER_TIME = _payloads[0]
+			
 		"SystemMessage":
 			var w = system_message.instantiate()
 			w.message(_payloads[0],_payloads[1])
 			add_child(w)
+			
 		"Ok":
 			state = Callable(self, 'PLAY')
 			
@@ -72,12 +77,10 @@ func LOGIN(p):
 			remove_window(login_window)
 			chat_window.visible=true
 			await trans._fade_out()
+			
 		"Deny":
 			pass
-		"ServerTime":
-			if SERVER_TIME == 0:
-				SERVER_TIME = _payloads[0]
-				print('time set')
+		
 			# prints the offset of server time and client time
 			#print(SERVER_TIME - _payloads[0])
 		"Premade":
@@ -87,8 +90,10 @@ func LOGIN(p):
 func PLAY(p):
 	var _payloads = p.payloads
 	match p.action:
-		
-		
+		"ServerTime":
+			print(SERVER_TIME - _payloads[0])
+			SERVER_TIME = _payloads[0]
+			
 		"Chat":
 			var message = "Something went wrong with receiving Chat message"
 			if _payloads[1] == null:
