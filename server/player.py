@@ -46,6 +46,7 @@ class Player(Actor):
             return {
                 'name':         self.name,
                 'stats':        self.stats,
+                'equipment':    self.equipment
                 }
 
         self.skills = []

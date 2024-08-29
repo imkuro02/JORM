@@ -3,12 +3,13 @@ template:
   stats:
     max_hp:         100
     max_mp:         100
-    str: 2
-    agi: 2
-    int: 2
+    hp: 0
+    mp: 0
+    str: 1
+    agi: 1
+    int: 1
     crit_chance:  5
-    dodge_chance': 5
-
+    dodge_chance: 5
   skills:
     - spit
     - push
@@ -28,9 +29,11 @@ template:
       quantity_min: 1
       quantity_max: 1
   roaming_text:
-    - farts violently
-    - something funny
-    - something witty
+    - paces back and forth
+    - grunts
+    - sneezes
+    - coughs
+  description: A template enemy description
 
 goblin:
   name: Gobby
@@ -40,8 +43,11 @@ goblin:
     str: 0
     agi: 5
     int: 0
+    dodge_chance: 0
+    crit_chance: 0
   skills:
     - stab
+  description: An agile little fella!
   loot_table:
     money:
       drop_chance:  1
@@ -75,7 +81,7 @@ hobgoblin:
     max_mp:         15
     str: 5
     agi: 0
-    int: 0 
+    int: 0
   skills:
     - slash
   loot_table:
@@ -132,8 +138,6 @@ goblin_shaman:
 gamer:
   name: Gamer
   stats:
-    max_hp:         50
-    max_mp:         50
     str: 6
     agi: 6
     int: -2

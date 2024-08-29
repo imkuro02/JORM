@@ -22,15 +22,15 @@ var MAIN
 
 
 var color_to_tags = {
-		'player': 'aqua',
+		'player': 'AQUAMARINE',
 		'enemy': 'coral',
-		'inventory': 'LIGHT_SKY_BLUE',
-		'equipment': 'LIGHT_SKY_BLUE',
+		'inventory': 'LIGHT_GRAY',
+		'equipment': 'LIGHT_GRAY',
 		'target': 'RED',
 		'exit': 'green',
 		'skill': 'LIGHT_GOLDENROD',
 		'status': 'LIGHT_GREEN',
-		'loot': 'LIGHT_SKY_BLUE',
+		'loot': 'LIGHT_GRAY',
 		'clear_chat': 'yellow',
 		'self_target': 'yellow',
 		'un_self_target': 'yellow'
@@ -160,6 +160,7 @@ func receive_flavoured_message(text,anim = null):
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
 			'new_room':
 				$AnimationPlayer.play('fade')
+				MAIN.audio.play('go')
 	else:
 		MAIN.audio.play('message')
 			
@@ -206,11 +207,17 @@ func receive_flavoured_message(text,anim = null):
 	
 	
 func interactable(tag, object, label):
-	var col = 'white'
-
+	var col = 'pink'
 	
 	if tag in color_to_tags:
 		col = color_to_tags[tag]
+		
+	if MAIN != null:
+		if MAIN.CHARACTERSHEET != null:
+			if object == MAIN.CHARACTERSHEET['name'] and tag in ' player ':
+				col = 'aqua'
+		
+	
 		
 	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
 	return x

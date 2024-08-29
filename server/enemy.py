@@ -23,26 +23,24 @@ ENEMY_STATS = {
 }
 
 class Enemy(Actor):
-    def __init__(self, name, stats = ENEMY_STATS, skills = ['Guard'], loot_table = []):
+    def __init__(self, name, id, stats, skills, loot_table, room, description):
         self.name = name
-       
-        self.room = None
-        self.tag = 'enemy'
-        self.id = 'No ID'
-        self.ticks_passed = 0
+        self.id = id
+        self.room = room
         self.target = None
         
         self.stats = utils.dc(stats)
-        self.status_effects = {}
+        
         self.skills = utils.dc(skills)
         self.loot_table = utils.dc(loot_table)
 
         self.skill_cooldowns = {}
         self.player_damages = {}
-
+        self.status_effects = {}
 
         self.roaming_text = ['Groans...','Roams around.','Farts.']
         self.chance_to_roam = 100
+        self.description = description
 
     def roll_loot(self, owner):
         all_loot = {}
@@ -79,9 +77,11 @@ class Enemy(Actor):
         return {
             'name':         self.name,
             'stats':        self.stats,
+            'id':           self.id
             }
 
     def die(self):
+        '''
         _killer = {'name':'what the fuck this is a bug'}
         _damage = 0
         for player in self.player_damages:
@@ -112,11 +112,24 @@ class Enemy(Actor):
         self.roll_loot(_killer)
         self.room.remove_enemy(self)
         self.room = None
+        '''
+        for player in self.room.players:
+            if player in self.player_damages:
+                self.broadcast(f'{self.name} Died... You did {self.player_damages[player]} damage!', self.room.players[player] )
+                self.roll_loot(self.room.players[player])
+            else:
+                self.broadcast(f'{self.name} Died... ', self.room.players[player])
 
+            if player in self.room.players:
+                if self.room.players[player].target == self:
+                    self.room.players[player].target = None
+
+        self.room.remove_enemy(self)
+        self.room = None
     def tick(self):
         super().tick()
 
-        if self.ticks_passed == 0:
+        if self.room.map.factory.server_time % 30 == 0:
 
             roam_text = random.randrange(1,self.chance_to_roam)
             if roam_text == 1:
@@ -132,13 +145,6 @@ class Enemy(Actor):
 
 
             self.use_skill(random.choice(self.skills))
-
-
-
-
-        self.ticks_passed += 1
-        if self.ticks_passed >= 30*3:
-            self.ticks_passed = 0
 
     def take_damage(self, damage, stat, source, skill = None):
         

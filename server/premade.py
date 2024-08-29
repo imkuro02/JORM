@@ -19,6 +19,24 @@ translations = {
     
 }
 
+def create_all_enemies():
+    with open('premade/enemies.yaml', 'r') as file:
+        enemies = yaml.safe_load(file)
+
+    template = enemies['template']
+
+    for enemy in enemies:
+        for attribute in template:
+            if attribute not in enemies[enemy]: enemies[enemy][attribute] = template[attribute]
+
+        for stat in template['stats']:
+            if stat not in enemies[enemy]['stats']: enemies[enemy]['stats'][stat] = template['stats'][stat]
+                
+
+
+
+    return enemies
+        
 def create_all_skills():
     ods_file = ezodf.opendoc('skills.ods')
     sheet = ods_file.sheets[0]
@@ -113,9 +131,11 @@ def get_premade():
         'items': create_all_items(),
         'translations': translations,
         'skills': create_all_skills(),
-        'statuses': create_all_statuses()
+        'statuses': create_all_statuses(),
+        'enemies': create_all_enemies()
     }
 
 if __name__ == '__main__':
     p = get_premade()
-    print(p['statuses'])
+    for i in p['enemies']:
+        print(p['enemies'][i])

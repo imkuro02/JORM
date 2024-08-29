@@ -23,57 +23,41 @@ class Room:
         self.enemy_spawns.append({'enemy_id': enemy_id, 'quantity': quantity, 'spawn_rate': spawn_rate})
 
     def add_enemy(self, enemy_id, name = None):
-        retry = True
-        retries = 0
-        while retry:
-            # define a list of possible names for monsters to spawn as
-            names = ''
-            names += ' Alice Bob Charlie Diana Edward Fiona George Hannah Ian Julia Kevin Laura Mike Nancy Oliver Patricia Quinn Rachel Steve Tina Ursula'
-            names += ' Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
-            names = names.split()
-            
-            # if no name was defined when function was called get a random name from the list
-            if name == None:
-                name = random.choice(names)
-            
-            _enemy = enemy.Enemy(name)
-            _enemy.id = enemy_id
 
-            enemies = {}
-            with open('premade/enemies.yaml', 'r') as file:
-                enemies = yaml.safe_load(file)
+        # define a list of possible names for monsters to spawn as
+        names = ''
+        names += ' Alice Bob Charlie Diana Edward Fiona George Hannah Ian Julia Kevin Laura Mike Nancy Oliver Patricia Quinn Rachel Steve Tina Ursula'
+        names += ' Geo Nuggy Sinclair Nigghtz Doey Shmoo Kuro Mana Redpot'
+        names = names.split()
+        
+        # if no name was defined when function was called get a random name from the list
+        if name == None:
+            name = random.choice(names)
+        
+        enemies = self.map.factory.premade['enemies']
+        
 
-            if enemy_id in enemies:
-                _enemy.id = enemy_id
-                _enemy.name = f'{name} The {enemies[enemy_id]["name"]}'
-                if 'skills' in enemies[enemy_id]: 
-                     _enemy.skills = enemies[enemy_id]['skills']
-                if 'stats' in enemies[enemy_id]: 
-                    _enemy.stats.update(enemies[enemy_id]['stats'])
-                if 'loot_table' in enemies[enemy_id]: 
-                    _enemy.loot_table = enemies[enemy_id]['loot_table']
-                if 'roaming_text' in enemies[enemy_id]: 
-                    _enemy.roaming_text = enemies[enemy_id]['roaming_text']
-            
-            # if name is not already taken do not retry and the initialization and continue
-            if name not in self.enemies:
-                retry = False
-            # otherwise, set name to None so it can get randomized again
-            else:
-                name = None
+        enemy_type = enemies[enemy_id]
+        name = f'{name} The {enemy_type["name"]}'
 
-            # if this has repeated for more 10 or more times simply stop trying and dont spawn the enemy
-            retries += 1
-            if retries >= 10:
-                return
+        if name in self.enemies:
+            return
+
+        _enemy = enemy.Enemy(   name = name, 
+                                id = enemy_id, 
+                                stats = enemy_type['stats'], 
+                                skills = enemy_type['skills'], 
+                                loot_table = enemy_type['loot_table'], 
+                                room = self,
+                                description = enemy_type['description']
+                            )
+
+        self.enemies[_enemy.name] = _enemy
 
         # set hp and mp to their maximum
         _enemy.stats['hp'] = _enemy.stats['max_hp']
         _enemy.stats['mp'] = _enemy.stats['max_mp']
 
-        # ad the enemy to self.enemies and set the room for the enemy
-        self.enemies[_enemy.name] = _enemy
-        _enemy.room = self
         for _player in self.players:
             self.players[_player].room_update()
         _enemy.broadcast(f'{_enemy.name} appears!')
@@ -135,13 +119,13 @@ class Room:
     def get_players(self):
         players = {}
         for i in self.players:
-            players[i] = self.players[i].character_stats()
+            players[i] = self.players[i].character_sheet(short = True)
         return players
 
     def get_enemies(self):
         enemies = {}
         for i in self.enemies:
-            enemies[i] = self.enemies[i].character_stats()
+            enemies[i] = self.enemies[i].character_sheet()
         return enemies
        
         
