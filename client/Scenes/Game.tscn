@@ -1,26 +1,26 @@
-[gd_scene load_steps=29 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=32 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
-[ext_resource type="Script" path="res://Scripts/Game.gd" id="1_olyvw"]
-[ext_resource type="Texture2D" uid="uid://bv51au8rsc64y" path="res://Images/Parchament.png" id="2_ri2kw"]
+[ext_resource type="Script" path="res://Scripts/Game/Game.gd" id="1_cu6gt"]
 [ext_resource type="PackedScene" uid="uid://6btcj7krioeu" path="res://Scenes/BackgroundManager.tscn" id="2_y4kab"]
 [ext_resource type="Texture2D" uid="uid://dh5q270j0shhq" path="res://Backgrounds/backgrounds-freebie/beach version (1)/beach version (1) pixelation 1/beach version (1) variant 00.png" id="3_rglky"]
-[ext_resource type="PackedScene" uid="uid://c6odvlamvd46f" path="res://Scenes/CharacterHPMP.tscn" id="4_q2jlj"]
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
 [ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="8_57ij2"]
-[ext_resource type="Script" path="res://Scripts/SidePanel.gd" id="8_r5nkx"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/SidePanel.gd" id="8_isbq0"]
 [ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="9_ff8cu"]
 [ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="10_mblbx"]
-[ext_resource type="Texture2D" uid="uid://b7dha66uvbiak" path="res://Images/node/icon_save.png" id="11_j6cfo"]
 [ext_resource type="Texture2D" uid="uid://cnn8fpwbobysc" path="res://Images/node/icon_door.png" id="12_odao8"]
-[ext_resource type="Script" path="res://Scripts/CharacterSheet.gd" id="13_t0s1c"]
-[ext_resource type="Script" path="res://Scripts/CharacterSheetInventory.gd" id="14_yu7pp"]
-[ext_resource type="Script" path="res://Scripts/InventoryInspectTextBox.gd" id="16_bi0t3"]
-[ext_resource type="Script" path="res://Scripts/CharacterSheetSkills.gd" id="16_ifw8x"]
-[ext_resource type="Script" path="res://Scripts/Room.gd" id="16_w5ejn"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheet.gd" id="13_gg53g"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetInventory.gd" id="14_la65o"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetSkills.gd" id="15_1g2oj"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/Room.gd" id="16_ecsje"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/InventoryInspectTextBox.gd" id="17_5y714"]
 [ext_resource type="Script" path="res://Scripts/RoomOthers.gd" id="17_aex8m"]
 [ext_resource type="Texture2D" uid="uid://c67hneard4ftj" path="res://Images/node/icon_skull.png" id="17_ng0la"]
 [ext_resource type="Script" path="res://Scripts/SettingsHelpInfo.gd" id="18_0lmut"]
+[ext_resource type="Texture2D" uid="uid://bmct68fchplua" path="res://Images/node/icon_gear.png" id="19_saw35"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/Others.gd" id="22_nnf3p"]
+[ext_resource type="Texture2D" uid="uid://dcx3ddjbof4ku" path="res://Images/ButtonIn.png" id="23_o33ec"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyq73"]
 shader = ExtResource("7_4rcej")
@@ -107,7 +107,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath("VBoxContainer/States:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -124,6 +124,80 @@ _data = {
 "fade": SubResource("Animation_14sop")
 }
 
+[sub_resource type="Animation" id="Animation_x07ft"]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(8, 0), Vector2(0, 0), Vector2(16, 0), Vector2(8, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_l72mm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l5h8f"]
+_data = {
+"RESET": SubResource("Animation_l72mm"),
+"fade": SubResource("Animation_x07ft")
+}
+
 [node name="Game" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -131,7 +205,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_olyvw")
+script = ExtResource("1_cu6gt")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -160,52 +234,6 @@ self_modulate = Color(0.294118, 0.294118, 0.294118, 1)
 layout_mode = 1
 texture = ExtResource("3_rglky")
 
-[node name="TextureRect" type="NinePatchRect" parent="."]
-visible = false
-texture_filter = 1
-use_parent_material = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.451
-anchor_top = 0.025
-anchor_right = 0.722
-anchor_bottom = 0.198
-offset_left = 0.447998
-offset_top = -0.200001
-offset_right = -119.744
-offset_bottom = 191.696
-texture = ExtResource("2_ri2kw")
-region_rect = Rect2(0, 0, 128, 128)
-patch_margin_left = 32
-patch_margin_top = 32
-patch_margin_right = 32
-patch_margin_bottom = 32
-
-[node name="CombatPanel" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 336.0
-offset_right = -328.0
-offset_bottom = 104.0
-grow_horizontal = 2
-
-[node name="Combat" type="HBoxContainer" parent="CombatPanel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_left = 8.0
-offset_top = 7.0
-offset_right = -8.0
-offset_bottom = 103.0
-metadata/_edit_group_ = true
-
-[node name="Self" parent="CombatPanel/Combat" instance=ExtResource("4_q2jlj")]
-layout_mode = 2
-
-[node name="Target" parent="CombatPanel/Combat" instance=ExtResource("4_q2jlj")]
-layout_mode = 2
-
 [node name="Chatbox" type="VBoxContainer" parent="."]
 use_parent_material = true
 layout_mode = 1
@@ -213,38 +241,15 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.988
 offset_left = 344.0
-offset_top = 112.0
+offset_top = 8.0
 offset_right = -344.0
-offset_bottom = -0.223999
+offset_bottom = -0.399963
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_4mtw6")
 theme_override_constants/separation = 0
-
-[node name="RoomDescription" type="RichTextLabel" parent="Chatbox"]
-visible = false
-layout_mode = 2
-bbcode_enabled = true
-text = "[bgcolor=red]test
-test
-
-fdsa
-fdsa
-"
-fit_content = true
-meta_underlined = false
-
-[node name="RoomDescriptions" type="CheckBox" parent="Chatbox/RoomDescription"]
-self_modulate = Color(1, 1, 0, 1)
-layout_mode = 2
-offset_right = 816.0
-offset_bottom = 40.0
-focus_mode = 0
-button_pressed = true
-text = "Room Descriptions"
-flat = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Chatbox"]
 layout_mode = 2
@@ -286,7 +291,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
 offset_right = 336.0
-script = ExtResource("8_r5nkx")
+script = ExtResource("8_isbq0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -351,13 +356,13 @@ layout_mode = 2
 bbcode_enabled = true
 text = "CHARACTER SHEET"
 fit_content = true
-script = ExtResource("13_t0s1c")
+script = ExtResource("13_gg53g")
 inventory = NodePath("../Inventory/RichTextLabel")
 
 [node name="Inventory" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("14_yu7pp")
+script = ExtResource("14_la65o")
 GAME = NodePath("../../../..")
 
 [node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/States/Inventory"]
@@ -376,7 +381,7 @@ hint_underlined = false
 [node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
 size_flags_vertical = 3
-script = ExtResource("16_ifw8x")
+script = ExtResource("15_1g2oj")
 GAME = NodePath("../../../..")
 
 [node name="CheckBox" type="CheckBox" parent="Panel/VBoxContainer/States/Skills"]
@@ -400,7 +405,7 @@ bbcode_enabled = true
 text = "OTHERS"
 fit_content = true
 meta_underlined = false
-script = ExtResource("16_w5ejn")
+script = ExtResource("16_ecsje")
 GAME = NodePath("../../../..")
 
 [node name="InventoryInspectTextBox" type="RichTextLabel" parent="Panel" node_paths=PackedStringArray("inventory")]
@@ -414,7 +419,7 @@ mouse_filter = 1
 bbcode_enabled = true
 fit_content = true
 autowrap_mode = 0
-script = ExtResource("16_bi0t3")
+script = ExtResource("17_5y714")
 inventory = NodePath("../VBoxContainer/States/Inventory/RichTextLabel")
 
 [node name="Panel" type="Panel" parent="Panel/InventoryInspectTextBox"]
@@ -440,7 +445,7 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -336.0
-script = ExtResource("8_r5nkx")
+script = ExtResource("8_isbq0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
 layout_mode = 1
@@ -459,6 +464,16 @@ texture_filter = 1
 layout_mode = 2
 theme_override_constants/separation = 0
 
+[node name="Others3" type="Button" parent="Panel2/VBoxContainer/Buttons"]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+icon = ExtResource("17_ng0la")
+icon_alignment = 1
+expand_icon = true
+
 [node name="Others" type="Button" parent="Panel2/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -473,7 +488,7 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
-icon = ExtResource("11_j6cfo")
+icon = ExtResource("19_saw35")
 icon_alignment = 1
 expand_icon = true
 
@@ -481,11 +496,11 @@ expand_icon = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Others" type="VBoxContainer" parent="Panel2/VBoxContainer/States"]
+[node name="Others3" type="VBoxContainer" parent="Panel2/VBoxContainer/States"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Entities" type="RichTextLabel" parent="Panel2/VBoxContainer/States/Others" node_paths=PackedStringArray("GAME")]
+[node name="Entities" type="RichTextLabel" parent="Panel2/VBoxContainer/States/Others3" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -533,7 +548,79 @@ step = 0.2
 [node name="Delay" type="Label" parent="Panel2/VBoxContainer/States/Settings"]
 layout_mode = 2
 
-[connection signal="meta_clicked" from="Chatbox/RoomDescription" to="." method="_on_room_meta_clicked"]
+[node name="Others" type="VBoxContainer" parent="Panel2/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("22_nnf3p")
+GAME = NodePath("../../../..")
+
+[node name="Presets" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others"]
+layout_mode = 2
+
+[node name="Panel" type="Button" parent="Panel2/VBoxContainer/States/Others/Presets"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 48.0
+value = 84.0
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("23_o33ec")
+texture_over = ExtResource("23_o33ec")
+texture_progress = ExtResource("23_o33ec")
+tint_under = Color(0, 0, 0, 1)
+tint_over = Color(1, 1, 1, 0)
+tint_progress = Color(0, 1, 0, 1)
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+self_modulate = Color(1, 0.402383, 0.310333, 1)
+layout_mode = 0
+offset_left = 8.0
+offset_right = 312.0
+offset_bottom = 48.0
+mouse_filter = 1
+text = "Nigghtz The Shaman-Gobby"
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -16.0
+offset_right = 32.0
+offset_bottom = 16.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panel2/VBoxContainer/States/Others/Presets/Panel/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -29.0
+offset_right = 17.0
+offset_bottom = 3.0
+texture = ExtResource("10_mblbx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+libraries = {
+"": SubResource("AnimationLibrary_l5h8f")
+}
+
+[node name="Entities" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others"]
+layout_mode = 2
+
 [connection signal="meta_clicked" from="Chatbox/ScrollContainer/VBoxContainer/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="pressed" from="Panel2/VBoxContainer/States/Settings/Logout" to="." method="_on_logout_pressed"]

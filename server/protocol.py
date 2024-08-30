@@ -150,7 +150,7 @@ class ServerProtocol(WebSocketServerProtocol):
             
             self.send_client(packet.DenyPacket('Registered'))
             
-            username = p.payloads[0]
+            username = '@'+p.payloads[0]
             password = p.payloads[1]
             if self.factory.database.load_player(username) != None:
                 self.send_client(packet.SystemMessagePacket('Register','Username Taken'))
@@ -160,7 +160,7 @@ class ServerProtocol(WebSocketServerProtocol):
             self.send_client(packet.SystemMessagePacket('Register','Registration succesful'))
 
         if p.action == packet.Action.Login:
-            username = p.payloads[0]
+            username = '@'+p.payloads[0]
             password = p.payloads[1]
             account = self.factory.database.get_account(username,password)
 

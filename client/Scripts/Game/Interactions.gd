@@ -93,6 +93,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		await get_tree().create_timer(0.1).timeout
 		queue_free()
+		print(event)
 	
 func _on_rich_text_label_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
@@ -146,7 +147,7 @@ func _on_rich_text_label_meta_clicked(meta):
 			match data['tag']:
 				'inventory', 'equipment', 'loot':
 					text += '%s\n%s' % [ITEMS[data['object']]['name'],ITEMS[data['object']]['description']]
-					var _sheet = MAIN.chat_window.sheet
+					var _sheet = MAIN.CHARACTERSHEET
 					var _equipment = _sheet['equipment']
 					
 					if 'slot' in ITEMS[data['object']]:

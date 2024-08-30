@@ -8,7 +8,7 @@ const Packet = preload("res://Scripts/Packet.gd")
 @onready var commands = $Chatbox/Commands
 @onready var settings = $Panel2/VBoxContainer/States/Settings
 
-@onready var combat_panel = $CombatPanel/Combat
+#@onready var combat_panel = $CombatPanel/Combat
 @onready var background_manager = $BackgroundManager
 
 #@onready var character_sheet = $CharacterSheet
@@ -22,6 +22,7 @@ var MAIN
 
 
 var color_to_tags = {
+		'player_self': 'AQUA',
 		'player': 'AQUAMARINE',
 		'enemy': 'coral',
 		'inventory': 'LIGHT_GRAY',
@@ -175,9 +176,9 @@ func receive_flavoured_message(text,anim = null):
 	# Define the pattern types
 	text = ' '+text+' '
 	var patterns = [
+		{'type': 'player', 'data': _players},
 		{'type': 'loot', 'data': _items},
 		{'type': 'enemy', 'data': _enemies},
-		{'type': 'player', 'data': _players},
 		{'type': 'skill', 'data': _skills},
 		{'type': 'status', 'data': _statuses}
 	]
@@ -205,6 +206,8 @@ func receive_flavoured_message(text,anim = null):
 	#print(Time.get_ticks_usec() - time)
 
 	
+func create_interaction_meta(tag, object, label):
+	return {"tag": tag, "object": object, "label": label}
 	
 func interactable(tag, object, label):
 	var col = 'pink'
@@ -215,34 +218,12 @@ func interactable(tag, object, label):
 	if MAIN != null:
 		if MAIN.CHARACTERSHEET != null:
 			if object == MAIN.CHARACTERSHEET['name'] and tag in ' player ':
-				col = 'aqua'
+				col = color_to_tags['player_self']
 		
 	
-		
-	var x = '[url={"tag":"%s","object":"%s","label":"%s"}][color="%s"]%s[/color][/url]' % [tag, object, label, col, label]
-	return x
-
-func receive_character_sheet(_sheet):
-	#character_sheet.receive_character_sheet(_sheet)
-
-	var SKILLS = MAIN.PREMADE['skills']
-	var ROOM = MAIN.ROOM
-	
-
-	sheet = _sheet
-	
-	combat_panel.get_node("Self").set_sheet(sheet)
-
-	#print(sheet['target'])
-	
-	if sheet['target'] == null:
-		combat_panel.get_node("Target").set_sheet(null)
-	if sheet['target'] in ROOM['players']:
-		var target_sheet = ROOM['players'][sheet['target']]
-		combat_panel.get_node("Target").set_sheet(target_sheet)
-	elif sheet['target'] in ROOM['enemies']:
-		var target_sheet = ROOM['enemies'][sheet['target']]
-		combat_panel.get_node("Target").set_sheet(target_sheet)
+	var interaction_meta = create_interaction_meta(tag, object, label) 
+	var url = '[url=%s][color="%s"]%s[/color][/url]' % [interaction_meta, col, label]
+	return url
 	
 func send(text: String):
 	if len(text) > 0:
@@ -275,3 +256,4 @@ func _on_audio_volume_value_changed(value):
 
 func _on_room_meta_clicked(meta):
 	interaction(meta)
+

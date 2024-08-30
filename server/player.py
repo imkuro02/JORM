@@ -33,7 +33,7 @@ class Player(Actor):
         self.equipment = utils.dc(equipment)
         self.inventory = utils.dc(inventory)
         self.room = room
-        self.tag = 'player'
+        
         self.skills = []
         self.skill_cooldowns = {}
 
@@ -89,6 +89,7 @@ class Player(Actor):
         self.stats['hp'] = 0 #self.stats['max_hp']
         self.stats['mp'] = 0 #self.stats['max_mp']
         self.room.move_player(self, 'Small Town', forced = True)
+        self.target = None
         
     def set_target(self,target):
         if target == None:

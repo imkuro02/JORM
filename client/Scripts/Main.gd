@@ -102,7 +102,7 @@ func PLAY(p):
 				chat_window.receive_chat(_payloads[1], _payloads[0])
 			
 		"CharacterSheet":
-			chat_window.receive_character_sheet(_payloads[0])
+			#chat_window.receive_character_sheet(_payloads[0])
 			CHARACTERSHEET = _payloads[0]
 			
 			
