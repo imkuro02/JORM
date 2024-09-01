@@ -128,6 +128,8 @@ func PLAY(p):
 			
 			login_window = add_window(LOGIN_WINDOW)
 			login_window.visible = false
+			CHARACTERSHEET = null
+			ROOM = null
 			connect_to_server()
 			var trans = screen_transition.instantiate()
 			add_child(trans)
@@ -185,6 +187,8 @@ func _send_string(string: String) -> void:
 	#print("Sent string ", string)
 	
 func _exit_tree():
+	
 	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		socket.close()
+		
 		print("WebSocket connection closed gracefully.")

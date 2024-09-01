@@ -48,6 +48,9 @@ func _process(delta):
 		
 	for entity in entities_vbox.get_children():
 		var name = entity.get_node('Label')
+		if name.text == MAIN.CHARACTERSHEET['name']:
+			entities_vbox.move_child(entity, 0)
+			
 		if name.text not in all_actors:
 			#entities_vbox.remove_child(entity)
 			entity.get_node('TextureProgressBar').value = 0
@@ -60,6 +63,9 @@ func _process(delta):
 			entity.get_node('Control').visible = MAIN.CHARACTERSHEET['target'] == name.text
 			entity.get_node('TextureProgressBar').max_value = all_actors[name.text]['stats']['max_hp']
 			entity.get_node('TextureProgressBar').value = all_actors[name.text]['stats']['hp']
+			
+			entity.get_node('HP').text = '%s/%s' % [all_actors[name.text]['stats']['hp'],all_actors[name.text]['stats']['max_hp']]
+			entity.get_node('MP').text = '%s/%s' % [all_actors[name.text]['stats']['mp'],all_actors[name.text]['stats']['max_mp']]
 	
 		#create_interaction_meta(tag, object, label)
 

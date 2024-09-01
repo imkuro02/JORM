@@ -160,8 +160,9 @@ func receive_flavoured_message(text,anim = null):
 				MAIN.audio.play('church_bell')
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
 			'new_room':
-				$AnimationPlayer.play('fade')
-				MAIN.audio.play('go')
+				if not $CanvasLayer/OverlayShader/AnimationPlayer.is_playing():
+					$AnimationPlayer.play('fade')
+					MAIN.audio.play('go')
 	else:
 		MAIN.audio.play('message')
 			
