@@ -3,13 +3,17 @@ extends RichTextLabel
 var MAIN
 var hovered_item = null
 
+@export var chatbox: RichTextLabel
 @export var inventory: RichTextLabel
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MAIN = get_tree().root.get_node('Main')
 	
 	inventory.meta_hover_started.connect(set_hovered_item)
 	inventory.meta_hover_ended.connect(unset_hovered_item)
+	chatbox.meta_hover_started.connect(set_hovered_item)
+	chatbox.meta_hover_ended.connect(unset_hovered_item)
 	pass # Replace with function body.
 	
 func _process(_delta):
@@ -27,6 +31,10 @@ func set_hovered_item(meta):
 
 	var json = JSON.new()
 	var data = json.parse_string(meta)
+	
+	if data['tag'] not in ' equipment inventory loot ':
+		return
+		
 	hovered_item = data['object']
 	
 	var sheet = MAIN.CHARACTERSHEET

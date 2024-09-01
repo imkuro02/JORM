@@ -35,7 +35,7 @@ func create_interaction(data, activate_now = false):
 		if 'slot' in ITEMS[data['object']]:
 			interactions = ['Equip','Inspect','Drop','Drop all']
 		elif 'use_script' in ITEMS[data['object']]:
-			interactions = ['Consume','Inspect','Drop', 'Drop all']
+			interactions = ['Use','Inspect','Drop', 'Drop all']
 		else:
 			interactions = ['Inspect','Drop', 'Drop all']
 		
@@ -54,7 +54,7 @@ func create_interaction(data, activate_now = false):
 			interactions = ['Untarget','Trade','Party invite','Inspect']
 		
 	if 'skill' == data['tag']:
-		interactions = ['Use Skill','Skill Description']
+		interactions = ['Use','Inspect']
 		
 	if 'status' == data['tag']:
 		interactions = ['Inspect']
@@ -138,13 +138,18 @@ func _on_rich_text_label_meta_clicked(meta):
 		'Untarget':
 			p = Packet.new('Target',[null])
 			MAIN.audio.play('message')
-		'Use Skill':
-			p = Packet.new('UseSkill',[data['object']])
-		'Consume':
-			p = Packet.new('UseItem',[data['object']])
+		'Use':
+			match data['tag']:
+				'skill':
+					p = Packet.new('UseSkill',[data['object']])
+				'inventory':
+					p = Packet.new('UseItem',[data['object']])
 		'Inspect':
 			var text = ''
 			match data['tag']:
+				'skill':
+					var description = MAIN.PREMADE['skills'][data['object']]['description']
+					text = '%s' % [description]
 				'inventory', 'equipment', 'loot':
 					text += '%s\n%s' % [ITEMS[data['object']]['name'],ITEMS[data['object']]['description']]
 					var _sheet = MAIN.CHARACTERSHEET

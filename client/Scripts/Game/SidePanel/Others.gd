@@ -60,6 +60,14 @@ func _process(delta):
 	
 		
 		if name.text in all_actors:
+			var hp_diff = all_actors[name.text]['stats']['hp'] - entity.get_node('TextureProgressBar').value
+			if hp_diff <= -1:
+				print(name.text,' took dmg: ', abs(hp_diff))
+			if hp_diff >= 1:
+				print(name.text,' healed dmg: ', abs(hp_diff))
+				
+				
+				
 			entity.get_node('Control').visible = MAIN.CHARACTERSHEET['target'] == name.text
 			entity.get_node('TextureProgressBar').max_value = all_actors[name.text]['stats']['max_hp']
 			entity.get_node('TextureProgressBar').value = all_actors[name.text]['stats']['hp']

@@ -14,40 +14,40 @@ func metaclicked(meta):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var sheet = MAIN.CHARACTERSHEET
-	var room = MAIN.ROOM
-	if sheet == null:
+	var SHEET = MAIN.CHARACTERSHEET
+	var ROOM = MAIN.ROOM
+	
+	
+	if SHEET == null:
 		return
-	if room == null:
+	if ROOM == null:
 		return
-	var players = room['players']
-	var enemies = room['enemies']
-	var target = sheet['target']
+
+	var target = SHEET['target']
 	
 	text = ''
 		
 	#others.text += 'Players:\n'
-	for player in players:
-		var character = players[player]
-		var id = player
-		var name = player
+	var all_actors = ROOM['players'].duplicate(true)
+	all_actors.merge(ROOM['enemies'].duplicate(true))
+	for actor in all_actors:
+		var character = all_actors[actor]
+		var name = all_actors[actor]['name']
+		
 		var hp = character['stats']['hp']
 		var max_hp = character['stats']['max_hp']
-		if target == id:
-			text += GAME.interactable('target',id,name)
-		else:
-			text += GAME.interactable('player',id,name)
-		text += '\n'
+		var mp = character['stats']['mp']
+		var max_mp = character['stats']['max_mp']
 
-	for enemy in enemies:
-		var character = enemies[enemy]
-		var id = enemy
-		var name = enemy
-		var hp = character['stats']['hp']
-		var max_hp = character['stats']['max_hp']
-		if target == id:
-			text += GAME.interactable('target',id,name)
+		if target == name:
+			text += GAME.interactable('target',name,name)
 		else:
-			text += GAME.interactable('enemy',id,name)
+			if name in ROOM['players']:
+				text += GAME.interactable('player',name,name)
+			else:
+				text += GAME.interactable('enemy',name,name)
+			
 		text += '\n'
-
+		text += '[color=CRIMSON]HP:%s/%s[/color]\n' % [hp,max_hp]
+		text += '[color=CORNFLOWER_BLUE]MP:%s/%s[/color]\n' % [mp,max_mp]
+		
