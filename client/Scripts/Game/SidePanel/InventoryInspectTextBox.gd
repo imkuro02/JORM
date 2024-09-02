@@ -21,8 +21,18 @@ func _process(_delta):
 	
 func _input(event):
 	if event is InputEventMouseMotion:
+		
 		position.y = 15+event.position.y
 		position.x = 15+event.position.x
+		
+		var window_size = get_window().size
+		if size.x + position.x > window_size.x:
+			position.x = window_size.x - size.x
+		
+		if size.y + position.y > window_size.y:
+			position.y = window_size.y - size.y
+			
+			
 	if event is InputEventMouseButton:
 		hovered_item = null
 		

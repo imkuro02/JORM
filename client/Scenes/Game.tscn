@@ -427,37 +427,6 @@ meta_underlined = false
 script = ExtResource("16_ecsje")
 GAME = NodePath("../../../..")
 
-[node name="InspectTextBox" type="RichTextLabel" parent="Panel" node_paths=PackedStringArray("chatbox", "inventory")]
-clip_contents = false
-layout_mode = 0
-offset_left = 8.0
-offset_top = -72.0
-offset_right = 72.0
-offset_bottom = -8.0
-mouse_filter = 1
-bbcode_enabled = true
-fit_content = true
-autowrap_mode = 0
-script = ExtResource("17_5y714")
-chatbox = NodePath("../../Chatbox/ScrollContainer/VBoxContainer/Chatbox")
-inventory = NodePath("../VBoxContainer/States/Sheet/Inventory/RichTextLabel")
-
-[node name="Panel" type="Panel" parent="Panel/InspectTextBox"]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(0, 0, 0, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-
 [node name="Panel2" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -675,6 +644,37 @@ size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others/Entities"]
 layout_mode = 2
+
+[node name="InspectTextBox" type="RichTextLabel" parent="." node_paths=PackedStringArray("chatbox", "inventory")]
+clip_contents = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = -8.0
+mouse_filter = 1
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("17_5y714")
+chatbox = NodePath("../Chatbox/ScrollContainer/VBoxContainer/Chatbox")
+inventory = NodePath("../Panel/VBoxContainer/States/Sheet/Inventory/RichTextLabel")
+
+[node name="Panel" type="Panel" parent="InspectTextBox"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
 
 [connection signal="meta_clicked" from="Chatbox/ScrollContainer/VBoxContainer/Chatbox" to="." method="_on_chatbox_meta_clicked"]
 [connection signal="meta_clicked" from="Chatbox/Commands" to="." method="_on_chatbox_meta_clicked"]

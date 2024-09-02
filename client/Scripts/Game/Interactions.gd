@@ -1,7 +1,5 @@
-extends Control
+extends RichTextLabel
 const Packet = preload("res://Scripts/Packet.gd")
-@onready var text = $RichTextLabel
-@onready var panel = $Panel
 
 var PREMADE
 var MAIN
@@ -12,10 +10,10 @@ func _ready():
 	
 func create_interaction(data, activate_now = false):
 
-	position = get_local_mouse_position() - Vector2(5,5)
+	
 	
 	var ITEMS = PREMADE['items']
-	text.text = ''
+	text = ''
 	
 	var interactions
 	
@@ -75,19 +73,22 @@ func create_interaction(data, activate_now = false):
 	if activate_now:
 		data['interaction'] = interactions[0]
 		var meta = '%s' % [data]
-		_on_rich_text_label_meta_clicked(meta)
+		_on_meta_clicked(meta)
 
-	text.text = ''
+	text = ''
 	#text.text += '%s\n' % [data['label']]
 	
 	for interaction in interactions:
 			data['interaction'] = interaction
-			text.text += '[url=%s][color=yellow]%s[/color][/url]\n' % [data, interaction]
+			text += '[url=%s][color=yellow]%s[/color] %s[/url]\n' % [data, interaction, data['label']]
 
-
-func _process(_delta):
-	panel.size = text.size + Vector2(16,16)
-	panel.position = text.position - Vector2(8,8)
+	position = get_local_mouse_position() - Vector2(5,5)
+	var window_size = get_window().size
+	if size.x + position.x > window_size.x:
+		position.x = window_size.x - size.x
+	
+	if size.y + position.y > window_size.y:
+		position.y = window_size.y - size.y
 
 func _input(event):
 	if event is InputEventMouseButton:
@@ -95,7 +96,7 @@ func _input(event):
 		queue_free()
 		print(event)
 	
-func _on_rich_text_label_meta_clicked(meta):
+func _on_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
 	var ITEMS = MAIN.PREMADE['items']
 	var SKILLS = MAIN.PREMADE['skills']
@@ -233,6 +234,3 @@ func _on_rich_text_label_meta_clicked(meta):
 		
 	self.queue_free()
 		
-func _on_rich_text_label_mouse_exited():
-	#self.queue_free()
-	pass
