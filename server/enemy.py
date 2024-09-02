@@ -88,7 +88,7 @@ class Enemy(Actor):
             if player in self.room.players:
                 if self.room.players[player].target == self:
                     self.room.players[player].target = None
-            self.room.remove_enemy(self)
+        self.room.remove_enemy(self)
         
 
     def die(self):
