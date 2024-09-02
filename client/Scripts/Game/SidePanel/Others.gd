@@ -2,7 +2,7 @@ extends VBoxContainer
 
 @onready var MAIN = get_tree().root.get_node('Main')
 @onready var template = get_node('Presets/Panel')
-@onready var entities_vbox = get_node('Entities')
+@onready var entities_vbox = get_node('Entities/VBoxContainer')
 @export var GAME: Control
 # Called when the node enters the scene tree for the first time.
 func _ready():

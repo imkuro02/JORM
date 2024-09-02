@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=31 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game/Game.gd" id="1_cu6gt"]
@@ -7,7 +7,6 @@
 [ext_resource type="Shader" path="res://Shaders/GrayScale.gdshader" id="7_4rcej"]
 [ext_resource type="Texture2D" uid="uid://dvddkhd6x3kx3" path="res://Images/node/icon_character.png" id="8_57ij2"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/SidePanel.gd" id="8_isbq0"]
-[ext_resource type="Texture2D" uid="uid://gels4w1kuupq" path="res://Images/node/icon_bag.png" id="9_ff8cu"]
 [ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="10_mblbx"]
 [ext_resource type="Texture2D" uid="uid://cnn8fpwbobysc" path="res://Images/node/icon_door.png" id="12_odao8"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheet.gd" id="13_gg53g"]
@@ -239,11 +238,11 @@ use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.988
+anchor_bottom = 1.0
 offset_left = 344.0
 offset_top = 8.0
 offset_right = -344.0
-offset_bottom = -0.399963
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -292,6 +291,7 @@ anchors_preset = -1
 anchor_bottom = 1.0
 offset_right = 336.0
 script = ExtResource("8_isbq0")
+metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -340,15 +340,6 @@ icon = ExtResource("8_57ij2")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Inventory" type="Button" parent="Panel/VBoxContainer/Buttons"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-icon = ExtResource("9_ff8cu")
-icon_alignment = 1
-expand_icon = true
-
 [node name="Skills" type="Button" parent="Panel/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -372,26 +363,32 @@ self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Sheet" type="RichTextLabel" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("inventory")]
+[node name="Sheet" type="VBoxContainer" parent="Panel/VBoxContainer/States"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Sheet" type="RichTextLabel" parent="Panel/VBoxContainer/States/Sheet" node_paths=PackedStringArray("inventory")]
+layout_mode = 2
+size_flags_horizontal = 3
 bbcode_enabled = true
 text = "CHARACTER SHEET"
 fit_content = true
 script = ExtResource("13_gg53g")
 inventory = NodePath("../Inventory/RichTextLabel")
 
-[node name="Inventory" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+[node name="Inventory" type="VBoxContainer" parent="Panel/VBoxContainer/States/Sheet" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("14_la65o")
-GAME = NodePath("../../../..")
+GAME = NodePath("../../../../..")
 
-[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/States/Inventory"]
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer/States/Sheet/Inventory"]
 visible = false
 layout_mode = 2
 placeholder_text = "Search for an item"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Inventory"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Sheet/Inventory"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -401,6 +398,7 @@ hint_underlined = false
 
 [node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("15_1g2oj")
 GAME = NodePath("../../../..")
@@ -442,7 +440,7 @@ fit_content = true
 autowrap_mode = 0
 script = ExtResource("17_5y714")
 chatbox = NodePath("../../Chatbox/ScrollContainer/VBoxContainer/Chatbox")
-inventory = NodePath("../VBoxContainer/States/Inventory/RichTextLabel")
+inventory = NodePath("../VBoxContainer/States/Sheet/Inventory/RichTextLabel")
 
 [node name="Panel" type="Panel" parent="Panel/InspectTextBox"]
 modulate = Color(0, 0, 0, 1)
@@ -468,6 +466,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -336.0
 script = ExtResource("8_isbq0")
+metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2"]
 layout_mode = 1
@@ -486,7 +485,7 @@ texture_filter = 1
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Others3" type="Button" parent="Panel2/VBoxContainer/Buttons"]
+[node name="Others" type="Button" parent="Panel2/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -495,7 +494,8 @@ icon = ExtResource("17_ng0la")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Others" type="Button" parent="Panel2/VBoxContainer/Buttons"]
+[node name="Others3" type="Button" parent="Panel2/VBoxContainer/Buttons"]
+visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -586,7 +586,6 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
-visible = false
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 68.0
@@ -645,6 +644,7 @@ vertical_alignment = 1
 
 [node name="Control" type="Control" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
 layout_mode = 1
+anchors_preset = 0
 offset_top = 20.0
 offset_right = 32.0
 offset_bottom = 28.0
@@ -668,7 +668,12 @@ libraries = {
 "": SubResource("AnimationLibrary_l5h8f")
 }
 
-[node name="Entities" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others"]
+[node name="Entities" type="ScrollContainer" parent="Panel2/VBoxContainer/States/Others"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others/Entities"]
 layout_mode = 2
 
 [connection signal="meta_clicked" from="Chatbox/ScrollContainer/VBoxContainer/Chatbox" to="." method="_on_chatbox_meta_clicked"]
