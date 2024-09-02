@@ -2,7 +2,6 @@ import random
 import packet
 
 class Actor:
-
     def character_stats(self):
         return {
             'name': self.name,
@@ -20,8 +19,18 @@ class Actor:
                 if specific_player == self.room.players[player]:
                     self.room.players[player].protocol.onPacket(None,p)
 
+    def die(self):
+        self.respawn_at = self.room.map.factory.server_time + (30*10) 
+        self.dead = True
 
     def tick(self):
+
+        if self.room == None:
+            return
+
+        if self.dead and self.room.map.factory.server_time >= self.respawn_at:
+            self.respawn()
+
         cooldowns_finished = []
         for i in self.skill_cooldowns:
             if self.skill_cooldowns[i] <= self.room.map.factory.server_time:
@@ -58,6 +67,10 @@ class Actor:
         return False
 
     def use_item(self,item_id):
+        if self.dead:
+            self.broadcast('You are Dead', self)
+            return
+
         if item_id not in self.room.map.factory.premade['items']:
             self.broadcast('That item does not exist', self)
             return
@@ -87,6 +100,10 @@ class Actor:
         self.remove_item(item_id,1)
 
     def use_skill(self,skill_id):
+        if self.dead:
+            self.broadcast('You are Dead', self)
+            return
+
         # CONDITIONS AND EARLY RETURNS
         if skill_id not in self.skills:
             self.broadcast('You do not know that skill', self)
@@ -105,9 +122,12 @@ class Actor:
                 self.broadcast(f'You are not targetting anyone', self)
                 return 
 
-            
             if self.target.room != self.room:
                 self.broadcast(f'{self.target.name} is not here', self)
+                return 
+                
+            if self.target.dead:
+                self.broadcast(f'This target is already dead', self)
                 return 
         
         if skill_id in self.skill_cooldowns:
@@ -216,11 +236,14 @@ class Actor:
             return
 
         match stat:
-            case 'str': damage -= int(self.stats['int']/2) 
+            case 'str': 
+                damage -= int(self.stats['int']/2) 
         match stat:
-            case 'agi': damage -= int(self.stats['str']/2) 
+            case 'agi': 
+                damage -= int(self.stats['str']/2) 
         match stat:
-            case 'int': damage -= int(self.stats['agi']/2) 
+            case 'int': 
+                damage -= int(self.stats['agi']/2) 
 
         damage = int(damage)
 

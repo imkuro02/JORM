@@ -40,7 +40,11 @@ class Player(Actor):
         self.target = None
         self.premade = self.protocol.factory.premade
     
-    
+        self.dead = False
+        self.respawn_at = 0
+
+        super().__init__()
+
     def character_sheet(self, short = False):
         if short:
             return {
@@ -83,13 +87,22 @@ class Player(Actor):
         del self.room.players[self.name]
         self.room = None
 
-    def die(self):
-        self.broadcast(f'{self.name} has died!')
-        self.protocol.onPacket(self.protocol,packet.FlavouredMessagePacket('You are dead...','death'))
+    def respawn(self):
+        self.dead = False
         self.stats['hp'] = self.stats['max_hp']
         self.stats['mp'] = self.stats['max_mp']
         self.room.move_player(self, 'Small Town', forced = True)
         self.target = None
+
+    def die(self):
+        self.broadcast(f'{self.name} has died!')
+        self.protocol.onPacket(self.protocol,packet.FlavouredMessagePacket('You are dead... Respawning in 10 seconds','death'))
+        self.stats['hp'] = 0
+        self.stats['mp'] = 0
+        self.target = None
+        super().die()
+        #self.room.move_player(self, 'Small Town', forced = True)
+        #self.target = None
         
     def set_target(self,target):
         if target == None:
@@ -188,10 +201,10 @@ class Player(Actor):
 
     def tick(self):
         super().tick()
-        
-        if self.protocol.factory.server_time % (30*60) == 0:
-            self.regen(hp = 1)
-            self.regen(mp = 1)
+        if not self.dead: 
+            if self.protocol.factory.server_time % (30*60) == 0:
+                self.regen(hp = 1)
+                self.regen(mp = 1)
 
         if self.protocol.factory.server_time % 10 == 0:
            self.room_update()

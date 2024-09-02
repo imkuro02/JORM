@@ -42,6 +42,9 @@ class Enemy(Actor):
         self.chance_to_roam = 100
         self.description = description
 
+        self.dead = False
+        self.respawn_at = 0
+
     def roll_loot(self, owner):
         all_loot = {}
         for i in self.loot_table:
@@ -80,7 +83,16 @@ class Enemy(Actor):
             'id':           self.id
             }
 
+    def respawn(self):
+        for player in self.room.players:
+            if player in self.room.players:
+                if self.room.players[player].target == self:
+                    self.room.players[player].target = None
+            self.room.remove_enemy(self)
+        
+
     def die(self):
+        
         '''
         _killer = {'name':'what the fuck this is a bug'}
         _damage = 0
@@ -113,6 +125,10 @@ class Enemy(Actor):
         self.room.remove_enemy(self)
         self.room = None
         '''
+        
+        self.stats['hp'] = 0
+        self.stats['mp'] = 0
+
         for player in self.room.players:
             if player in self.player_damages:
                 self.broadcast(f'{self.name} Died... You did {self.player_damages[player]} damage!', self.room.players[player] )
@@ -120,12 +136,11 @@ class Enemy(Actor):
             else:
                 self.broadcast(f'{self.name} Died... ', self.room.players[player])
 
-            if player in self.room.players:
-                if self.room.players[player].target == self:
-                    self.room.players[player].target = None
+            
 
-        self.room.remove_enemy(self)
-        self.room = None
+        super().die()
+        
+
     def tick(self):
         super().tick()
 
