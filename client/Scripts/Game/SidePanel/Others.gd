@@ -14,6 +14,7 @@ func does_actor_exist_in_entities_vbox(actor_name):
 			return true
 	return false
 		
+	
 func _process(delta):
 	var ROOM = MAIN.ROOM
 	
@@ -31,7 +32,11 @@ func _process(delta):
 
 		var entity = template.duplicate()
 		entity.get_node('Label').text = all_actors[actor]['name']
-		entity.button_up.connect(button_pressed.bind(entity))
+		#entity.button_up.connect(button_pressed.bind(entity))
+		
+		
+		
+		
 		
 		if actor in ROOM['players']:
 			if actor == MAIN.CHARACTERSHEET['name']:
@@ -46,10 +51,23 @@ func _process(delta):
 		entity.visible = true
 		entities_vbox.add_child(entity)
 		
+		
+			
 	for entity in entities_vbox.get_children():
 		var name = entity.get_node('Label')
 		if name.text == MAIN.CHARACTERSHEET['name']:
 			entities_vbox.move_child(entity, 0)
+			
+		var _name = entity.get_node('Label').text
+		var tag = null
+		if _name in ROOM['players']:
+			tag = 'player'
+		if _name in ROOM['enemies']:
+			tag = 'enemy'
+		if _name == MAIN.CHARACTERSHEET['target']:
+			tag = 'target'
+		if tag != null:
+			entity.meta_set(tag,_name,_name)
 			
 		if name.text not in all_actors:
 			#entities_vbox.remove_child(entity)
@@ -74,32 +92,3 @@ func _process(delta):
 			
 			entity.get_node('HP').text = '%s/%s' % [all_actors[name.text]['stats']['hp'],all_actors[name.text]['stats']['max_hp']]
 			entity.get_node('MP').text = '%s/%s' % [all_actors[name.text]['stats']['mp'],all_actors[name.text]['stats']['max_mp']]
-	
-		#create_interaction_meta(tag, object, label)
-
-func button_pressed(entity):
-	var ROOM = MAIN.ROOM
-	var name = entity.get_node('Label').text
-	var tag = null
-	
-	if name in ROOM['players']:
-		tag = 'player'
-	if name in ROOM['enemies']:
-		tag = 'enemy'
-	if name == MAIN.CHARACTERSHEET['target']:
-		tag = 'target'
-	
-	if tag == null:
-		print('button_pressed in Others.gd tag is null, why the fuck is it null')
-		return
-	
-	var meta = '%s' % [GAME.create_interaction_meta(tag, name, name)]
-	GAME.interaction(meta)
-	
-
-	
-	#print(entity.get_node('Label').text)
-	#print('pressed')
-	
-func interaction(meta):
-	GAME.interaction(meta)

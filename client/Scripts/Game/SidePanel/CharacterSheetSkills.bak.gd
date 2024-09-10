@@ -49,3 +49,4 @@ func _process(_delta):
 		]
 	LABEL.text += '[/table]'
 	
+	

@@ -29,3 +29,4 @@ grow_vertical = 2
 mouse_filter = 1
 
 [connection signal="meta_clicked" from="." to="." method="_on_meta_clicked"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

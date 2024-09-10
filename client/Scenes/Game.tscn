@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=33 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game/Game.gd" id="1_cu6gt"]
@@ -9,15 +9,17 @@
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/SidePanel.gd" id="8_isbq0"]
 [ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="10_mblbx"]
 [ext_resource type="Texture2D" uid="uid://cnn8fpwbobysc" path="res://Images/node/icon_door.png" id="12_odao8"]
+[ext_resource type="Script" path="res://Scripts/CharacterSheetSkills.gd" id="12_tsdue"]
+[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetSkills.bak.gd" id="12_vpnk4"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheet.gd" id="13_gg53g"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetInventory.gd" id="14_la65o"]
-[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetSkills.gd" id="15_1g2oj"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/Room.gd" id="16_ecsje"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/InventoryInspectTextBox.gd" id="17_5y714"]
 [ext_resource type="Script" path="res://Scripts/RoomOthers.gd" id="17_aex8m"]
 [ext_resource type="Texture2D" uid="uid://c67hneard4ftj" path="res://Images/node/icon_skull.png" id="17_ng0la"]
 [ext_resource type="Script" path="res://Scripts/SettingsHelpInfo.gd" id="18_0lmut"]
 [ext_resource type="Texture2D" uid="uid://bmct68fchplua" path="res://Images/node/icon_gear.png" id="19_saw35"]
+[ext_resource type="Script" path="res://Scripts/InteractionableButton.gd" id="20_rd4hr"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/Others.gd" id="22_nnf3p"]
 [ext_resource type="Texture2D" uid="uid://dcx3ddjbof4ku" path="res://Images/ButtonIn.png" id="23_o33ec"]
 
@@ -396,21 +398,81 @@ text = "INVENTORY"
 meta_underlined = false
 hint_underlined = false
 
-[node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
+[node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States"]
+layout_mode = 2
+script = ExtResource("12_tsdue")
+
+[node name="Presets" type="VBoxContainer" parent="Panel/VBoxContainer/States/Skills"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer/States/Skills/Presets"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+script = ExtResource("20_rd4hr")
+
+[node name="V" type="VBoxContainer" parent="Panel/VBoxContainer/States/Skills/Presets/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Top" type="HBoxContainer" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "SKILL NAME"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V/Top"]
+self_modulate = Color(0.705882, 0.827451, 0.439216, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "READY"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Bot" type="HBoxContainer" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V/Bot"]
+self_modulate = Color(0, 0.733333, 1, 1)
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "MP"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Objects" type="VBoxContainer" parent="Panel/VBoxContainer/States/Skills"]
+layout_mode = 2
+
+[node name="Skills_bak" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("15_1g2oj")
+script = ExtResource("12_vpnk4")
 GAME = NodePath("../../../..")
 
-[node name="CheckBox" type="CheckBox" parent="Panel/VBoxContainer/States/Skills"]
+[node name="CheckBox" type="CheckBox" parent="Panel/VBoxContainer/States/Skills_bak"]
 visible = false
 layout_mode = 2
 focus_mode = 0
 text = "AutoUse"
 flat = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Skills"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Skills_bak"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -553,6 +615,7 @@ custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
+script = ExtResource("20_rd4hr")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
 layout_mode = 0

@@ -82,7 +82,7 @@ func create_interaction(data, activate_now = false):
 			data['interaction'] = interaction
 			text += '[url=%s][color=yellow]%s[/color] %s[/url]\n' % [data, interaction, data['label']]
 
-	position = get_local_mouse_position() - Vector2(5,5)
+	position = get_local_mouse_position() - Vector2(10,10)
 	var window_size = get_window().size
 	if size.x + position.x > window_size.x:
 		position.x = window_size.x - size.x
@@ -92,9 +92,10 @@ func create_interaction(data, activate_now = false):
 
 func _input(event):
 	if event is InputEventMouseButton:
-		await get_tree().create_timer(0.1).timeout
-		queue_free()
+		#await get_tree().create_timer(0.1).timeout
+		#queue_free()
 		print(event)
+
 	
 func _on_meta_clicked(meta):
 	var MAIN = get_tree().root.get_node('Main')
@@ -234,3 +235,8 @@ func _on_meta_clicked(meta):
 		
 	self.queue_free()
 		
+
+
+func _on_mouse_exited():
+	queue_free()
+
