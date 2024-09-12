@@ -406,6 +406,7 @@ script = ExtResource("12_tsdue")
 layout_mode = 2
 
 [node name="Button" type="Button" parent="Panel/VBoxContainer/States/Skills/Presets"]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
@@ -416,6 +417,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Top" type="HBoxContainer" parent="Panel/VBoxContainer/States/Skills/Presets/Button/V"]
 layout_mode = 2
