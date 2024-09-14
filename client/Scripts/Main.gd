@@ -117,7 +117,6 @@ func PLAY(p):
 			chat_window.receive_flavoured_message(text,anim)
 			
 		"NpcInteraction":
-			print(_payloads)
 			var npc_name = _payloads[0]
 			var text = _payloads[1]['text']
 			var responses = _payloads[1]['responses']

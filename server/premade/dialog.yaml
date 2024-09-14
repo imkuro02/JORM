@@ -3,25 +3,73 @@ jerry:
   1: 
     text: Hello PLAYER
     responses:
-      - text: Hello NPC
+      - text: Hello NPC.
         next: 1
-      - text: hi
+      - text: hi.
         next: 2
-      - text: bye
+      - text: bye.
         next: 3
-      - text: I lost my Mothers Necklace, could you help me find it
+      - text: I lost my Mothers Necklace, could you help me find it.
         next: 4
   2: 
     text: hi hi !!!!
     responses:
-      - text: bye
+      - text: bye.
         next: 3
   3: 
     text: bye bye!!!
     responses:
   4:
-    text: no lol, im just a npc, if anything, YOU go find it and bring it to me, ill give you like a Red Potion or something
+    text: no lol, im just a npc, if anything, YOU go find it and bring it to me, ill give you like a Red Potion or something.
     responses:
       - text: oh.. oh ok..
         next: 3
+
+redpotion:
+  1:
+    text: I brew the best potions in all of small town!
+    responses:
+      - text: Can I have a sample?
+        next: 2
+      - text: Can you brew me a Blue Potion?
+        next: 3
+
+  2:
+    trade:
+      - item: potion0
+        quantity: 0
+      - item: potion0
+        quantity: 1
+    success:
+      text: Here! have a Red Potion on the house PLAYER.
+      responses: null
+    fail:
+      text: You already have a Red Potion!  
+      responses: null
+
+  3:
+    text: Sure! but it will cost you a Red Potion!
+    responses:
+      - text: Sure!
+        next: 4
+      - text: Nevermind.
+        next: 5
+
+  4:
+    trade:
+      - item: potion0
+        quantity: -1
+      - item: potion1
+        quantity: 1
+    success:
+      text: Here, your Blue Potion is ready!
+      responses: null
+    fail:
+      text: You don't have a Red Potion I can use! 
+      responses: null
+
+  5: 
+    text: Bye bye then!
+    responses: null
+    
 

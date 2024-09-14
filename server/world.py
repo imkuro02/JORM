@@ -198,6 +198,7 @@ class Map:
         self.add_room(bigtown_gate)
 
         npc_jerry = npc.NPC('Jerry The Oimer',smalltown,'jerry')
+        npc_redpot = npc.NPC('RedPot',smalltown,'redpotion')
 
         smalltown_ruins.add_enemy_spawn('goblin',3,15)
 

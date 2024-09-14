@@ -9,6 +9,33 @@ class NPC:
     def dialog(self, player, response):
         if response in self.dialog_tree:
             custom_response = dc(self.dialog_tree[response])
+
+            if 'trade' in custom_response:
+                check_failed = False
+                for item in custom_response['trade']:
+                    if item['quantity'] == 0 and item['item'] in player.inventory:
+                        check_failed = True
+                        continue
+
+                    if item['quantity'] < 0:
+                        if item['item'] in player.inventory:
+                            if item['quantity']*-1 < player.inventory[item['item']]:
+                                check_failed = True
+                                continue
+                        else:
+                            check_failed = True
+                            continue
+
+                if check_failed:
+                    custom_response = custom_response['fail']
+                else:
+                    
+                    for item in custom_response['trade']:
+                        if item['quantity'] > 0: player.add_item(item['item'],item['quantity'])
+                        if item['quantity'] < 0: player.remove_item(item['item'],-1*item['quantity'])
+
+                    custom_response = custom_response['success']
+
             custom_response['text'] = custom_response['text'].replace('PLAYER', player.name)
             custom_response['text'] = custom_response['text'].replace('NPC', self.name)
 

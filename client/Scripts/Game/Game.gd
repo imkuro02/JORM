@@ -153,7 +153,7 @@ func interaction(data):
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
 
 func receive_npc_dialog(npc_name, text, responses):
-	receive_flavoured_message('%s Says %s' % [npc_name,text])
+	receive_flavoured_message('%s says: "%s"' % [npc_name,text])
 	if responses == null:
 		return
 		
@@ -163,9 +163,9 @@ func receive_npc_dialog(npc_name, text, responses):
 		var response = npc_interactable(npc_name, responses[r]['next'],responses[r]['text'])
 		print(response)
 		if r == 0:
-			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['- ', response]
+			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['Options: ', str(r+1) + ').' + response]
 		else:
-			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['- ', response]
+			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % [' ', str(r+1) + ').' + response]
 	chatbox.text += '[/table]\n'
 
 func flavour_text(text):

@@ -46,7 +46,7 @@ class ServerProtocol(WebSocketServerProtocol):
             
 
                 message_sender  = self._actor.name
-                p = packet.FlavouredMessagePacket(f'{message_sender} Says: {message}')
+                p = packet.FlavouredMessagePacket(f'{message_sender} says: {message}')
                 self.broadcast(p,exclude_self=True)
             
         
