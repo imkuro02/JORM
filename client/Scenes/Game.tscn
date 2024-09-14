@@ -612,7 +612,7 @@ GAME = NodePath("../../../..")
 [node name="Presets" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others"]
 layout_mode = 2
 
-[node name="Panel" type="Button" parent="Panel2/VBoxContainer/States/Others/Presets"]
+[node name="Character" type="Button" parent="Panel2/VBoxContainer/States/Others/Presets"]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
@@ -620,7 +620,7 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 script = ExtResource("20_rd4hr")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 68.0
@@ -637,7 +637,7 @@ tint_under = Color(0, 0, 0, 1)
 tint_over = Color(1, 1, 1, 0)
 tint_progress = Color(0, 1, 0, 1)
 
-[node name="Label" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
 self_modulate = Color(1, 0.402383, 0.310333, 1)
 layout_mode = 0
 offset_left = 8.0
@@ -650,7 +650,7 @@ theme_override_constants/outline_size = 5
 text = "Nigghtz The Shaman-Gobby"
 vertical_alignment = 1
 
-[node name="MP" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="MP" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
 self_modulate = Color(0, 0.733333, 1, 1)
 layout_mode = 0
 offset_left = 8.0
@@ -664,7 +664,7 @@ text = "MP"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HP" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="HP" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
 self_modulate = Color(1, 0.211765, 0.160784, 1)
 layout_mode = 0
 offset_left = 8.0
@@ -677,7 +677,7 @@ theme_override_constants/outline_size = 5
 text = "HP"
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="Control" type="Control" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
 layout_mode = 1
 anchors_preset = 0
 offset_top = 20.0
@@ -686,7 +686,7 @@ offset_bottom = 28.0
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="TextureRect" type="TextureRect" parent="Panel2/VBoxContainer/States/Others/Presets/Panel/Control"]
+[node name="TextureRect" type="TextureRect" parent="Panel2/VBoxContainer/States/Others/Presets/Character/Control"]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -698,7 +698,50 @@ offset_right = 17.0
 offset_bottom = 3.0
 texture = ExtResource("10_mblbx")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel2/VBoxContainer/States/Others/Presets/Panel"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel2/VBoxContainer/States/Others/Presets/Character"]
+libraries = {
+"": SubResource("AnimationLibrary_l5h8f")
+}
+
+[node name="NPC" type="Button" parent="Panel2/VBoxContainer/States/Others/Presets"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+script = ExtResource("20_rd4hr")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Panel2/VBoxContainer/States/Others/Presets/NPC"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 68.0
+max_value = 0.0
+nine_patch_stretch = true
+stretch_margin_left = 16
+stretch_margin_top = 16
+stretch_margin_right = 16
+stretch_margin_bottom = 16
+texture_under = ExtResource("23_o33ec")
+texture_over = ExtResource("23_o33ec")
+texture_progress = ExtResource("23_o33ec")
+tint_under = Color(0, 0, 0, 1)
+tint_over = Color(1, 1, 1, 0)
+tint_progress = Color(0, 1, 0, 1)
+
+[node name="Label" type="Label" parent="Panel2/VBoxContainer/States/Others/Presets/NPC"]
+self_modulate = Color(1, 0.402383, 0.310333, 1)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 315.0
+offset_bottom = 27.0
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "Nigghtz The Shaman-Gobby"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel2/VBoxContainer/States/Others/Presets/NPC"]
 libraries = {
 "": SubResource("AnimationLibrary_l5h8f")
 }

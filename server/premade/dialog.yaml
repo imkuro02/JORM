@@ -1,0 +1,27 @@
+
+jerry:
+  1: 
+    text: Hello PLAYER
+    responses:
+      - text: Hello NPC
+        next: 1
+      - text: hi
+        next: 2
+      - text: bye
+        next: 3
+      - text: I lost my Mothers Necklace, could you help me find it
+        next: 4
+  2: 
+    text: hi hi !!!!
+    responses:
+      - text: bye
+        next: 3
+  3: 
+    text: bye bye!!!
+    responses:
+  4:
+    text: no lol, im just a npc, if anything, YOU go find it and bring it to me, ill give you like a Red Potion or something
+    responses:
+      - text: oh.. oh ok..
+        next: 3
+

@@ -1,0 +1,66 @@
+
+slash:
+  name: Slash
+  mp_cost: 0
+  hp_cost: 0
+  target: any
+  description: Cut your target, dealing Strength Damage.
+
+guard:
+  name: Guard
+  mp_cost: 0
+  hp_cost: 0
+  target: none
+  description: uhh remove this (ERROR RRORORORO)
+
+stab:
+  name: Stab
+  mp_cost: 1
+  hp_cost: 0
+  target: any
+  description: Lunge at your target, dealing Agility Damage, Crits deal x3 Damage
+
+firebolt:
+  name: Ignis
+  mp_cost: 2
+  hp_cost: 0
+  target: any
+  description: Fire a bolt of flames at your target, dealing magic damage, Crits damage the caster back.
+
+first_aid:
+  name: First Aid
+  mp_cost: 3
+  hp_cost: 0
+  target: ally
+  description: Tend to a target, healing them for 6HP
+
+heal_light_wounds:
+  name: Minor Healing
+  mp_cost: 5
+  hp_cost: 0
+  target: ally
+  description: Heal a target by Intelligence +6
+
+
+
+
+spit:
+  name: Spit
+  mp_cost: 0
+  hp_cost: 0
+  target: any
+  description: Spitball your target, dealing Intelligence damage.
+
+scratch:
+  name: Scratch
+  mp_cost: 0
+  hp_cost: 0
+  target: any
+  description: Scratch your target, dealing Agility Damage
+
+push:
+  name: Push
+  mp_cost: 0
+  hp_cost: 0
+  target: any
+  description: Push your target, draining mana based on Strength

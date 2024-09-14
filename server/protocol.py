@@ -53,6 +53,18 @@ class ServerProtocol(WebSocketServerProtocol):
         if p.action == packet.Action.FlavouredMessage:
             self.send_client(p)
 
+        if p.action == packet.Action.NpcInteraction:
+            if sender == self:
+                npc = p.payloads[0]
+                interaction = p.payloads[1]
+                room = self._actor.room
+
+                if npc in room.npcs:
+                    npc_response = room.npcs[npc].dialog(self._actor,interaction)
+                    p = packet.NpcInteractionPacket(npc, npc_response)
+                    self.onPacket(None, p)
+            else:
+                self.send_client(p)
 
         if p.action == packet.Action.CharacterSheet:
             if sender == self:
@@ -188,7 +200,11 @@ class ServerProtocol(WebSocketServerProtocol):
                 self._actor.skills = []
 
             self._state = self.PLAY
-            self.onPacket(self,packet.PremadePacket(self.factory.premade))
+            small_premade = utils.dc(self.factory.premade)
+            del small_premade['enemies']
+            del small_premade['dialog']
+
+            self.onPacket(self,packet.PremadePacket(small_premade))
             self.onPacket(self,packet.ServerTimePacket(self.factory.server_time))
             self.onPacket(self,packet.OkPacket())
             

@@ -86,6 +86,7 @@ func LOGIN(p):
 		"Premade":
 			print('set premade')
 			PREMADE = _payloads[0]
+			print(PREMADE)
 			
 func PLAY(p):
 	var _payloads = p.payloads
@@ -107,15 +108,25 @@ func PLAY(p):
 			
 			
 		"Room":
-			ROOM = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4]}
+			ROOM = {'name':_payloads[0],'description':_payloads[1],'exits':_payloads[2], 'players':_payloads[3], 'enemies':_payloads[4], 'npcs': _payloads[5]}
 			#chat_window.receive_room(ROOM)
 			
 		"FlavouredMessage":
 			var text = _payloads[0]
 			var anim = _payloads[1]
 			chat_window.receive_flavoured_message(text,anim)
+			
+		"NpcInteraction":
+			print(_payloads)
+			var npc_name = _payloads[0]
+			var text = _payloads[1]['text']
+			var responses = _payloads[1]['responses']
+			
+			chat_window.receive_npc_dialog(npc_name, text, responses)
+			
 		"CombatMessageSkillUsed":
 			chat_window.receive_skill_used(_payloads[0],_payloads[1])
+			
 		"CombatMessageDamage":
 			chat_window.receive_damage_taken(_payloads[0], _payloads[1], _payloads[2])
 			

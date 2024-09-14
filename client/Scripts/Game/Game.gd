@@ -25,6 +25,7 @@ var color_to_tags = {
 		'player_self': 'AQUA',
 		'player': 'AQUAMARINE',
 		'enemy': 'coral',
+		'npc': 'orange',
 		'inventory': 'LIGHT_GRAY',
 		'equipment': 'LIGHT_GRAY',
 		'target': 'RED',
@@ -151,21 +152,24 @@ func interaction(data):
 	add_child(w)
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
 
-func receive_flavoured_message(text,anim = null):
+func receive_npc_dialog(npc_name, text, responses):
+	receive_flavoured_message('%s Says %s' % [npc_name,text])
+	if responses == null:
+		return
+		
+	chatbox.text += '[table=2]'
+
+	for r in len(responses):
+		var response = npc_interactable(npc_name, responses[r]['next'],responses[r]['text'])
+		print(response)
+		if r == 0:
+			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['- ', response]
+		else:
+			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['- ', response]
+	chatbox.text += '[/table]\n'
+
+func flavour_text(text):
 	var ROOM = MAIN.ROOM
-	if anim != null:
-		match anim:
-			'death': 
-				#$CanvasLayer/OverlayShader.material.set_shader_parameter("intensity", 1)
-				MAIN.audio.play('church_bell')
-				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
-			'new_room':
-				if not $CanvasLayer/OverlayShader/AnimationPlayer.is_playing():
-					$AnimationPlayer.play('fade')
-					MAIN.audio.play('go')
-	else:
-		MAIN.audio.play('message')
-			
 	var time = Time.get_ticks_usec()
 	var _players = ROOM['players']
 	var _enemies = ROOM['enemies']
@@ -173,6 +177,7 @@ func receive_flavoured_message(text,anim = null):
 	var _items   = MAIN.PREMADE['items']
 	var _statuses   = MAIN.PREMADE['statuses']
 	var _exits   = ROOM['exits']
+	var _npcs = ROOM['npcs']
 	
 	# Define the pattern types
 	text = ' '+text+' '
@@ -181,7 +186,8 @@ func receive_flavoured_message(text,anim = null):
 		{'type': 'loot', 'data': _items},
 		{'type': 'enemy', 'data': _enemies},
 		{'type': 'skill', 'data': _skills},
-		{'type': 'status', 'data': _statuses}
+		{'type': 'status', 'data': _statuses},
+		{'type': 'npc', 'data': _npcs}
 	]
 	var acceptable_fixes = [',','.','\n',' ','?','!']
 	for pattern in patterns:
@@ -197,11 +203,29 @@ func receive_flavoured_message(text,anim = null):
 	#		text = text.replace(''+i+fix, ''+interactable('exit', i, i )+fix)
 	
 	text = text.strip_edges(true, false)
-	text = text + '\n'
+	
 	text = text.strip_edges(true, false)
-	text = '> '+text 
-	#text = '[bgcolor="black"]' + text + '[/bgcolor]'
-	#chat_message_queue.append(text)
+	
+	return text
+	
+func receive_flavoured_message(text,anim = null):
+	var ROOM = MAIN.ROOM
+	
+	if anim != null:
+		match anim:
+			'death': 
+				#$CanvasLayer/OverlayShader.material.set_shader_parameter("intensity", 1)
+				MAIN.audio.play('church_bell')
+				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
+			'new_room':
+				if not $CanvasLayer/OverlayShader/AnimationPlayer.is_playing():
+					$AnimationPlayer.play('fade')
+					MAIN.audio.play('go')
+	else:
+		MAIN.audio.play('message')
+			
+	text = '> ' + flavour_text(text) 
+	text = text + '\n'
 	chatbox.text += text
 	
 	#print(Time.get_ticks_usec() - time)
@@ -209,7 +233,12 @@ func receive_flavoured_message(text,anim = null):
 	
 func create_interaction_meta(tag, object, label):
 	return {"tag": tag, "object": object, "label": label}
-	
+
+func npc_interactable(npc_name, next, player_says):
+	var npc_meta = {'tag': 'npc_dialog', 'npc': npc_name, 'next': next, 'player_says': player_says}
+	var url = '[url=%s] %s [/url]' % [npc_meta, flavour_text(player_says)]
+	return url
+		
 func interactable(tag, object, label):
 	var col = 'pink'
 	
@@ -230,6 +259,7 @@ func send(text: String):
 	if len(text) > 0:
 		var p: Packet = Packet.new('Chat',[text])
 		MAIN.send_packet(p)
+		if text == 'ROOM': print(MAIN.ROOM)
 		input.text = ""
 		
 func _input(event: InputEvent):

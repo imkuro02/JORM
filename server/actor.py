@@ -129,6 +129,18 @@ class Actor:
             if self.target.dead:
                 self.broadcast(f'This target is already dead', self)
                 return 
+
+            targetting_ally = self in self.room.players and self.target in self.room.players or self in self.room.enemies and self.target in self.room.enemies
+            
+
+            if skill['target'] == 'ally' and not targetting_ally:
+                self.broadcast(f'Target must be an ally', self)
+                return 
+            
+            if skill['target'] == 'enemy' and targetting_ally:
+                self.broadcast(f'Target Can\'t be an ally', self)
+                return 
+        
         
         if skill_id in self.skill_cooldowns:
             self.broadcast(f'{skill["name"]} is on cooldown', self)
@@ -138,7 +150,7 @@ class Actor:
             self.broadcast(f'Not enough MP to use {skill["name"]}', self)
             return
 
-        if skill['hp_cost'] > self.stats['mp']:
+        if skill['hp_cost'] > self.stats['hp']:
             self.broadcast(f'Not enough HP to use {skill["name"]}', self)
             return
 
@@ -159,7 +171,7 @@ class Actor:
         for i in self.skills:
             if i in self.skill_cooldowns:
                 continue
-            self.set_cooldown(i,6)
+            self.set_cooldown(i,2)
 
 
         match skill_id:

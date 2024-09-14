@@ -192,7 +192,8 @@ class Player(Actor):
                                 self.room.description, 
                                 [room_name for room_name in self.room.exits], 
                                 self.room.get_players(),
-                                self.room.get_enemies())
+                                self.room.get_enemies(),
+                                self.room.get_npcs())
                                 
         self.protocol.onPacket(self.protocol, p)
 

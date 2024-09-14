@@ -26,6 +26,8 @@ class Action(enum.Enum):
     Go = enum.auto()
     Target = enum.auto()
 
+    NpcInteraction = enum.auto()
+
     PartyRequest = enum.auto()
     PartyAnswer = enum.auto()
     PartyLeave = enum.auto()
@@ -112,8 +114,8 @@ class UseItemPacket(Packet):
 
 #
 class RoomPacket(Packet):
-    def __init__(self, name: str, description: str, exits: list, players: dict, enemies: dict):
-        super().__init__(Action.Room, name, description, exits, players, enemies)
+    def __init__(self, name: str, description: str, exits: list, players: dict, enemies: dict, npcs: dict):
+        super().__init__(Action.Room, name, description, exits, players, enemies, npcs)
 
 class GoPacket(Packet):
     def __init__(self, room_name: str):
@@ -126,6 +128,10 @@ class TargetPacket(Packet):
 class FlavouredMessagePacket(Packet):
     def __init__(self, message, animation = None):
         super().__init__(Action.FlavouredMessage, message, animation)
+
+class NpcInteractionPacket(Packet):
+    def __init__(self, npc_id, response):
+        super().__init__(Action.NpcInteraction, npc_id, response)
 
 #
 class PartyRequestPacket(Packet):

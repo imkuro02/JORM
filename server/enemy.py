@@ -80,7 +80,8 @@ class Enemy(Actor):
         return {
             'name':         self.name,
             'stats':        self.stats,
-            'id':           self.id
+            'id':           self.id,
+            'description':  self.description
             }
 
     def respawn(self):

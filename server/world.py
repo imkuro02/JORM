@@ -1,6 +1,7 @@
 
 import packet
 import enemy
+import npc
 import utils
 import random
 import yaml
@@ -13,6 +14,7 @@ class Room:
         self.exits = {}
         self.players = {}
         self.enemies = {}
+        self.npcs = {}
         self.enemy_spawns = []
         self.ticks_passed = 0
 
@@ -67,9 +69,6 @@ class Room:
         del self.enemies[e.name]
 
     def add_player(self,player):
-
-        
-
         self.players[player.name] = player
         player.room = self
         self.players[player.name].protocol.onPacket(self,packet.FlavouredMessagePacket(f'Arrived at {self.name}','new_room'))
@@ -115,7 +114,14 @@ class Room:
             self.move_player(p,new_room)
         '''
 
-    
+    def get_npcs(self):
+        npcs = {}
+        for i in self.npcs:
+            npcs[i] = {
+                'name': self.npcs[i].name
+            } 
+        return npcs
+
     def get_players(self):
         players = {}
         for i in self.players:
@@ -191,7 +197,8 @@ class Map:
         self.add_room(forest_east_bigtown)
         self.add_room(bigtown_gate)
 
-        
+        npc_jerry = npc.NPC('Jerry The Oimer',smalltown,'jerry')
+
         smalltown_ruins.add_enemy_spawn('goblin',3,15)
 
         smalltown_gate.add_enemy_spawn('goblin',1,15)

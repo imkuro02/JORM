@@ -9,7 +9,6 @@ func _ready():
 	PREMADE = MAIN.PREMADE
 	
 func create_interaction(data, activate_now = false):
-
 	
 	
 	var ITEMS = PREMADE['items']
@@ -20,12 +19,21 @@ func create_interaction(data, activate_now = false):
 	var json = JSON.new()
 	data = json.parse_string(data)
 
+	if 'npc_dialog' == data['tag']:
+		print(data)
+		data['label'] = data['npc']
+		interactions = ['Say To']
+		#activate_now = true
+
 	if 'player' == data['tag']:
 		interactions = ['Target','Trade','Party invite','Inspect']
 		
 	if 'enemy' == data['tag']:
 		interactions = ['Target','Inspect']
 		
+	if 'npc' == data['tag']:
+		interactions = ['Talk To','Inspect']
+
 	if 'exit' == data['tag']:
 		interactions = ['Go']
 
@@ -146,9 +154,19 @@ func _on_meta_clicked(meta):
 					p = Packet.new('UseSkill',[data['object']])
 				'inventory':
 					p = Packet.new('UseItem',[data['object']])
+		'Talk To':
+			p = Packet.new('NpcInteraction',[data['object'],1])
+			
+		'Say To':
+			MAIN.chat_window.receive_flavoured_message('You Say %s to %s' % [data['player_says'],data['npc']])
+			p = Packet.new('NpcInteraction',[data['npc'],data['next']])
+			
 		'Inspect':
 			var text = ''
 			match data['tag']:
+				'npc':
+					var description = data['label']
+					text = '%s is an NPC! you can poke em and make fun of them in chat and they dont do SQUAT!' % [description]
 				'skill':
 					var description = MAIN.PREMADE['skills'][data['object']]['description']
 					text = '%s' % [description]
@@ -220,7 +238,7 @@ func _on_meta_clicked(meta):
 					if enemy_id == null:
 						text = 'That enemy is not here.'
 					else:
-						text = '%s' % [PREMADE['enemies'][enemy_id]['description']]
+						text = '%s' % [ROOM['enemies'][enemy_name]['description']]# % [PREMADE['enemies'][enemy_id]['description']]
 					
 				'status':
 					text = '%s' % [PREMADE['statuses'][data['object']]['description']]
