@@ -194,9 +194,15 @@ class ServerProtocol(WebSocketServerProtocol):
                 self.factory.database.save_player(self._actor)
             else:
                 #print('player found')
+                self._actor.equipment = []
                 self._actor.inventory = player['inventory']
-                self._actor.equipment = player['equipment']
                 self._actor.stats = player['stats']
+                
+                for e in player['equipment']:
+                    self._actor.equip(e,forced = True) 
+                    print(e)
+
+                
                 self._actor.skills = []
 
             self._state = self.PLAY

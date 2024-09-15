@@ -1,4 +1,5 @@
 import sqlite3
+import utils
 
 class DataBase:
     def __init__(self):
@@ -72,7 +73,16 @@ class DataBase:
         return account
 
     def save_player(self,actor):
-        _stats = tuple(actor.stats.values())
+        _inventory = utils.dc(actor.inventory)
+        _equipment = utils.dc(actor.equipment)
+        
+        for i in _equipment:
+            actor.unequip(i)
+
+        _stats = utils.dc(tuple(actor.stats.values()))
+
+        #_stats = tuple(actor.stats.values())
+
         _actor = _stats + (actor.name,) 
         self.cursor.execute('''
             INSERT INTO actors (
@@ -99,13 +109,13 @@ class DataBase:
         self.cursor.execute('DELETE FROM equipment WHERE username = ?', (actor.name,))
         
 
-        for item in actor.inventory:
+        for item in _inventory:
             self.cursor.execute('INSERT INTO items (username, item_name, item_quantity) VALUES (?, ?, ?)', (actor.name,item,actor.inventory[item]))
             #self.cursor.execute('SELECT * FROM items')
             #items = self.cursor.fetchall()
             #print(items)
 
-        for eq in actor.equipment:
+        for eq in _equipment:
             self.cursor.execute('INSERT INTO equipment (username, item_name) VALUES (?, ?)', (actor.name,eq))
 
         self.conn.commit()

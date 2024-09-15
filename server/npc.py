@@ -19,7 +19,7 @@ class NPC:
 
                     if item['quantity'] < 0:
                         if item['item'] in player.inventory:
-                            if item['quantity']*-1 < player.inventory[item['item']]:
+                            if (item['quantity']*-1) > player.inventory[item['item']]:
                                 check_failed = True
                                 continue
                         else:

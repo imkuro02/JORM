@@ -148,11 +148,11 @@ class Player(Actor):
         else:
             self.inventory[item_id] = quantity
 
-    def equip(self,item_id):
+    def equip(self, item_id, forced = False):
         ITEMS = self.premade['items']
         if item_id not in ITEMS:
             return 'item does not exist'
-        if item_id not in self.inventory:
+        if item_id not in self.inventory and not forced:
             return 'you do not have that item in the inventory'
         if 'slot' not in ITEMS[item_id]:
             return 'item is not equipable'
@@ -169,7 +169,8 @@ class Player(Actor):
             self.stats[s] += ITEMS[item_id]['stats'][s]
 
         self.equipment.append(item_id)
-        self.remove_item(item_id,1)
+        if not forced: 
+            self.remove_item(item_id,1)
         return f'{item_id} equipped'
 
     def unequip(self,item_id):

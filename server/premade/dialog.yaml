@@ -1,13 +1,13 @@
 
 jerry:
   1: 
-    text: Hello PLAYER
+    text: Hello PLAYER.
     responses:
       - text: Hello NPC.
         next: 1
-      - text: hi.
+      - text: Hi.
         next: 2
-      - text: bye.
+      - text: Bye.
         next: 3
       - text: I lost my Mothers Necklace, could you help me find it.
         next: 4
@@ -63,7 +63,11 @@ redpotion:
         quantity: 1
     success:
       text: Here, your Blue Potion is ready!
-      responses: null
+      responses: 
+        - text: Thanks
+          next: 5
+        - text: Can I get another?
+          next: 4
     fail:
       text: You don't have a Red Potion I can use! 
       responses: null

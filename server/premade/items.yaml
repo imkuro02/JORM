@@ -76,8 +76,8 @@ basic_accessory:
   slot: accessory
   #description: Your mothers necklace
   stats:
-    max_hp: 10
-    max_mp: 10
+    max_hp: 15
+    max_mp: 15
 
 basic_sword:
   parent: equipable
