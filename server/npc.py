@@ -1,9 +1,10 @@
 from utils import dc
 class NPC:
-    def __init__ (self, name, room, dialog_tree):
-        self.name = name
+    def __init__ (self, dialog_tree, room):
+        
         self.room = room
-        self.room.npcs[name] = self
+        self.name = self.room.map.factory.premade['dialog'][dialog_tree]['name']
+        self.room.npcs[self.name] = self
         self.dialog_tree = self.room.map.factory.premade['dialog'][dialog_tree]
 
     def dialog(self, player, response):

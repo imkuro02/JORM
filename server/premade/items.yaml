@@ -97,8 +97,6 @@ basic_shield:
   stats:
     str: 1
     agi: -1
-  skills:
-  - guard
   description: Its just a pan lid?
 
 basic_wand:

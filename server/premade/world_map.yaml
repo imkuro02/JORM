@@ -1,0 +1,44 @@
+spawn:
+  name: Town Square
+  description: This is the town square.
+  exits:
+    - potion_shop
+    - shady_alley
+  npcs:
+    - village_elder
+  enemies:
+
+potion_shop:
+  name: Redpots Potions
+  description: A cozy potion shop.
+  exits: 
+    - spawn
+    - potion_shop_basement
+  npcs:
+    - potion_seller
+  enemies:
+
+potion_shop_basement:
+  name: Redpots Potions Basement
+  description: This is the basemenet of the potion shop.
+  exits: 
+    - potion_shop
+  npcs:
+  enemies:
+    - id: goblin
+      quantity: 1
+      spawn_rate: 15
+
+shady_alley:
+  name: A Shady Alleyway
+  description: This place gives you the heebee jeebies
+  exits:
+    - spawn
+  npcs:
+  enemies:
+    - id: goblin
+      quantity: 2
+      spawn_rate: 20
+    - id: hobgoblin
+      quantity: 1
+      spawn_rate: 60

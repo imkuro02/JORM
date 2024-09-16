@@ -7,8 +7,9 @@ import random
 import yaml
 
 class Room:
-    def __init__(self, map, name: str, description: str):
+    def __init__(self, map, _id: str,  name: str, description: str):
         self.map = map
+        self.id = _id
         self.name = name
         self.description = description
         self.exits = {}
@@ -172,6 +173,34 @@ class Map:
         self.factory = factory
         self.rooms = {}
 
+        world_map_dict = {}
+        with open('premade/world_map.yaml', 'r') as file:
+            world_map_dict = yaml.safe_load(file)
+
+        for room in world_map_dict:
+            r = world_map_dict[room]
+            self.rooms[r['name']] = Room(self, room, r['name'], r['description'])
+
+        for room in self.rooms.values():
+            for _room in self.rooms.values():
+                if _room.id in world_map_dict[room.id]['exits']:
+                    room.connect_room(_room)
+
+            npcs = world_map_dict[room.id]['npcs']
+            if npcs != None:
+                for _npc in npcs:
+                    _npc = npc.NPC(_npc,room)
+
+            enemies = world_map_dict[room.id]['enemies']
+            if enemies != None:
+                for _enemy in enemies:
+                    _room.add_enemy_spawn(_enemy['id'],_enemy['quantity'],_enemy['spawn_rate'])
+        
+
+
+        
+
+        '''
         smalltown =                 Room(self, 'Small Town',                 'Welcome to Small Town! its a.. well.. a small town, the Small Town Gate is just west of here, need to pass through the Small Town Ruins to get to it.')
         smalltown_ruins =           Room(self, 'Small Town Ruins',           'Small Town Ruins, Goblins are roaming the streets.')
         smalltown_gate =            Room(self, 'Small Town Gate',            'The gateway to Small Town, altho half the city is in ruins, this gate still stands somewhat tall.')
@@ -212,7 +241,7 @@ class Map:
         forest_east_bigtown.add_enemy_spawn('goblin_shaman',2,40)
 
         forest_east_bigtown.add_enemy_spawn('gamer',2,40)
-
+        '''
 
     def add_room(self,room):
         self.rooms[room.name] = room

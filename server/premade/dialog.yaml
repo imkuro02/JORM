@@ -2,7 +2,10 @@
 
 
 
-smalltown_elder:
+village_elder:
+  name: Jerry The Village Elder
+  description: The village elder
+
   1:
     try:
       text: Hello PLAYER.
@@ -52,7 +55,10 @@ smalltown_elder:
       responses: 
 
 
-redpotion:
+potion_seller:
+  name: Redpot the brewer
+  description: A potion seller
+
   1:
     try:
       text: I am NPC and I am the best potion seller in all of JORM!

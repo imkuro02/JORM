@@ -126,7 +126,7 @@ class ServerProtocol(WebSocketServerProtocol):
         
 
     def new_player(self, name):
-        room = self.factory.map.rooms['Small Town']
+        room = self.factory.map.rooms['Town Square']
             
         self._actor = Player(self, name)
         room.add_player(self._actor)
@@ -197,32 +197,22 @@ class ServerProtocol(WebSocketServerProtocol):
                 self._actor.equipment = []
                 self._actor.inventory = player['inventory']
                 self._actor.stats = player['stats']
-                
+                self._actor.skills = []
                 for e in player['equipment']:
                     self._actor.equip(e,forced = True) 
-                    print(e)
 
-                
-                self._actor.skills = []
+               
 
             self._state = self.PLAY
+
             small_premade = utils.dc(self.factory.premade)
             del small_premade['enemies']
             del small_premade['dialog']
-
             self.onPacket(self,packet.PremadePacket(small_premade))
+
             self.onPacket(self,packet.ServerTimePacket(self.factory.server_time))
             self.onPacket(self,packet.OkPacket())
             
-            
-
-            
-
-            
-            #print(self._actor.stats)
-
-            
-
             #p = packet.ChatPacket(f'{self._actor.name} Logged in')
             #self.broadcast(p,exclude_self=False)
 

@@ -29,10 +29,10 @@ template:
       quantity_min: 1
       quantity_max: 1
   roaming_text:
-    - paces back and forth
-    - grunts
-    - sneezes
-    - coughs
+    - Paces back and forth
+    - Grunts
+    - Sneezes
+    - Coughs
   description: A template enemy description
 
 goblin:

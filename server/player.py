@@ -53,13 +53,7 @@ class Player(Actor):
                 'equipment':    self.equipment
                 }
 
-        self.skills = []
-        for e in self.equipment:
-            if 'skills' not in self.protocol.factory.premade['items'][e]:
-                continue
-            for skill in self.protocol.factory.premade['items'][e]['skills']:
-                if skill not in self.skills:
-                    self.skills.append(skill)
+        
 
         #print(self.skills)
         if self.target == None:
@@ -91,7 +85,7 @@ class Player(Actor):
         self.dead = False
         self.stats['hp'] = self.stats['max_hp']
         self.stats['mp'] = self.stats['max_mp']
-        self.room.move_player(self, 'Small Town', forced = True)
+        self.room.move_player(self, 'Town Square', forced = True)
         self.target = None
 
     def die(self):
@@ -148,6 +142,15 @@ class Player(Actor):
         else:
             self.inventory[item_id] = quantity
 
+    def reload_skills(self):
+        self.skills = []
+        for e in self.equipment:
+            if 'skills' not in self.protocol.factory.premade['items'][e]:
+                continue
+            for skill in self.protocol.factory.premade['items'][e]['skills']:
+                if skill not in self.skills:
+                    self.skills.append(skill)
+
     def equip(self, item_id, forced = False):
         ITEMS = self.premade['items']
         if item_id not in ITEMS:
@@ -171,6 +174,7 @@ class Player(Actor):
         self.equipment.append(item_id)
         if not forced: 
             self.remove_item(item_id,1)
+        self.reload_skills()
         return f'{item_id} equipped'
 
     def unequip(self,item_id):
@@ -186,6 +190,7 @@ class Player(Actor):
         self.regen()
 
         self.equipment.remove(item_id)
+        self.reload_skills()
         return f'{item_id} unequiped'
 
     def room_update(self):
