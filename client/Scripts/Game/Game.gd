@@ -26,13 +26,13 @@ var color_to_tags = {
 		'player': 'AQUAMARINE',
 		'enemy': 'coral',
 		'npc': 'orange',
-		'inventory': 'LIGHT_GRAY',
-		'equipment': 'LIGHT_GRAY',
+		'inventory': 'LIGHT_BLUE',
+		'equipment': 'LIGHT_BLUE',
 		'target': 'RED',
 		'exit': 'green',
 		'skill': 'LIGHT_GOLDENROD',
 		'status': 'LIGHT_GREEN',
-		'loot': 'LIGHT_GRAY',
+		'loot': 'LIGHT_BLUE',
 		'clear_chat': 'yellow',
 		'self_target': 'yellow',
 		'un_self_target': 'yellow'
@@ -153,7 +153,7 @@ func interaction(data):
 	w.create_interaction(data, Input.is_key_pressed(KEY_CTRL))
 
 func receive_npc_dialog(npc_name, text, responses):
-	receive_flavoured_message('%s says: "%s"' % [npc_name,text])
+	receive_flavoured_message('%s says: %s' % [npc_name,text])
 	if responses == null:
 		return
 		
@@ -163,7 +163,7 @@ func receive_npc_dialog(npc_name, text, responses):
 		var response = npc_interactable(npc_name, responses[r]['next'],responses[r]['text'])
 		print(response)
 		if r == 0:
-			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % ['Options: ', str(r+1) + ').' + response]
+			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % [' ', str(r+1) + ').' + response]
 		else:
 			chatbox.text += '[cell]%s[/cell][cell]%s[/cell]' % [' ', str(r+1) + ').' + response]
 	chatbox.text += '[/table]\n'
@@ -189,7 +189,7 @@ func flavour_text(text):
 		{'type': 'status', 'data': _statuses},
 		{'type': 'npc', 'data': _npcs}
 	]
-	var acceptable_fixes = [',','.','\n',' ','?','!']
+	var acceptable_fixes = [',','.','\n',' ','?','!','s']
 	for pattern in patterns:
 		for key in pattern['data']:
 			for fix in acceptable_fixes:

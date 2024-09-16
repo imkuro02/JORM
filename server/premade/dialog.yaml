@@ -1,79 +1,185 @@
 
-jerry:
-  1: 
-    text: Hello PLAYER.
-    responses:
-      - text: Hello NPC.
-        next: 1
-      - text: Hi.
-        next: 2
-      - text: Bye.
-        next: 3
-      - text: I lost my Mothers Necklace, could you help me find it.
-        next: 4
-  2: 
-    text: hi hi !!!!
-    responses:
-      - text: bye.
-        next: 3
-  3: 
-    text: bye bye!!!
-    responses:
-  4:
-    text: no lol, im just a npc, if anything, YOU go find it and bring it to me, ill give you like a Red Potion or something.
-    responses:
-      - text: oh.. oh ok..
-        next: 3
+
+
+
+smalltown_elder:
+  1:
+    try:
+      text: Hello PLAYER.
+      responses: 
+        - text: Where Am I?
+          next: intro
+        - text: Where can I get some equipment?
+          next: gear
+    fail:
+
+  2:
+    try:
+      text: Hello PLAYER.
+      responses: 
+        - text: Where Am I?
+          next: intro
+        - text: Where can I get some equipment?
+          next: gear
+        - text: Are you senile?
+          next: 2
+    fail:
+
+  intro:
+    try:
+      text: You are in small town
+      responses: 
+        - text: Ok?..
+          next: 2
+    fail:
+    
+  gear:
+    try:
+      player_equipment:
+        - item: basic_sword
+          quantity: 0
+      player_inventory:
+        - item: basic_sword
+          quantity: 0
+        - item: basic_sword
+          quantity: 1
+    
+
+      text: Hmmm.. Here.. (They hand you a toy sword) 
+      responses: 
+    fail:
+      text: You already have a sword, what more could you need?
+      responses: 
+
 
 redpotion:
   1:
-    text: I brew the best potions in all of small town!
-    responses:
-      - text: Can I have a sample?
-        next: 2
-      - text: Can you brew me a Blue Potion?
-        next: 3
+    try:
+      text: I am NPC and I am the best potion seller in all of JORM!
+      responses:
+        - text: Can I have a sample?
+          next: 2
+        - text: Can you brew me some potions?
+          next: brew_potions
+    fail:
 
   2:
-    trade:
-      - item: potion0
-        quantity: 0
-      - item: potion0
-        quantity: 1
-    success:
-      text: Here! have a Red Potion on the house PLAYER.
-      responses: null
+    try:
+      player_inventory:
+        - item: potion1
+          quantity: 0
+        - item: potion0
+          quantity: 0
+        - item: potion1
+          quantity: 1
+        - item: potion0
+          quantity: 1
+      text: Sure! Have a Red Potion and a Blue Potion for free!
+      responses:
     fail:
-      text: You already have a Red Potion!  
-      responses: null
+      text: I can tell by the clinking in your pockets you got some mighty potions already, no free samples for YOU.
+      responses:
 
-  3:
-    text: Sure! but it will cost you a Red Potion!
-    responses:
-      - text: Sure!
-        next: 4
-      - text: Nevermind.
-        next: 5
-
-  4:
-    trade:
-      - item: potion0
-        quantity: -1
-      - item: potion1
-        quantity: 1
-    success:
-      text: Here, your Blue Potion is ready!
+  brew_potions:
+    try:
+      text: Well.. I can brew you either a Red Potion or a Blue Potion
       responses: 
-        - text: Thanks
-          next: 5
-        - text: Can I get another?
-          next: 4
+        - text: Brew me a Red Potion
+          next: potion0
+        - text: Brew me a Blue Potion
+          next: potion1
     fail:
-      text: You don't have a Red Potion I can use! 
+
+  potion0:
+    try:
+      text: Sure! but I need some ingridients, 2 Blue Potions for 1 Red Potion!
+      responses:
+        - text: What?
+          next: questioning
+
+        - text: Sure
+          next: potion0_brew
+
+  potion1:
+    try:
+      text: Sure! but I need some ingridients, 2 Red Potions for 1 Blue Potion!
+      responses:
+        - text: What?
+          next: questioning
+
+        - text: Sure
+          next: potion1_brew
+    
+  potion0_brew:
+    try:
+      player_inventory:
+        - item: potion1
+          quantity: -2
+        - item: potion0
+          quantity: 1
+      text: Coming right up!
+      responses:
+    fail:
+      text: Where are the ingridients!? YOU DONT HAVE MY INGRIDIENTS, GET LOST
+      responses:
+
+  potion1_brew:
+    try:
+      player_inventory:
+        - item: potion0
+          quantity: -2
+        - item: potion1
+          quantity: 1
+      text: Coming right up!
+      responses:
+    fail:
+      text: Where are the ingridients!? YOU DONT HAVE MY INGRIDIENTS, GET LOST
+      responses:
+
+  questioning:
+    try:
+      text: What? everyone knows to make one potion you need two other potions!
+      responses:
+    fail:
+        
+
+
+dialog_test:
+  1:
+    try:
+      text: Hello PLAYER.
+      responses: 
+        - text: Can I have a free sword?
+          next: free_sword
+    fail:
+
+  free_sword:
+    try: 
+
+      player_equipment:
+        - item: basic_sword
+          quantity: 0
+
+      player_inventory:
+        - item: basic_sword
+          quantity: 0
+        - item: basic_sword
+          quantity: 1
+
+      text: Sure
       responses: null
 
-  5: 
-    text: Bye bye then!
-    responses: null
-    
+    fail:
+      text: No lol
+      responses: 
+        - text: Why not?
+          next: free_sword_fail
+
+  free_sword_fail:
+    try:
+      text: You already have one..
+      responses: null
+    fail:
+
+
 

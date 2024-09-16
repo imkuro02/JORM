@@ -9,46 +9,55 @@ class NPC:
     def dialog(self, player, response):
         if response in self.dialog_tree:
             custom_response = dc(self.dialog_tree[response])
+            cr = custom_response
 
-            if 'trade' in custom_response:
-                check_failed = False
-                for item in custom_response['trade']:
-                    if item['quantity'] == 0 and item['item'] in player.inventory:
-                        check_failed = True
-                        continue
+            condition_passed = True
 
-                    if item['quantity'] < 0:
-                        if item['item'] in player.inventory:
-                            if (item['quantity']*-1) > player.inventory[item['item']]:
-                                check_failed = True
-                                continue
+            if 'player_equipment' in cr['try']:
+
+                for i in cr['try']['player_equipment']:
+                    if i['quantity'] >= 1 and i['item'] not in player.equipment:
+                        condition_passed = False
+                    if i['quantity'] <= 0 and i['item'] in player.equipment:
+                        condition_passed = False
+                        
+            if 'player_inventory' in cr['try']:
+                for i in cr['try']['player_inventory']:
+                    if i['quantity'] <= -1:
+                        if i['item'] in player.inventory: 
+                            if player.inventory[i['item']] < i['quantity']*-1:
+                                condition_passed = False
                         else:
-                            check_failed = True
-                            continue
+                            condition_passed = False
+                    if i['quantity'] == 0 and i['item'] in player.inventory:
+                        condition_passed = False
 
-                if check_failed:
-                    custom_response = custom_response['fail']
-                else:
-                    
-                    for item in custom_response['trade']:
-                        if item['quantity'] > 0: player.add_item(item['item'],item['quantity'])
-                        if item['quantity'] < 0: player.remove_item(item['item'],-1*item['quantity'])
+                if condition_passed:
+                    for i in cr['try']['player_inventory']:
+                        if i['quantity'] <= -1: player.remove_item(i['item'],i['quantity']*-1)
+                        if i['quantity'] > 0: player.add_item(i['item'],i['quantity'])
 
-                    custom_response = custom_response['success']
+                     
 
-            custom_response['text'] = custom_response['text'].replace('PLAYER', player.name)
-            custom_response['text'] = custom_response['text'].replace('NPC', self.name)
+
+            if condition_passed:
+                cr = cr['try']
+            else:
+                cr = cr['fail']
+
+            cr['text'] = cr['text'].replace('PLAYER', player.name)
+            cr['text'] = cr['text'].replace('NPC', self.name)
 
             
-            if 'responses' in custom_response:
-                if custom_response['responses'] != None:
+            if 'responses' in cr:
+                if cr['responses'] != None:
                     player_responses = []
-                    for r in custom_response['responses']:
+                    for r in cr['responses']:
                         r['text'] = r['text'].replace('PLAYER', player.name)
                         r['text'] = r['text'].replace('NPC', self.name)
                         player_responses.append(r)
                     
-                    custom_response['responses'] = player_responses
+                    cr['responses'] = player_responses
 
-            return custom_response
+            return cr
             

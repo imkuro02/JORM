@@ -158,7 +158,8 @@ func _on_meta_clicked(meta):
 			p = Packet.new('NpcInteraction',[data['object'],1])
 			
 		'Say To':
-			MAIN.chat_window.receive_flavoured_message('%s says: "%s" to %s' % [MAIN.CHARACTERSHEET['name'],data['player_says'],data['npc']])
+			MAIN.chat_window.receive_flavoured_message('"%s"' % [data['player_says']])
+			#MAIN.chat_window.receive_flavoured_message('%s says: "%s" to %s' % [MAIN.CHARACTERSHEET['name'],data['player_says'],data['npc']])
 			p = Packet.new('NpcInteraction',[data['npc'],data['next']])
 			
 		'Inspect':
