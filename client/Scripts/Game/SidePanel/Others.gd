@@ -9,6 +9,7 @@ extends VBoxContainer
 func _ready():
 	template.visible = false
 	template_npc.visible = false
+	pass
 func does_actor_exist_in_entities_vbox(actor_name):
 	for entity in entities_vbox.get_children():
 		if entity.get_node('Label').text == actor_name:

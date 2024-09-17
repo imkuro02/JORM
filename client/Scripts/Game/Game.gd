@@ -220,6 +220,7 @@ func receive_flavoured_message(text,anim = null):
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
 			'new_room':
 				if not $CanvasLayer/OverlayShader/AnimationPlayer.is_playing():
+					#text = '[color="silver"]%s[/color]' % [text]
 					$AnimationPlayer.play('fade')
 					MAIN.audio.play('go')
 	else:

@@ -9,6 +9,8 @@ func _ready():
 	#GAME = get_tree().root.get_node('Main/Game')
 	print(GAME)
 	meta = null
+	mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
+	size_flags_horizontal=Control.SIZE_FILL
 
 	#button_up.connect(button_pressed.bind(meta_tag))
 	pass # Replace with function body.

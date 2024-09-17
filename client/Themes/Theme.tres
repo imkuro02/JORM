@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dxsayusn7ujyc" path="res://Images/ButtonOut.png" id="1_tdy6n"]
 [ext_resource type="Texture2D" uid="uid://dcx3ddjbof4ku" path="res://Images/ButtonIn.png" id="2_8ckgj"]
 [ext_resource type="Texture2D" uid="uid://d3e5cikg545q3" path="res://Images/Textures/128x128/Wood/Wood_04-128x128.png" id="3_pjhar"]
-[ext_resource type="FontFile" uid="uid://c8iaeabb7kd35" path="res://fonts/Ldfcomicsanslight-6dZo.ttf" id="6_hji4o"]
+[ext_resource type="FontFile" uid="uid://dgl54rerbs7kq" path="res://fonts/runescape.ttf" id="6_a34tn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7de7r"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -89,7 +89,7 @@ image = SubResource("Image_lkxwc")
 
 [resource]
 default_base_scale = 2.0
-default_font = ExtResource("6_hji4o")
+default_font = ExtResource("6_a34tn")
 default_font_size = 32
 Button/colors/icon_hover_color = Color(1, 0.941176, 0.658824, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_7de7r")
