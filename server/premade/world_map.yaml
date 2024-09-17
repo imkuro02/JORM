@@ -3,7 +3,7 @@ spawn:
   description: This is the town square.
   exits:
     - potion_shop
-    - shady_alley
+    - shady_alley1
   npcs:
     - village_elder
   enemies:
@@ -23,17 +23,49 @@ potion_shop_basement:
   description: This is the basemenet of the potion shop.
   exits: 
     - potion_shop
+    - shady_alley3
   npcs:
   enemies:
     - id: goblin
       quantity: 1
-      spawn_rate: 15
+      spawn_rate: 20
 
-shady_alley:
-  name: A Shady Alleyway
+shady_alley1:
+  name: A Shady Alleyway I
   description: This place gives you the heebee jeebies
   exits:
     - spawn
+    - shady_alley2
+  npcs:
+  enemies:
+    - id: goblin
+      quantity: 2
+      spawn_rate: 20
+    - id: hobgoblin
+      quantity: 1
+      spawn_rate: 60
+
+shady_alley2:
+  name: A Shady Alleyway II
+  description: This place gives you the heebee jeebies
+  exits:
+    - shady_alley1
+    - shady_alley3
+  npcs:
+  enemies:
+    - id: goblin
+      quantity: 2
+      spawn_rate: 20
+    - id: hobgoblin
+      quantity: 1
+      spawn_rate: 60
+
+shady_alley3:
+  name: A Shady Alleyway III
+  description: This place gives you the heebee jeebies
+  exits:
+    - shady_alley2
+    - potion_shop_basement
   npcs:
   enemies:
     - id: goblin

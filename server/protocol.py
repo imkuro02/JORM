@@ -96,7 +96,11 @@ class ServerProtocol(WebSocketServerProtocol):
 
         if p.action == packet.Action.Go:
             if sender == self:
-                self._actor.room.move_player(self._actor,p.payloads[0])
+                room_name = p.payloads[0]
+                #print(room_name)
+                for r in self._actor.room.exits.values():
+                    if r.name == room_name:
+                        self._actor.room.move_player(self._actor,r.id)
 
         if p.action == packet.Action.Target:
             if sender == self:
@@ -126,7 +130,7 @@ class ServerProtocol(WebSocketServerProtocol):
         
 
     def new_player(self, name):
-        room = self.factory.map.rooms['Town Square']
+        room = self.factory.map.rooms['spawn']
             
         self._actor = Player(self, name)
         room.add_player(self._actor)

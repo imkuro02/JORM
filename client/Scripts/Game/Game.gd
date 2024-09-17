@@ -26,6 +26,7 @@ var color_to_tags = {
 		'player': 'AQUAMARINE',
 		'enemy': 'coral',
 		'npc': 'orange',
+		'npc_dialog': 'SANDY_BROWN',
 		'inventory': 'LIGHT_BLUE',
 		'equipment': 'LIGHT_BLUE',
 		'target': 'RED',
@@ -234,16 +235,23 @@ func receive_flavoured_message(text,anim = null):
 func create_interaction_meta(tag, object, label):
 	return {"tag": tag, "object": object, "label": label}
 
+func color_interactable(tag):
+	var col = 'PINK'
+	if tag in color_to_tags:
+		col = color_to_tags[tag]
+	return col
 func npc_interactable(npc_name, next, player_says):
+
 	var npc_meta = {'tag': 'npc_dialog', 'npc': npc_name, 'next': next, 'player_says': player_says}
-	var url = '[url=%s] %s [/url]' % [npc_meta, flavour_text(player_says)]
+	
+	var col = color_interactable(npc_meta['tag'])
+		
+	var url = '[url=%s][color="%s"] %s [/color][/url]' % [npc_meta, col, flavour_text(player_says)]
 	return url
 		
 func interactable(tag, object, label):
-	var col = 'pink'
-	
-	if tag in color_to_tags:
-		col = color_to_tags[tag]
+
+	var col = color_interactable(tag)
 		
 	if MAIN != null:
 		if MAIN.CHARACTERSHEET != null:

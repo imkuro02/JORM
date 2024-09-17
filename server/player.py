@@ -85,7 +85,7 @@ class Player(Actor):
         self.dead = False
         self.stats['hp'] = self.stats['max_hp']
         self.stats['mp'] = self.stats['max_mp']
-        self.room.move_player(self, 'Town Square', forced = True)
+        self.room.move_player(self, 'spawn', forced = True)
         self.target = None
 
     def die(self):
@@ -196,7 +196,7 @@ class Player(Actor):
     def room_update(self):
         p = packet.RoomPacket(  self.room.name, 
                                 self.room.description, 
-                                [room_name for room_name in self.room.exits], 
+                                [room.name for room in self.room.exits.values()], 
                                 self.room.get_players(),
                                 self.room.get_enemies(),
                                 self.room.get_npcs())

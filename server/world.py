@@ -20,7 +20,7 @@ class Room:
         self.ticks_passed = 0
 
     def connect_room(self,room):
-        self.exits[room.name]=room
+        self.exits[room.id]=room
 
     def add_enemy_spawn(self, enemy_id: str, quantity: int, spawn_rate: int):
         self.enemy_spawns.append({'enemy_id': enemy_id, 'quantity': quantity, 'spawn_rate': spawn_rate})
@@ -39,7 +39,6 @@ class Room:
         
         enemies = self.map.factory.premade['enemies']
         
-
         enemy_type = enemies[enemy_id]
         name = f'{name} The {enemy_type["name"]}'
 
@@ -104,7 +103,8 @@ class Room:
                 followers.append(self.players[p])
         '''
         
-
+        if new_room not in self.map.rooms:
+            return 'room does not exist'
 
         self.remove_player(player)
         self.map.rooms[new_room].add_player(player)
@@ -179,7 +179,8 @@ class Map:
 
         for room in world_map_dict:
             r = world_map_dict[room]
-            self.rooms[r['name']] = Room(self, room, r['name'], r['description'])
+            #print(room)
+            self.rooms[room] = Room(self, room, r['name'], r['description'])
 
         for room in self.rooms.values():
             for _room in self.rooms.values():
@@ -194,7 +195,8 @@ class Map:
             enemies = world_map_dict[room.id]['enemies']
             if enemies != None:
                 for _enemy in enemies:
-                    _room.add_enemy_spawn(_enemy['id'],_enemy['quantity'],_enemy['spawn_rate'])
+                    room.add_enemy_spawn(_enemy['id'],_enemy['quantity'],_enemy['spawn_rate'])
+                    #print(room.name, 'added', _enemy)
         
 
 
