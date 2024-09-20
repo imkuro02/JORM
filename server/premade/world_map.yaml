@@ -1,6 +1,7 @@
 spawn:
   name: Town Square
   description: This is the town square.
+  pvp: False
   exits:
     - potion_shop
     - shady_alley1
@@ -11,6 +12,7 @@ spawn:
 potion_shop:
   name: Redpots Potions
   description: A cozy potion shop.
+  pvp: False
   exits: 
     - spawn
     - potion_shop_basement
@@ -21,6 +23,7 @@ potion_shop:
 potion_shop_basement:
   name: Redpots Potions Basement
   description: This is the basemenet of the potion shop.
+  pvp: False
   exits: 
     - potion_shop
     - shady_alley3
@@ -33,6 +36,7 @@ potion_shop_basement:
 shady_alley1:
   name: A Shady Alleyway I
   description: This place gives you the heebee jeebies
+  pvp: False
   exits:
     - spawn
     - shady_alley2
@@ -48,6 +52,7 @@ shady_alley1:
 shady_alley2:
   name: A Shady Alleyway II
   description: This place gives you the heebee jeebies
+  pvp: False
   exits:
     - shady_alley1
     - shady_alley3
@@ -63,6 +68,7 @@ shady_alley2:
 shady_alley3:
   name: A Shady Alleyway III
   description: This place gives you the heebee jeebies
+  pvp: False
   exits:
     - shady_alley2
     - potion_shop_basement

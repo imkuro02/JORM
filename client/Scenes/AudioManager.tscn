@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://djoss1oe5t6hc"]
+[gd_scene load_steps=7 format=3 uid="uid://djoss1oe5t6hc"]
 
 [ext_resource type="Script" path="res://Scripts/AudioManager.gd" id="1_mwt42"]
 [ext_resource type="AudioStream" uid="uid://by7vxyiwnva0b" path="res://Sounds/Equip.mp3" id="2_12pfo"]
 [ext_resource type="AudioStream" uid="uid://d1ikrd1du2wiw" path="res://Sounds/Message.mp3" id="3_4iu6s"]
 [ext_resource type="AudioStream" uid="uid://bwucao3axhape" path="res://Sounds/Item.mp3" id="4_mjn8d"]
 [ext_resource type="AudioStream" uid="uid://sx4d8tmmvwyj" path="res://Sounds/ChurchBell.mp3" id="5_2l1o0"]
+[ext_resource type="AudioStream" uid="uid://cvomyg2ndf5hm" path="res://Sounds/minecraft-drinking-sound-effect.mp3" id="6_0cbqv"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_mwt42")
@@ -20,3 +21,6 @@ stream = ExtResource("4_mjn8d")
 
 [node name="ChurchBell" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_2l1o0")
+
+[node name="ConsumeDrink" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_0cbqv")

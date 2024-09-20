@@ -211,13 +211,15 @@ func flavour_text(text):
 	
 func receive_flavoured_message(text,anim = null):
 	var ROOM = MAIN.ROOM
-	
+	print(anim)
 	if anim != null:
 		match anim:
 			'death': 
 				#$CanvasLayer/OverlayShader.material.set_shader_parameter("intensity", 1)
 				MAIN.audio.play('church_bell')
 				$CanvasLayer/OverlayShader/AnimationPlayer.play("death")
+			'drink':
+				MAIN.audio.play('consume_drink')
 			'new_room':
 				if not $CanvasLayer/OverlayShader/AnimationPlayer.is_playing():
 					#text = '[color="silver"]%s[/color]' % [text]

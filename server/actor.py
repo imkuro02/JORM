@@ -8,8 +8,8 @@ class Actor:
             'stats': self.stats
         }
 
-    def broadcast(self, text, specific_player = None, exclude_self = False):
-        p: packet = packet.FlavouredMessagePacket(text)
+    def broadcast(self, text, specific_player = None, exclude_self = False, anim = None):
+        p: packet = packet.FlavouredMessagePacket(text,anim)
         for player in self.room.players:
             if exclude_self and self.room.players[player] == self:
                 continue
@@ -67,162 +67,10 @@ class Actor:
         return False
 
     def use_item(self,item_id):
-        if self.dead:
-            self.broadcast('You are Dead', self)
-            return
-
-        if item_id not in self.room.map.factory.premade['items']:
-            self.broadcast('That item does not exist', self)
-            return
-
-        item = self.room.map.factory.premade['items'][item_id]
-
-        if item_id not in self.inventory:
-            self.broadcast(f'You don\'t have {item["name"]}')
-
-        
-       
-
-        match item['use_script']:
-            case 'restore_hp_10':
-                if self.has_status_effect('potion_sickness'): 
-                    return
-                self.regen(hp=10)
-                self.status_effects['potion_sickness'] = 60*10
-            case 'restore_mp_10':
-                if self.has_status_effect('potion_sickness'): 
-                    return
-                self.regen(mp=10)
-                self.status_effects['potion_sickness'] = 60*10
-
-
-        self.broadcast(f'{self.name} used {item["name"]}')
-        self.remove_item(item_id,1)
+        self.room.map.factory.combat_manager.use_item(self,item_id)
 
     def use_skill(self,skill_id):
-        if self.dead:
-            self.broadcast('You are Dead', self)
-            return
-
-        # CONDITIONS AND EARLY RETURNS
-        if skill_id not in self.skills:
-            self.broadcast('You do not know that skill', self)
-            return
-
-        if skill_id not in self.room.map.factory.premade['skills']:
-            self.broadcast('Skill does not exist', self)
-            return 
-        
-        skill = self.room.map.factory.premade['skills'][skill_id]
-
-        #print(self.name, self.target)
-        # check if skill needs a target
-        if skill['target'] != 'none':
-            if self.target == None:
-                self.broadcast(f'You are not targetting anyone', self)
-                return 
-
-            if self.target.room != self.room:
-                self.broadcast(f'{self.target.name} is not here', self)
-                return 
-                
-            if self.target.dead:
-                self.broadcast(f'This target is already dead', self)
-                return 
-
-            targetting_ally = self in self.room.players and self.target in self.room.players or self in self.room.enemies and self.target in self.room.enemies
-            
-
-            if skill['target'] == 'ally' and not targetting_ally:
-                self.broadcast(f'Target must be an ally', self)
-                return 
-            
-            if skill['target'] == 'enemy' and targetting_ally:
-                self.broadcast(f'Target Can\'t be an ally', self)
-                return 
-        
-        
-        if skill_id in self.skill_cooldowns:
-            self.broadcast(f'{skill["name"]} is on cooldown', self)
-            return
-
-        if skill['mp_cost'] > self.stats['mp']:
-            self.broadcast(f'Not enough MP to use {skill["name"]}', self)
-            return
-
-        if skill['hp_cost'] > self.stats['hp']:
-            self.broadcast(f'Not enough HP to use {skill["name"]}', self)
-            return
-
-        self.stats['mp'] -= skill['mp_cost']
-        self.stats['hp'] -= skill['hp_cost']
-
-        # CHECK FOR CRIT
-        crit = random.randrange(0,100)
-        crit = crit <= self.stats['crit_chance']
-
-        # Print crit or not :p
-        if crit:
-            self.broadcast(f'{self.name} used {skill["name"]}, its Critical!')
-        else:
-            self.broadcast(f'{self.name} used {skill["name"]}')
-       
-        # add cooldown of 6 seconds for every skill unless skill is on cooldown
-        for i in self.skills:
-            if i in self.skill_cooldowns:
-                continue
-            self.set_cooldown(i,2)
-
-
-        match skill_id:
-            case 'heal_light_wounds':
-                self.set_cooldown(skill_id,20)
-                roll = self.stats['int'] + 6
-                self.target.regen(hp=roll)
-                self.broadcast(f'{self.name} heals {self.target.name} for {roll}')
-            case 'first_aid':
-                self.set_cooldown(skill_id,9)
-                roll = 6
-                self.target.regen(hp=roll)
-                self.broadcast(f'{self.name} heals {self.target.name} for {roll}')
-            case 'stab':
-                self.set_cooldown(skill_id,9)
-                roll = self.stats['agi'] 
-                if crit: 
-                    roll = roll * 3
-                self.target.take_damage(roll,'agi',self,skill['name'])
-            case 'slash':
-                self.set_cooldown(skill_id,9)
-                roll = self.stats['str'] 
-                if crit: 
-                    roll = roll * 2
-                self.target.take_damage(roll,'str',self,skill['name'])
-            case 'spit':
-                self.set_cooldown(skill_id,9)
-                roll = self.stats['int'] 
-                if crit: 
-                    roll = roll * 2
-                self.target.take_damage(roll,'int',self,skill['name'])
-            case 'firebolt':
-                self.set_cooldown(skill_id,9)
-                roll = self.stats['int'] 
-                if crit: 
-                    roll = roll * 2
-                    self.take_damage(roll,'int',self,skill['name'])
-                self.target.take_damage(roll,'int',self,skill['name'])
-            case 'push':
-                self.set_cooldown(skill_id,9)
-                roll = self.stats['str'] 
-                if roll <= 0: roll = 1
-                if crit: 
-                    roll = roll * 2
-                self.broadcast(f'{self.target.name} lost {int(roll)} MP!')
-                self.target.drain_mp(mp = roll)
-            case 'guard':
-                self.set_cooldown(skill_id,20)
-                self.regen(hp=10+self.stats['str'],mp=0)
-                self.broadcast(f'GRRRR!')
-        return
+        self.room.map.factory.combat_manager.use_skill(self,skill_id)
 
     def regen(self, hp = 0, mp = 0):
         if hp < 0: hp = 0

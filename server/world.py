@@ -15,6 +15,7 @@ class Room:
         self.exits = {}
         self.players = {}
         self.enemies = {}
+        self.pvp = False
         self.npcs = {}
         self.enemy_spawns = []
         self.ticks_passed = 0
@@ -181,6 +182,7 @@ class Map:
             r = world_map_dict[room]
             #print(room)
             self.rooms[room] = Room(self, room, r['name'], r['description'])
+            self.rooms[room].pvp = r['pvp']
 
         for room in self.rooms.values():
             for _room in self.rooms.values():

@@ -4,6 +4,8 @@ extends VBoxContainer
 @onready var template = get_node('Presets/Character')
 @onready var template_npc = get_node('Presets/NPC')
 @onready var entities_vbox = get_node('Entities/VBoxContainer')
+
+
 @export var GAME: Control
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -89,10 +91,19 @@ func _process(delta):
 		
 		if name.text in all_actors and name.text not in npcs:
 			var hp_diff = all_actors[name.text]['stats']['hp'] - entity.get_node('TextureProgressBar').value
-			if hp_diff <= -1:
-				print(name.text,' took dmg: ', abs(hp_diff))
-			if hp_diff >= 1:
-				print(name.text,' healed dmg: ', abs(hp_diff))
+			
+			if hp_diff != 0:
+				var stat_tick = entity.get_node('StatTickAnim')
+				var s = stat_tick.duplicate()
+				s.visible = true
+				if hp_diff <= -1:
+					s.set("theme_override_colors/font_color",'red')
+					s.text = '%s' % [hp_diff]
+				if hp_diff >= 1:
+					s.set("theme_override_colors/font_color",'green')
+					s.text = '+%s' % [hp_diff]
+				entity.add_child(s)
+				s.get_node('AnimationPlayer').play('fade')
 				
 				
 				
