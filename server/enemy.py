@@ -162,16 +162,19 @@ class Enemy(Actor):
 
             self.use_skill(random.choice(self.skills))
 
-    def take_damage(self, damage, stat, source, skill = None):
+    def take_damage(self, damage = 0, damage_type = None, actor_source = None, damage_source = None, silent = False, can_dodge = True):
         
-    
-        if source.name in self.player_damages:
-            self.player_damages[source.name] += damage
-        else:
-            self.player_damages[source.name] = damage
+        
 
-        super().take_damage(damage, stat, source, skill)
+        damage_taken = super().take_damage(damage = damage, damage_type = damage_type, actor_source = actor_source, damage_source = damage_source, silent = silent, can_dodge = can_dodge)
 
+        if actor_source != None:
+            if actor_source.name in self.player_damages:
+                self.player_damages[actor_source.name] += damage_taken
+            else:
+                self.player_damages[actor_source.name] = damage_taken
+
+        return damage_taken 
         
         
 

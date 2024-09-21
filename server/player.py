@@ -43,6 +43,8 @@ class Player(Actor):
         self.dead = False
         self.respawn_at = 0
 
+        self.logoff = False
+
         super().__init__()
 
     def character_sheet(self, short = False):
@@ -69,17 +71,6 @@ class Player(Actor):
             'skills':           self.skills,
             'skill_cooldowns':  self.skill_cooldowns
             }
-
-    def logoff(self):
-        #self.broadcast(f'{self.name} has died!')
-        #for enemy in self.room.enemies:
-        #    if self.room.enemies[enemy].target == self:
-        #        self.room.enemies[enemy].target = None
-        #for player in self.room.players:
-        #    if self.room.players[player].target == self:
-        #        self.room.players[player].target = None
-        del self.room.players[self.name]
-        self.room = None
 
     def respawn(self):
         self.dead = False
@@ -215,6 +206,17 @@ class Player(Actor):
 
         if self.protocol.factory.server_time % 10 == 0:
            self.room_update()
+
+        if self.logoff:
+            for i in self.status_effects:
+                self.status_effects[i] = 0
+
+            # remove any status effects before logging out
+            if len(self.status_effects) == 0 and self.dead == False:
+                self.room.map.factory.database.save_player(self)
+                del self.room.players[self.name]
+                self.room = None
+                #print(self.name, 'logged off')
 
         
 

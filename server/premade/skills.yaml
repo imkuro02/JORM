@@ -24,12 +24,28 @@ stab:
   description: Lunge at your target, dealing Agility Damage, Crits deal x3 Damage
 
 firebolt:
-  name: Ignis
-  mp_cost: 2
+  name: Firebolt
+  mp_cost: 1
   hp_cost: 0
   cooldown: 9
   target: any
-  description: Fire a bolt of flames at your target, dealing magic damage, Crits damage the caster back.
+  description: Fire a bolt of flames at your target, dealing magic damage, Crits apply Burning to the target.
+
+ignite:
+  name: Ignis
+  mp_cost: 1
+  hp_cost: 0
+  cooldown: 2
+  target: any
+  description: Apply Burning to the target, can't dodge.
+
+dance_hypnosis:
+  name: Dance Hypnosis
+  mp_cost: 1
+  hp_cost: 0
+  cooldown: 60
+  target: any
+  description: Makes you dance!
 
 first_aid:
   name: First Aid

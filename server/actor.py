@@ -22,6 +22,81 @@ class Actor:
     def die(self):
         self.respawn_at = self.room.map.factory.server_time + (30*10) 
         self.dead = True
+        for i in self.status_effects:
+            self.status_effects[i] = 0
+
+
+    def cooldown_tick(self):
+        cooldowns_finished = []
+        for i in self.skill_cooldowns:
+            if self.skill_cooldowns[i] <= self.room.map.factory.server_time:
+                cooldowns_finished.append(i)
+
+        for i in cooldowns_finished:
+            del self.skill_cooldowns[i]
+        
+    def remove_status_effect(self,status_effect):
+        if status_effect not in self.status_effects:
+            print(f'ERROR {self.name} tried to remove_stats_effect on status effect: {status_effect} without having it.')
+            return
+
+        status_name = self.room.map.factory.premade['statuses'][status_effect]['name']
+        if self.dead == False: 
+            self.broadcast(f'You are no longer afflicted with {status_name}.', self)
+
+        del self.status_effects[status_effect]
+
+        # when status effect is removed
+        match status_effect:
+            case 'dancing':
+                self.stats['str'] += 10
+                self.stats['agi'] -= 10
+                self.stats['dodge_chance'] += 100
+
+    def set_status_effect(self, status_effect, amount, broadcast_to = None):
+        amount = amount * self.room.map.factory.tickrate
+
+        if status_effect in self.status_effects:
+            self.status_effects[status_effect] += amount
+        else:
+            self.status_effects[status_effect] = amount
+
+            status_name = self.room.map.factory.premade['statuses'][status_effect]['name']
+            self.broadcast(f'{self.name} is afflicted with {status_name}.', broadcast_to)
+            
+            # when status effect is first applied
+            match status_effect:
+                case 'dancing':
+                    self.stats['str'] -= 10
+                    self.stats['agi'] += 10
+                    self.stats['dodge_chance'] -= 100
+                    lines = [f'shuffles their feet.', f'busts it down sexual style.', f'is quirking it up in the club!']
+                    line = random.choice(lines)
+                    self.broadcast(f'{self.name} {line}')
+
+        
+
+    def status_effects_tick(self):
+        statuses_to_remove = []
+        for status in self.status_effects:
+            self.status_effects[status] -= 1
+            if self.status_effects[status] <= 0:
+                statuses_to_remove.append(status)
+
+        for status in statuses_to_remove:
+            self.remove_status_effect(status)
+
+        if self.room.map.factory.server_time % 30 == 0:
+            for status_effect in self.status_effects:
+                status_name = self.room.map.factory.premade['statuses'][status_effect]['name']
+                #  when status effect ticks once a second
+                match status_effect:
+                    case 'burning':
+                        #self.broadcast('You are Burning!',self)
+                        self.take_damage(damage = 1, damage_type = status_effect, damage_source = status_name, silent = True, can_dodge = False)
+                    
+                        
+
 
     def tick(self):
 
@@ -31,13 +106,8 @@ class Actor:
         if self.dead and self.room.map.factory.server_time >= self.respawn_at:
             self.respawn()
 
-        cooldowns_finished = []
-        for i in self.skill_cooldowns:
-            if self.skill_cooldowns[i] <= self.room.map.factory.server_time:
-                cooldowns_finished.append(i)
-
-        for i in cooldowns_finished:
-            del self.skill_cooldowns[i]
+        self.cooldown_tick()
+        self.status_effects_tick()
 
         if self.target != None:
             if self.target.room != self.room:
@@ -45,15 +115,6 @@ class Actor:
                     self.target = self.room.players[self.target.name]
                 if self.target.name in self.room.enemies:
                     self.target = self.room.enemies[self.target.name]
-
-        statuses_to_remove = []
-        for status in self.status_effects:
-            self.status_effects[status] -= 1
-            if self.status_effects[status] <= 0:
-                statuses_to_remove.append(status)
-
-        for status in statuses_to_remove:
-            del self.status_effects[status]
 
     def set_cooldown(self,skill_id,cooldown):
         cooldown = cooldown * self.room.map.factory.tickrate
@@ -90,12 +151,14 @@ class Actor:
 
 
 
-    def take_damage(self, damage, stat, source, skill = None):
-        if self.dodge_check():
-            self.broadcast(f'{self.name} dodged {skill}')
-            return
+    def take_damage(self, damage = 0, damage_type = None, actor_source = None, damage_source = None, silent = False, can_dodge = True):
+        if can_dodge:
+            if self.dodge_check():
+                if silent == False:
+                    self.broadcast(f'{self.name} dodged {damage_source}.')
+                return 0
 
-        match stat:
+        match damage_type:
             case 'str': 
                 damage -= int(self.stats['int']/2) 
             case 'agi': 
@@ -105,21 +168,25 @@ class Actor:
 
         damage = int(damage)
 
-        if damage <= 0:
-            if skill != None:
-                self.broadcast(f'{self.name} blocked damage from {skill}')
-            else:
-                self.broadcast(f'{self.name} blocked damage')
-            return
-
-        if skill != None:
-            self.broadcast(f'{self.name} took {damage} damage from {skill}')
-        else:
-            self.broadcast(f'{self.name} took {damage} damage')
-
         self.stats['hp'] -= damage
         if self.stats['hp'] <= 0:
             self.die()
+
+        if silent == False:
+            if damage <= 0:
+                if damage_source != None:
+                    self.broadcast(f'{self.name} blocked damage from {damage_source}.')
+                else:
+                    self.broadcast(f'{self.name} blocked damage.')
+
+            else:
+                if damage_source != None:
+                    self.broadcast(f'{self.name} took {damage} damage from {damage_source}.')
+                else:
+                    self.broadcast(f'{self.name} took {damage} damage.')
+
+        return damage
+       
 
     def drain_mp(self, mp):
         self.stats['mp'] -= mp

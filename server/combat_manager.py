@@ -24,24 +24,27 @@ class CombatManager:
             user.broadcast(f'You don\'t have {item["name"]}')
             return
 
-        anim = None
         match item['use_script']:
             case 'restore_hp_10':
                 if user.has_status_effect('potion_sickness'): 
                     return
                 user.regen(hp=10)
-                user.status_effects['potion_sickness'] = 60*10
-                anim = 'drink'
+                user.broadcast(f'{user.name} used {item["name"]}', anim = 'drink')
+                user.set_status_effect(status_effect = 'potion_sickness', amount = 20, broadcast_to = user)
+                user.remove_item(item_id,1)
+
             case 'restore_mp_10':
                 if user.has_status_effect('potion_sickness'): 
                     return
                 user.regen(mp=10)
-                user.status_effects['potion_sickness'] = 60*10
-                anim = 'drink'
+                user.broadcast(f'{user.name} used {item["name"]}', anim = 'drink')
+                user.set_status_effect(status_effect = 'potion_sickness', amount = 20, broadcast_to = user)
+                user.remove_item(item_id,1)
+
 
         
-        user.broadcast(f'{user.name} used {item["name"]}',anim = anim)
-        user.remove_item(item_id,1)
+        
+        
 
     def use_skill(self,user,skill_id):
 
@@ -135,23 +138,31 @@ class CombatManager:
                 roll = user.stats['agi'] 
                 if crit: 
                     roll = roll * 3
-                user.target.take_damage(roll,'agi',user,skill['name'])
+                user.target.take_damage(damage = roll, damage_type = 'agi', actor_source = user, damage_source = skill['name'])
             case 'slash':
                 roll = user.stats['str'] 
                 if crit: 
                     roll = roll * 2
-                user.target.take_damage(roll,'str',user,skill['name'])
+                user.target.take_damage(damage = roll, damage_type = 'str', actor_source = user, damage_source = skill['name'])
             case 'spit':
                 roll = user.stats['int'] 
                 if crit: 
                     roll = roll * 2
-                user.target.take_damage(roll,'int',user,skill['name'])
+                user.target.take_damage(damage = roll, damage_type = 'int', actor_source = user, damage_source = skill['name'])
+            case 'ignite':
+                #roll = user.stats['int'] 
+                #damage_taken = user.target.take_damage(damage = roll, damage_type = 'int', actor_source = user, damage_source = skill['name'])
+                user.target.set_status_effect('burning',4)
+
             case 'firebolt':
                 roll = user.stats['int'] 
-                if crit: 
-                    roll = roll * 2
-                    user.take_damage(roll,'int',user,skill['name'])
-                user.target.take_damage(roll,'int',user,skill['name'])
+                damage_taken = user.target.take_damage(damage = roll, damage_type = 'int', actor_source = user, damage_source = skill['name'])
+                if crit and damage_taken >= 1:
+                    user.target.set_status_effect('burning',9)
+
+            case 'dance_hypnosis':
+                user.target.set_status_effect('dancing',10)
+                
             case 'push':
                 roll = user.stats['str'] 
                 if roll <= 0: roll = 1

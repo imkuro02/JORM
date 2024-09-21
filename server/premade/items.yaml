@@ -107,9 +107,18 @@ basic_wand:
     int: 4
   skills:
   - firebolt
+  - ignite
   - heal_light_wounds
   description: A twig with a matchstick taped to it
 
+book_of_trolling:
+  parent: equipable
+  name: Book Of Trolling
+  slot: offhand
+  skills:
+    - dance_hypnosis
+  description: For when you want to cover the whole world in oil...
+  
 first_aid_kit:
   parent: equipable
   name: First Aid Kit

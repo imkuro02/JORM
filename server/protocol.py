@@ -190,6 +190,12 @@ class ServerProtocol(WebSocketServerProtocol):
                         self.send_client(packet.SystemMessagePacket('Login','Login failed, account already logged in.'))
                         return
 
+            for room in self.factory.map.rooms.values():
+                for p in room.players.values():
+                    if p.name == username:
+                        self.send_client(packet.SystemMessagePacket('Login','Login failed, Your character is still loaded from last login'))
+                        return
+
             player = self.factory.database.load_player(username)
             self.new_player(username)
 
@@ -258,8 +264,8 @@ class ServerProtocol(WebSocketServerProtocol):
             #p = packet.ChatPacket(f'{self._actor.name} Disconnected')
             #self.broadcast(p,exclude_self=True)
             if self._actor != None:
-                self.factory.database.save_player(self._actor)
-                self._actor.logoff()
+               
+                self._actor.logoff = True
                 
                 #self._actor.room.remove_player(self._actor)
 

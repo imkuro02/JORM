@@ -1,3 +1,11 @@
 potion_sickness:
   name: Potion Sickness
   description: You drank too much and now your tummy hurts, can't drink more potions until this sickness wears off.
+
+burning:
+  name: Burning
+  description: Damage over time.
+
+dancing:
+  name: Dancing
+  description: Dance over time.
