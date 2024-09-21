@@ -1,7 +1,7 @@
 spawn:
   name: Town Square
   description: This is the town square.
-  pvp: True
+  pvp: False
   exits:
     - potion_shop
     - shady_alley1

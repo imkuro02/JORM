@@ -5,6 +5,7 @@ slash:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Cut your target, dealing Strength Damage.
 
 guard:
@@ -13,6 +14,7 @@ guard:
   hp_cost: 0
   cooldown: 9
   target: none
+  hostile: True
   description: uhh remove this (ERROR RRORORORO)
 
 stab:
@@ -21,6 +23,7 @@ stab:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Lunge at your target, dealing Agility Damage, Crits deal x3 Damage
 
 firebolt:
@@ -29,6 +32,7 @@ firebolt:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Fire a bolt of flames at your target, dealing magic damage, Crits apply Burning to the target.
 
 ignite:
@@ -37,6 +41,7 @@ ignite:
   hp_cost: 0
   cooldown: 2
   target: any
+  hostile: True
   description: Apply Burning to the target, can't dodge.
 
 dance_hypnosis:
@@ -45,6 +50,7 @@ dance_hypnosis:
   hp_cost: 0
   cooldown: 60
   target: any
+  hostile: False
   description: Makes you dance!
 
 first_aid:
@@ -53,6 +59,7 @@ first_aid:
   hp_cost: 0
   cooldown: 9
   target: ally
+  hostile: False
   description: Tend to a target, healing them for 6HP
 
 heal_light_wounds:
@@ -61,6 +68,7 @@ heal_light_wounds:
   hp_cost: 0
   cooldown: 9
   target: ally
+  hostile: False
   description: Heal a target by Intelligence +6
 
 
@@ -72,6 +80,7 @@ spit:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Spitball your target, dealing Intelligence damage.
 
 scratch:
@@ -80,6 +89,7 @@ scratch:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Scratch your target, dealing Agility Damage
 
 push:
@@ -88,4 +98,5 @@ push:
   hp_cost: 0
   cooldown: 9
   target: any
+  hostile: True
   description: Push your target, draining mana based on Strength

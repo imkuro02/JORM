@@ -87,7 +87,7 @@ class CombatManager:
                 user.broadcast(f'Target Can\'t be an ally', user)
                 return 
 
-            if (skill['target'] == 'any') and (targetting_ally == True) and (user.room.pvp == False) == True:
+            if targetting_ally and skill['hostile']:
                 user.broadcast(f'Not in PVP zone.',user)
                 return
         
@@ -151,7 +151,7 @@ class CombatManager:
                 user.target.take_damage(damage = roll, damage_type = 'int', actor_source = user, damage_source = skill['name'])
             case 'ignite':
                 #roll = user.stats['int'] 
-                #damage_taken = user.target.take_damage(damage = roll, damage_type = 'int', actor_source = user, damage_source = skill['name'])
+                damage_taken = user.target.take_damage(damage = 0, damage_type = None, actor_source = user, damage_source = None, silent = True)
                 user.target.set_status_effect('burning',4)
 
             case 'firebolt':
@@ -162,7 +162,7 @@ class CombatManager:
 
             case 'dance_hypnosis':
                 user.target.set_status_effect('dancing',10)
-                
+
             case 'push':
                 roll = user.stats['str'] 
                 if roll <= 0: roll = 1
