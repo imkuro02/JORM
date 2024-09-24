@@ -74,8 +74,6 @@ class Actor:
                     line = random.choice(lines)
                     self.broadcast(f'{self.name} {line}')
 
-        
-
     def status_effects_tick(self):
         statuses_to_remove = []
         for status in self.status_effects:
@@ -116,6 +114,10 @@ class Actor:
                 if self.target.name in self.room.enemies:
                     self.target = self.room.enemies[self.target.name]
 
+        # clamp
+        if self.stats['hp'] > self.stats['max_hp']: self.stats['hp'] = self.stats['max_hp'] 
+        if self.stats['mp'] > self.stats['max_mp']: self.stats['mp'] = self.stats['max_mp'] 
+
     def set_cooldown(self,skill_id,cooldown):
         cooldown = cooldown * self.room.map.factory.tickrate
         self.skill_cooldowns[skill_id] = self.room.map.factory.server_time + cooldown
@@ -128,10 +130,10 @@ class Actor:
         return False
 
     def use_item(self,item_id):
-        self.room.map.factory.combat_manager.use_item(self,item_id)
+        self.room.map.factory.use_manager.use_item(self,item_id)
 
     def use_skill(self,skill_id):
-        self.room.map.factory.combat_manager.use_skill(self,skill_id)
+        self.room.map.factory.use_manager.use_skill(self,skill_id)
 
     def regen(self, hp = 0, mp = 0):
         if hp < 0: hp = 0
@@ -149,7 +151,9 @@ class Actor:
         roll = random.randrange(1,100)
         return bool(roll <= self.stats['dodge_chance'])
 
-
+    def crit_check(self):
+        roll = random.randrange(1,100)
+        return bool(roll <= self.stats['crit_chance'])
 
     def take_damage(self, damage = 0, damage_type = None, actor_source = None, damage_source = None, silent = False, can_dodge = True):
         if can_dodge:
@@ -168,10 +172,6 @@ class Actor:
 
         damage = int(damage)
 
-        self.stats['hp'] -= damage
-        if self.stats['hp'] <= 0:
-            self.die()
-
         if silent == False:
             if damage <= 0:
                 if damage_source != None:
@@ -184,6 +184,10 @@ class Actor:
                     self.broadcast(f'{self.name} took {damage} damage from {damage_source}.')
                 else:
                     self.broadcast(f'{self.name} took {damage} damage.')
+
+        self.stats['hp'] -= damage
+        if self.stats['hp'] <= 0:
+            self.die()
 
         return damage
        

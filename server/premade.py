@@ -47,6 +47,10 @@ def create_all_skills():
     skills = {}
     with open('premade/skills.yaml', 'r') as file:
         skills = yaml.safe_load(file)
+
+    for skill in skills:
+        skills[skill]['index'] = skill
+
     return skills
 
 def create_all_skill_sets():

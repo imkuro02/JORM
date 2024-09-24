@@ -24,7 +24,6 @@ func _process(delta):
 		
 		var meta = o.data_get()
 		existing_skills.append(meta['object'])
-		
 
 		if meta['object'] in cooldowns:
 			o.get_node('V/Top/Label2').text = '(%ss)' % [int(abs(MAIN.SERVER_TIME - cooldowns[meta['object']])/30)+1]

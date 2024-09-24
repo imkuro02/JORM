@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://jegqc35wf1ts"]
+[gd_scene load_steps=35 format=3 uid="uid://jegqc35wf1ts"]
 
 [ext_resource type="Theme" uid="uid://bunsa4hauwco7" path="res://Themes/Theme.tres" id="1_4mtw6"]
 [ext_resource type="Script" path="res://Scripts/Game/Game.gd" id="1_cu6gt"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://spcs5euwkrdo" path="res://Images/node/icon_sword.png" id="10_mblbx"]
 [ext_resource type="Texture2D" uid="uid://cnn8fpwbobysc" path="res://Images/node/icon_door.png" id="12_odao8"]
 [ext_resource type="Script" path="res://Scripts/CharacterSheetSkills.gd" id="12_tsdue"]
-[ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetSkills.bak.gd" id="12_vpnk4"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheet.gd" id="13_gg53g"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/CharacterSheetInventory.gd" id="14_la65o"]
 [ext_resource type="Script" path="res://Scripts/Game/SidePanel/Room.gd" id="16_ecsje"]
@@ -520,28 +519,6 @@ vertical_alignment = 1
 
 [node name="Objects" type="VBoxContainer" parent="Panel/VBoxContainer/States/Skills"]
 layout_mode = 2
-
-[node name="Skills_bak" type="VBoxContainer" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("12_vpnk4")
-GAME = NodePath("../../../..")
-
-[node name="CheckBox" type="CheckBox" parent="Panel/VBoxContainer/States/Skills_bak"]
-visible = false
-layout_mode = 2
-focus_mode = 0
-text = "AutoUse"
-flat = true
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/States/Skills_bak"]
-layout_mode = 2
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "Skills"
-meta_underlined = false
-hint_underlined = false
 
 [node name="Room" type="RichTextLabel" parent="Panel/VBoxContainer/States" node_paths=PackedStringArray("GAME")]
 layout_mode = 2

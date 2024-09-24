@@ -7,7 +7,8 @@ import time
 import premade
 import world
 import database
-from combat_manager import CombatManager
+from use_manager import UseManager
+
 
 class Factory(WebSocketServerFactory):
     def __init__(self, hostname: str, port: int):
@@ -19,7 +20,7 @@ class Factory(WebSocketServerFactory):
         self.server_time = 0
         self.premade = premade.get_premade()
         self.map = world.Map(self)
-        self.combat_manager = CombatManager(self)
+        self.use_manager = UseManager(self)
         self.database = database.DataBase()
 
         tickloop = task.LoopingCall(self.tick)

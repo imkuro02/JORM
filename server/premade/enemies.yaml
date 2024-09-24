@@ -43,7 +43,7 @@ goblin:
     str: 0
     agi: 5
     int: 0
-    dodge_chance: 50
+    dodge_chance: 5
     crit_chance: 0
   skills:
     - stab
