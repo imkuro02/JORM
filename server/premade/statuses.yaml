@@ -9,3 +9,7 @@ burning:
 dancing:
   name: Dancing
   description: Dance over time.
+
+motion_sickness:
+  name: Motion Sickness
+  description: If you teleport again you will vomit.

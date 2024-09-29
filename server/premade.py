@@ -83,6 +83,8 @@ def create_all_items():
                 
             items[item] = to_copy
 
+            items[item]['index'] = item
+
     return items
 
 
@@ -106,5 +108,5 @@ def get_premade():
 if __name__ == '__main__':
     
     p = get_premade()
-    for i in p['skills']:
-        print(p['skills'][i])
+    for i in p['items']:
+        print(p['items'][i])

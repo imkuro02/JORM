@@ -2,7 +2,6 @@ extends VBoxContainer
 
 @onready var MAIN = get_tree().root.get_node('Main')
 @onready var template = get_node('Presets/Character')
-@onready var template_npc = get_node('Presets/NPC')
 @onready var entities_vbox = get_node('Entities/VBoxContainer')
 
 
@@ -10,8 +9,7 @@ extends VBoxContainer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	template.visible = false
-	template_npc.visible = false
-	pass
+
 func does_actor_exist_in_entities_vbox(actor_name):
 	for entity in entities_vbox.get_children():
 		if entity.get_node('Label').text == actor_name:
@@ -30,7 +28,6 @@ func _process(delta):
 	var npcs = ROOM['npcs'].duplicate(true)
 	var all_actors = ROOM['players'].duplicate(true)
 	all_actors.merge(ROOM['enemies'].duplicate(true))
-	all_actors.merge(ROOM['npcs'].duplicate(true))
 			
 	for actor in all_actors:
 		if does_actor_exist_in_entities_vbox(actor):
@@ -41,9 +38,7 @@ func _process(delta):
 			entity = template.duplicate()
 		if actor in ROOM['enemies']:
 			entity = template.duplicate()
-		if actor in ROOM['npcs']:
-			entity = template_npc.duplicate()
-			
+
 		entity.get_node('Label').text = all_actors[actor]['name']
 		#entity.button_up.connect(button_pressed.bind(entity))		
 		
@@ -56,9 +51,6 @@ func _process(delta):
 		if actor in ROOM['enemies']:
 			entity.get_node('Label').self_modulate = Color(GAME.color_to_tags['enemy'])
 			entity.get_node('TextureProgressBar').tint_progress = Color('RED')
-		if actor in ROOM['npcs']:
-			entity.get_node('Label').self_modulate = Color(GAME.color_to_tags['enemy'])
-			entity.get_node('TextureProgressBar').tint_progress = Color('ORANGE')
 			
 		entity.visible = true
 		entities_vbox.add_child(entity)
@@ -76,12 +68,10 @@ func _process(delta):
 			tag = 'enemy'
 		if _name == MAIN.CHARACTERSHEET['target']:
 			tag = 'target'
-		if _name in ROOM['npcs']:
-			tag = 'npc'
 		if tag != null:
 			entity.meta_set(tag,_name,_name)
 			
-		if name.text not in all_actors and name.text not in npcs:
+		if name.text not in all_actors and name.text:
 			#entities_vbox.remove_child(entity)
 			entity.get_node('TextureProgressBar').value = 0
 			entity.get_node('AnimationPlayer').play('fade')
@@ -89,7 +79,7 @@ func _process(delta):
 			continue
 	
 		
-		if name.text in all_actors and name.text not in npcs:
+		if name.text in all_actors and name.text:
 			var hp_diff = all_actors[name.text]['stats']['hp'] - entity.get_node('TextureProgressBar').value
 			
 			if hp_diff != 0:

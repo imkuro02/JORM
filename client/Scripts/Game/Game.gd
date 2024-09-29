@@ -244,11 +244,8 @@ func color_interactable(tag):
 		col = color_to_tags[tag]
 	return col
 func npc_interactable(npc_name, next, player_says):
-
 	var npc_meta = {'tag': 'npc_dialog', 'npc': npc_name, 'next': next, 'player_says': player_says}
-	
 	var col = color_interactable(npc_meta['tag'])
-		
 	var url = '[url=%s][color="%s"] %s [/color][/url]' % [npc_meta, col, flavour_text(player_says)]
 	return url
 		

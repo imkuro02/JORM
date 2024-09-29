@@ -148,6 +148,31 @@ potion_seller:
       responses:
     fail:
         
+anvil:
+  name: Blacksmith
+  description: The town blacksmith.
+  1:
+    try:
+      text: Hello!
+      responses:
+        - text: Can you smith me something?
+          next: trade
+    fail:
+  
+  trade:
+    - gamer_katana:
+      quantity: 1
+      cost:
+        - rock: 2
+        - steel: 1
+    - basic_sword:
+      quantity: 2
+      cost:
+        - rock: 1
+        
+
+
+        
 
 
 dialog_test:

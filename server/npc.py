@@ -9,7 +9,7 @@ class NPC:
 
     def dialog(self, player, response):
         if response in self.dialog_tree:
-            custom_response = dc(self.dialog_tree[response])
+            custom_response = dc(self.dialog_tree[response]) 
             cr = custom_response
 
             condition_passed = True
@@ -49,10 +49,13 @@ class NPC:
             cr['text'] = cr['text'].replace('PLAYER', player.name)
             cr['text'] = cr['text'].replace('NPC', self.name)
 
+            player_responses = []
             
             if 'responses' in cr:
+
+                #cr['responses'] = dc(self.dialog_tree[1]['try']['responses'])+cr['responses']
                 if cr['responses'] != None:
-                    player_responses = []
+                    
                     for r in cr['responses']:
                         r['text'] = r['text'].replace('PLAYER', player.name)
                         r['text'] = r['text'].replace('NPC', self.name)

@@ -97,7 +97,10 @@ class ServerProtocol(WebSocketServerProtocol):
         if p.action == packet.Action.Go:
             if sender == self:
                 room_name = p.payloads[0]
-                #print(room_name)
+                
+                if self._actor.dead:
+                    return
+
                 for r in self._actor.room.exits.values():
                     if r.name == room_name:
                         self._actor.room.move_player(self._actor,r.id)

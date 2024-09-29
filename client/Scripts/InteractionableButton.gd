@@ -7,13 +7,18 @@ var meta
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#GAME = get_tree().root.get_node('Main/Game')
-	print(GAME)
+	#print(GAME)
 	meta = null
 	mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
 	size_flags_horizontal=Control.SIZE_FILL
 
 	#button_up.connect(button_pressed.bind(meta_tag))
 	pass # Replace with function body.
+	
+	
+	
+	
+	
 	
 func json_to_data():
 	if meta == null:

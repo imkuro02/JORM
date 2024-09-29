@@ -166,25 +166,44 @@ gamer_katana:
     - stab
   description: Made in china.
 
+tp_spawn:
+  parent: consumable
+  name: Home Rock
+  description: A rock that sends you home
+  use_script: tp_spawn
+
+potion0:
+  parent: consumable
+  name: Red Potion
+  description: Instantly restore 10 HP
+  use_script: regen_hp
+
+potion1:
+  parent: consumable
+  name: Blue Potion
+  description: Instantly restore 10 MP
+  use_script: regen_mp
+
+potion3:
+  parent: consumable
+  name: Purple Potion
+  description: Instantly restore 10 HP and MP
+  use_script: regen_hp_and_mp
+
+
 money:
   parent: misc
   name: Dabloon
   description: Dabloons! shiny!
+
+steel:
+  parent: misc
+  name: Steel Bar
+  description: Kinda shiny, very heavy....
 
 rock:
   parent: misc
   name: Rock
   description: A gray rock..
 
-potion0:
-  parent: consumable
-  name: Red Potion
-  description: Instantly restore 10 HP
-  use_script: restore_hp_10
-
-potion1:
-  parent: consumable
-  name: Blue Potion
-  description: Instantly restore 10 MP
-  use_script: restore_mp_10
 

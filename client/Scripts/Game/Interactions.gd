@@ -20,7 +20,7 @@ func create_interaction(data, activate_now = false):
 	data = json.parse_string(data)
 
 	if 'npc_dialog' == data['tag']:
-		print(data)
+		#print(data)
 		data['label'] = data['npc']
 		interactions = ['Say To']
 		#activate_now = true
@@ -100,6 +100,7 @@ func create_interaction(data, activate_now = false):
 
 func _input(event):
 	if event is InputEventMouseButton:
+		pass
 		#await get_tree().create_timer(0.1).timeout
 		#queue_free()
 		print(event)
@@ -116,7 +117,7 @@ func _on_meta_clicked(meta):
 	var action = null
 	var object = null
 	
-	print(data)
+	#print(data)
 
 		
 	var p = null
@@ -154,6 +155,8 @@ func _on_meta_clicked(meta):
 					p = Packet.new('UseSkill',[data['object']])
 				'inventory':
 					p = Packet.new('UseItem',[data['object']])
+		
+		# -----------------------------------------------           NPC OPTIONS  
 		'Talk To':
 			p = Packet.new('NpcInteraction',[data['object'],1])
 			

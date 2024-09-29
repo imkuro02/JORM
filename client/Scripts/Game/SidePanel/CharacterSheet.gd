@@ -58,7 +58,12 @@ func _process(_delta):
 
 		var translated_name = MAIN.PREMADE['translations'][trans]
 		var stat_number = sheet['stats'][trans]
-		text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number]	
+		if trans == 'max_hp':
+			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % [translated_name, sheet['stats']['hp'], stat_number, hovered_item_stat_number]	
+		elif trans == 'max_mp':
+			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % [translated_name, sheet['stats']['mp'], stat_number, hovered_item_stat_number]	
+		else:
+			text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number]	
 
 
 	text += '[/table]'

@@ -7,6 +7,7 @@ spawn:
     - shady_alley1
   npcs:
     - village_elder
+    - anvil
   enemies:
 
 potion_shop:
