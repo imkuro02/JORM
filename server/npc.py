@@ -9,6 +9,10 @@ class NPC:
 
     def dialog(self, player, response):
         if response in self.dialog_tree:
+
+            if response == 'trade':
+                return
+                
             custom_response = dc(self.dialog_tree[response]) 
             cr = custom_response
 

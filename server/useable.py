@@ -56,7 +56,7 @@ def check_skill_use(func):
         user.stats['hp'] -= skill['hp_cost']
         user.set_cooldown(skill['index'],skill['cooldown'])
 
-        user.broadcast(f'{user.name} Used {skill["name"]}.')
+        user.broadcast(f'{user.name} used {skill["name"]}.')
         return func(user, skill, target)
     return wrapper
 
