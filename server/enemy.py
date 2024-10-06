@@ -94,48 +94,16 @@ class Enemy(Actor):
 
     def die(self):
         
-        '''
-        _killer = {'name':'what the fuck this is a bug'}
-        _damage = 0
-        for player in self.player_damages:
-            # untarget if dead
-            if player in self.room.players:
-                if self.room.players[player].target == self:
-                    self.room.players[player].target = None
-
-
-            if self.player_damages[player] > _damage:
-                _killer = player
-                _damage = self.player_damages[player] 
-
-
-
-        
-        if _killer in self.room.players:
-            _killer = self.room.players[_killer]
-        else:
-            self.broadcast(f'{self.name} Died...')
-            self.room.remove_enemy(self)
-            self.room = None
-            return
-
-
-
-        self.broadcast(f'{self.name} Died at the hands of {_killer.name}')
-        self.roll_loot(_killer)
-        self.room.remove_enemy(self)
-        self.room = None
-        '''
-        
         self.stats['hp'] = 0
         self.stats['mp'] = 0
 
+        # You did {self.player_damages[player]} damage!
         for player in self.room.players:
             if player in self.player_damages:
-                self.broadcast(f'{self.name} Died... You did {self.player_damages[player]} damage!', self.room.players[player] )
+                self.broadcast(f'You killed {self.name}...', self.room.players[player] )
                 self.roll_loot(self.room.players[player])
             else:
-                self.broadcast(f'{self.name} Died... ', self.room.players[player])
+                self.broadcast(f'{self.name} Died...', self.room.players[player])
 
             
 

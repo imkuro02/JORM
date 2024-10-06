@@ -460,6 +460,7 @@ hint_underlined = false
 
 [node name="Skills" type="VBoxContainer" parent="Panel/VBoxContainer/States"]
 layout_mode = 2
+size_flags_vertical = 3
 script = ExtResource("12_tsdue")
 
 [node name="Presets" type="VBoxContainer" parent="Panel/VBoxContainer/States/Skills"]
@@ -814,6 +815,7 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others/PlayersAndEnemies/Entities"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="NPCs" type="VBoxContainer" parent="Panel2/VBoxContainer/States/Others" node_paths=PackedStringArray("GAME")]
 layout_mode = 2

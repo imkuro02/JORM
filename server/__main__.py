@@ -9,6 +9,8 @@ import world
 import database
 from use_manager import UseManager
 
+import threading
+import time
 
 class Factory(WebSocketServerFactory):
     def __init__(self, hostname: str, port: int):
@@ -35,7 +37,7 @@ class Factory(WebSocketServerFactory):
         
         for p in self.clients:
             p.tick()
-            
+
     def remove_protocol(self, p: protocol.ServerProtocol):   
         self.clients.remove(p)
 
@@ -45,7 +47,18 @@ class Factory(WebSocketServerFactory):
         self.clients.add(p)
         return p 
 
+    def handle_user_input(self):
+        while True:
+            cmd = input('>')
+            print(cmd)
+            if cmd == 'stop':
+                for p in self.clients:
+                    p._closeConnection()
+                time.sleep(2)
+                reactor.stop()
+        
 if __name__ == '__main__':
+
     log.startLogging(sys.stdout)
 
     PORT: int = 8081
@@ -61,6 +74,14 @@ if __name__ == '__main__':
     else:
         reactor.listenTCP(PORT, factory)
 
+    input_thread = threading.Thread(target=factory.handle_user_input)
+    input_thread.daemon = True  # Daemonize the thread so it exits when the main program exits
+    input_thread.start()
+
     reactor.run()
+    
+
+
+
     
         

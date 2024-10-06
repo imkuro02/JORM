@@ -35,7 +35,7 @@ func _process(_delta):
 	text += '[table=3]'
 	for trans in MAIN.PREMADE['translations']:
 		#if trans in ['hp','mp','max_hp','max_mp']:
-		if trans in ['hp','mp']:
+		if trans in ['hp','mp','exp','points']:
 			continue
 
 		''' HORRIBLE TERRIBLE ITEM COMPARE CODE'''
@@ -59,9 +59,9 @@ func _process(_delta):
 		var translated_name = MAIN.PREMADE['translations'][trans]
 		var stat_number = sheet['stats'][trans]
 		if trans == 'max_hp':
-			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % [translated_name, sheet['stats']['hp'], stat_number, hovered_item_stat_number]	
+			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % ['Health', sheet['stats']['hp'], stat_number, hovered_item_stat_number]	
 		elif trans == 'max_mp':
-			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % [translated_name, sheet['stats']['mp'], stat_number, hovered_item_stat_number]	
+			text += '[cell]%s: [/cell][cell]%s / %s[/cell][cell]%s[/cell]' % ["Mana", sheet['stats']['mp'], stat_number, hovered_item_stat_number]	
 		else:
 			text += '[cell]%s: [/cell][cell]%s [/cell][cell]%s[/cell]' % [translated_name, stat_number, hovered_item_stat_number]	
 
